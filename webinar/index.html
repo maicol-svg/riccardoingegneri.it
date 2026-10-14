@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="it"><head>
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L'AI per chi lavora — incontro gratuito online con Riccardo Ingegneri</title>
+<meta name="description" content="L'intelligenza artificiale e la tecnologia di oggi, spiegate semplice. Un incontro dal vivo, online e gratuito, di 45 minuti.">
+<meta property="og:title" content="L'AI per chi lavora">
+<meta property="og:description" content="L'intelligenza artificiale e la tecnologia di oggi, spiegate semplice. Online e gratuito, 45 minuti.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://riccardoingegneri.it/webinar/video/poster.jpg">
+<meta property="og:url" content="https://riccardoingegneri.it/webinar/">
+<meta name="theme-color" content="#1d3d8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1d3d8a;      /* blu inchiostro */
+  --text:#18202f;     /* testo */
+  --paper:#f8f9fb;    /* carta */
+  --rule:#c9d5e7;     /* righe del quaderno */
+  --panel:#eceff5;
+  --lamp:#f3d74a;     /* giallo evidenziatore */
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--text);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:3px}
+a:hover{text-decoration-thickness:3px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+h1,h2,h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);margin:0;text-wrap:pretty}
+p{margin:0;text-wrap:pretty}
+strong{font-weight:700}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.narrow{max-width:680px}
+
+/* ---------- foglio d'agenda ---------- */
+.agenda{background-color:var(--paper);background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:28px 0 32px}
+.date{display:flex;align-items:flex-end;gap:16px;border-bottom:3px solid var(--ink);padding-bottom:12px}
+.day{position:relative;font-family:'Instrument Serif',Georgia,serif;font-size:200px;line-height:.78;color:var(--ink);letter-spacing:-6px;padding-right:6px}
+.day span{position:relative;z-index:1}
+.day::before{content:"";position:absolute;left:-6px;right:-4px;bottom:4px;height:44%;background:var(--lamp);opacity:.85;transform-origin:left center;z-index:0;border-radius:3px 10px 6px 2px}
+@media (prefers-reduced-motion:no-preference){
+  .day::before{transform:scaleX(0);animation:swipe .7s cubic-bezier(.6,.05,.3,1) .45s forwards}
+}
+@keyframes swipe{to{transform:scaleX(1)}}
+.weekday{display:flex;flex-direction:column;gap:2px;padding-bottom:4px}
+.weekday b{font-size:26px}
+.weekday span{font-size:22px}
+.time{display:flex;gap:16px;align-items:baseline;padding-top:16px;flex-wrap:wrap}
+.time .h{font-size:23px;font-weight:700;color:var(--ink)}
+.time .name{font-size:23px;font-weight:700}
+.time-note{margin:4px 0 0;font-size:19px}
+
+/* ---------- hero ---------- */
+.hero-text{padding:8px 0 40px}
+.hero-text h1{font-size:42px;line-height:1.08;margin-bottom:16px}
+.hero-text .sub{margin-bottom:28px}
+.btn{display:flex;align-items:center;justify-content:center;min-height:62px;padding:0 28px;background:var(--ink);color:#fff;font-size:22px;font-weight:700;border-radius:8px;text-decoration:none}
+.btn:hover{background:#163070}
+.btn-note{margin-top:12px;font-size:18px;line-height:1.5;text-align:center}
+
+/* ---------- video ---------- */
+.video{padding:0 0 52px}
+.video-frame{position:relative;width:100%;aspect-ratio:9/16;border-radius:8px;overflow:hidden;background:#000}
+.video-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.play{width:88px;height:88px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px rgba(255,255,255,.9)}
+.play i{width:0;height:0;border-left:28px solid #fff;border-top:17px solid transparent;border-bottom:17px solid transparent;margin-left:7px}
+.video-cap{margin-top:12px;font-size:18px}
+
+/* ---------- sezioni ---------- */
+section{padding:52px 0}
+section h2{font-size:36px;line-height:1.12;margin-bottom:22px}
+.list{display:flex;flex-direction:column;gap:22px;margin:0;padding:0;list-style:none}
+.list li{display:flex;gap:16px}
+.box{flex:none;width:22px;height:22px;border:2.5px solid var(--ink);border-radius:3px;margin-top:5px}
+.closing{margin-top:28px;font-weight:700}
+
+.about{background:var(--panel)}
+.about-grid{display:grid;gap:22px}
+.portrait{width:180px;aspect-ratio:3/4;border-radius:6px;overflow:hidden}
+.portrait img{display:block;width:100%;height:100%;object-fit:cover}
+.ph{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#fff;color:#222;padding:3px 7px;line-height:1.4}
+
+.steps{display:flex;flex-direction:column;gap:24px;margin:0;padding:0;list-style:none}
+.steps li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px}
+.steps .n{font-family:'Instrument Serif',Georgia,serif;font-size:46px;line-height:1;color:var(--ink)}
+
+/* ---------- modulo ---------- */
+.signup{background:var(--ink);color:#fff;padding:48px 0 20px}
+.signup h2{color:#fff;font-size:42px;margin-bottom:8px}
+.signup .lead{margin-bottom:26px}
+.signup mark{background:var(--lamp);color:var(--text);padding:0 5px;font-weight:700;border-radius:2px}
+.form-sheet{background:#fff;border-radius:6px;border-top:10px solid var(--lamp);overflow:hidden}
+.form-sheet iframe{display:block;width:100%;height:900px;border:0;background:#fff}
+.fallback{padding:18px 4px 8px;font-size:18px}
+.fallback a{color:#fff;display:inline-flex;min-height:48px;align-items:center}
+
+/* ---------- FAQ ---------- */
+.faq{display:flex;flex-direction:column;gap:10px}
+details{background:var(--panel);border-radius:6px}
+summary{list-style:none;cursor:pointer;min-height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 20px;font-size:20px;font-weight:700;line-height:1.35}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";flex:none;font-family:'Instrument Serif',Georgia,serif;font-size:34px;font-weight:400;line-height:1;color:var(--ink)}
+details[open] summary::after{content:"\2212"}
+details p{padding:0 20px 20px;font-size:19px}
+
+footer{border-top:3px solid var(--ink);padding:32px 0 56px;font-size:18px;line-height:1.75}
+footer a{display:inline-flex;min-height:48px;align-items:center}
+
+/* ---------- desktop ---------- */
+@media (min-width:900px){
+  body{font-size:20px}
+  .wrap{padding:0 48px}
+  .agenda{padding:56px 0 48px}
+  .hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:72px;align-items:start}
+  .day{font-size:260px}
+  .weekday b{font-size:32px}.weekday span{font-size:26px}
+  .time .h,.time .name{font-size:26px}
+  .hero-text{padding:36px 0 0}
+  .hero-text h1{font-size:60px}
+  .btn{display:inline-flex;min-width:320px}
+  .btn-note{text-align:left}
+  .video{padding:56px 0 0;position:sticky;top:24px}
+  .video-frame{max-height:640px}
+  section{padding:80px 0}
+  section h2{font-size:46px;margin-bottom:30px}
+  .about-grid{grid-template-columns:220px minmax(0,1fr);gap:48px;align-items:start}
+  .portrait{width:220px}
+  .signup{padding:80px 0 40px}
+  .signup h2{font-size:56px}
+  .signup .narrow{margin:0 auto}
+}
+</style>
+</head>
+<body>
+
+<header class="agenda">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <!-- Data dell'incontro: la calcola lo script in fondo alla pagina (il prossimo giovedì). Queste righe valgono solo se lo script non parte. -->
+        <div class="date" id="data" aria-label="giovedì 22 ottobre">
+          <div class="day"><span id="giorno">22</span></div>
+          <div class="weekday">
+            <b>giovedì</b>
+            <span id="mese">ottobre</span>
+          </div>
+        </div>
+        <!-- ============================================================= -->
+        <div class="time">
+          <span class="h">ore 20:00</span>
+          <span class="name">L'AI per chi lavora</span>
+        </div>
+        <p class="time-note">Online e gratuito, 45 minuti.</p>
+
+        <div class="hero-text">
+          <h1>L'intelligenza artificiale e la tecnologia di oggi, spiegate semplice</h1>
+          <p class="sub">Un incontro dal vivo per chi lavora e vuole capire cosa può fare la tecnologia per la sua attività. Senza gergo tecnico e senza fretta.</p>
+          <a class="btn" href="#iscrizione">Iscriviti gratis</a>
+          <p class="btn-note">Ricevi subito una mail con il link per entrare.</p>
+        </div>
+      </div>
+
+      <div class="video">
+        <div class="video-frame">
+          <video src="video/riccardo.mp4" poster="video/poster.jpg" controls playsinline preload="none"></video>
+        </div>
+        <p class="video-cap">Guarda il video: meno di un minuto.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap narrow">
+      <h2>Di cosa parliamo</h2>
+      <ul class="list">
+        <li><span class="box"></span><p><strong>Cos'è davvero l'intelligenza artificiale.</strong> Detto con parole normali, senza paroloni.</p></li>
+        <li><span class="box"></span><p><strong>Cosa può fare oggi per un'attività come la tua.</strong> Esempi concreti, presi dal lavoro di tutti i giorni.</p></li>
+        <li><span class="box"></span><p><strong>Cosa evitare.</strong> Truffe, privacy e dati dei clienti: le regole semplici per stare tranquilli.</p></li>
+        <li><span class="box"></span><p><strong>Le tue domande.</strong> Gli ultimi 15 minuti sono tutti per te: chiedi quello che vuoi.</p></li>
+      </ul>
+      <p class="closing">Non serve essere esperti di computer. Basta la curiosità.</p>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="wrap narrow about-grid">
+      <div class="portrait"><img src="img/riccardo.jpg" alt="Riccardo Ingegneri" width="600" height="800" loading="lazy"></div>
+      <p>Mi chiamo <strong>Riccardo Ingegneri</strong>. Per due anni ho insegnato intelligenza artificiale nei corsi dell'Istituto Volta. Oggi sono consulente e sviluppatore: costruisco automazioni e strumenti di AI per aziende e professionisti, per la posta, i documenti e le pratiche di tutti i giorni. In questi incontri racconto quello che vedo sul campo, in modo che chiunque possa capirlo.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap narrow">
+      <h2>Come funziona</h2>
+      <ol class="steps">
+        <li><span class="n">1</span><p>Compili il modulo qui sotto, ci vuole un minuto.</p></li>
+        <li><span class="n">2</span><p>Ricevi subito una mail con la data e il link per entrare, da aggiungere al calendario.</p></li>
+        <li><span class="n">3</span><p>Giovedì alle 20 clicchi il link ed entri, dal computer o dal telefono.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="signup" id="iscrizione">
+    <div class="wrap narrow">
+      <h2>Iscriviti gratis</h2>
+      <p class="lead">Ci vediamo <mark>giovedì alle 20:00</mark>, online.</p>
+      <div class="form-sheet">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdVGzUxkSgH0O3nS5nqawB8p5Nh2JARU2FbaSFsUWK2o-beaQ/viewform?embedded=true" title="Modulo di iscrizione" loading="lazy">Caricamento…</iframe>
+      </div>
+      <p class="fallback"><a href="https://docs.google.com/forms/d/e/1FAIpQLSdVGzUxkSgH0O3nS5nqawB8p5Nh2JARU2FbaSFsUWK2o-beaQ/viewform" target="_blank" rel="noopener">Il modulo non si vede? Aprilo in una pagina a parte</a></p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap narrow">
+      <h2>Domande</h2>
+      <div class="faq">
+        <details open=""><summary>È davvero gratis?</summary><p>Sì. L'incontro è gratuito e completo così com'è.</p></details>
+        <details><summary>Devo installare qualcosa?</summary><p>No. Basta cliccare il link che ricevi per mail. Dal telefono, Google potrebbe chiederti di aprire l'app Meet: è gratuita.</p></details>
+        <details><summary>Non sono pratico di computer, fa per me?</summary><p>Sì, è pensato proprio per chi parte da zero. Si va piano e si può chiedere tutto.</p></details>
+        <details><summary>E dopo l'incontro?</summary><p>Chi vuole può chiedermi una breve chiamata per capire cosa si può fare per la sua attività. Nessun obbligo.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap narrow">
+    <p><strong>Riccardo Ingegneri</strong></p>
+    <p>P.IVA 03837300833</p>
+    <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
+    <p><a href="privacy.html">Informativa privacy</a></p>
+  </div>
+</footer>
+
+
+
+<script>
+// Il prossimo giovedì alle 20 (ora italiana), mai prima del primo incontro.
+// Le iscrizioni chiudono 30 minuti prima: dopo le 19:30 di giovedì si passa al giovedì seguente.
+(function () {
+  var PRIMO = new Date(2026, 9, 22);
+  var MESI = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+  var ora = new Date();
+  var d = new Date(ora.getFullYear(), ora.getMonth(), ora.getDate());
+  d.setDate(d.getDate() + (4 - d.getDay() + 7) % 7);
+  var chiusura = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 19, 30);
+  if (ora >= chiusura) d.setDate(d.getDate() + 7);
+  if (d < PRIMO) d = PRIMO;
+  document.getElementById('giorno').textContent = d.getDate();
+  document.getElementById('mese').textContent = MESI[d.getMonth()];
+  document.getElementById('data').setAttribute('aria-label', 'giovedì ' + d.getDate() + ' ' + MESI[d.getMonth()]);
+})();
+</script>
+
+</body></html>
