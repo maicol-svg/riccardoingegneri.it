@@ -54,6 +54,8 @@ strong{font-weight:700}
 .time .h{font-size:23px;font-weight:700;color:var(--ink)}
 .time .name{font-size:23px;font-weight:700}
 .time-note{margin:4px 0 0;font-size:19px}
+.in-corso{margin:14px 0 0;padding:10px 14px;background:var(--lamp);color:var(--text);border-radius:6px;font-size:19px;line-height:1.45}
+.in-corso b{display:block;font-size:21px}
 
 /* ---------- hero ---------- */
 .hero-text{padding:8px 0 40px}
@@ -156,6 +158,7 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
           <span class="name">L'AI per chi lavora</span>
         </div>
         <p class="time-note">Online e gratuito, 45 minuti.</p>
+        <p class="in-corso" id="inCorso" hidden><b>In corso adesso.</b>Chi si iscrive ora partecipa al prossimo incontro, <span id="prossimo"></span>.</p>
 
         <div class="hero-text">
           <h1>L'intelligenza artificiale e la tecnologia di oggi, spiegate semplice</h1>
@@ -243,30 +246,42 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
 
 
 <script>
-// Il prossimo giovedì, mai prima del primo incontro. Il giovedì mostra la data del giorno stesso;
-// a mezzanotte tra giovedì e venerdì (ora italiana) passa da sola al giovedì seguente.
+// La data in cima segue l'orario dell'incontro (ora italiana), mai prima del primo incontro:
+// fino alle 20:00 del giovedì mostra quel giovedì; dalle 20:00 alle 20:45 lo stesso giovedì
+// con la scritta "In corso adesso"; dalle 20:45 il giovedì seguente.
 (function () {
   var PRIMO = new Date(2026, 9, 22);
   var MESI = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
-  function oggiInItalia() {
+  var INIZIO = 20 * 60, FINE = 20 * 60 + 45; // minuti dalla mezzanotte
+  function adessoInItalia() {
     try {
-      var p = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()).split('-');
-      return new Date(+p[0], +p[1] - 1, +p[2]);
+      var p = {};
+      new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+        .formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+      return { giorno: new Date(+p.year, +p.month - 1, +p.day), minuti: (+p.hour % 24) * 60 + (+p.minute) };
     } catch (e) {
       var n = new Date();
-      return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+      return { giorno: new Date(n.getFullYear(), n.getMonth(), n.getDate()), minuti: n.getHours() * 60 + n.getMinutes() };
     }
   }
+  function etichetta(d) { return 'giovedì ' + d.getDate() + ' ' + MESI[d.getMonth()]; }
   function aggiorna() {
-    var d = oggiInItalia();
+    var a = adessoInItalia();
+    var d = new Date(a.giorno);
+    var eGiovedi = d.getDay() === 4;
     d.setDate(d.getDate() + (4 - d.getDay() + 7) % 7);
+    if (eGiovedi && a.minuti >= FINE) d.setDate(d.getDate() + 7);
     if (d < PRIMO) d = PRIMO;
+    var inCorso = eGiovedi && a.minuti >= INIZIO && a.minuti < FINE && d >= PRIMO && d.getTime() === a.giorno.getTime();
     document.getElementById('giorno').textContent = d.getDate();
     document.getElementById('mese').textContent = MESI[d.getMonth()];
-    document.getElementById('data').setAttribute('aria-label', 'giovedì ' + d.getDate() + ' ' + MESI[d.getMonth()]);
+    document.getElementById('data').setAttribute('aria-label', etichetta(d));
+    var prossimo = new Date(d); prossimo.setDate(prossimo.getDate() + 7);
+    document.getElementById('prossimo').textContent = etichetta(prossimo);
+    document.getElementById('inCorso').hidden = !inCorso;
   }
   aggiorna();
-  setInterval(aggiorna, 60000); // anche se la pagina resta aperta oltre la mezzanotte
+  setInterval(aggiorna, 30000); // si aggiorna anche se la pagina resta aperta
 })();
 </script>
 
