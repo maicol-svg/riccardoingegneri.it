@@ -243,20 +243,30 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
 
 
 <script>
-// Il prossimo giovedì alle 20 (ora italiana), mai prima del primo incontro.
-// Le iscrizioni chiudono 30 minuti prima: dopo le 19:30 di giovedì si passa al giovedì seguente.
+// Il prossimo giovedì, mai prima del primo incontro. Il giovedì mostra la data del giorno stesso;
+// a mezzanotte tra giovedì e venerdì (ora italiana) passa da sola al giovedì seguente.
 (function () {
   var PRIMO = new Date(2026, 9, 22);
   var MESI = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
-  var ora = new Date();
-  var d = new Date(ora.getFullYear(), ora.getMonth(), ora.getDate());
-  d.setDate(d.getDate() + (4 - d.getDay() + 7) % 7);
-  var chiusura = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 19, 30);
-  if (ora >= chiusura) d.setDate(d.getDate() + 7);
-  if (d < PRIMO) d = PRIMO;
-  document.getElementById('giorno').textContent = d.getDate();
-  document.getElementById('mese').textContent = MESI[d.getMonth()];
-  document.getElementById('data').setAttribute('aria-label', 'giovedì ' + d.getDate() + ' ' + MESI[d.getMonth()]);
+  function oggiInItalia() {
+    try {
+      var p = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()).split('-');
+      return new Date(+p[0], +p[1] - 1, +p[2]);
+    } catch (e) {
+      var n = new Date();
+      return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+    }
+  }
+  function aggiorna() {
+    var d = oggiInItalia();
+    d.setDate(d.getDate() + (4 - d.getDay() + 7) % 7);
+    if (d < PRIMO) d = PRIMO;
+    document.getElementById('giorno').textContent = d.getDate();
+    document.getElementById('mese').textContent = MESI[d.getMonth()];
+    document.getElementById('data').setAttribute('aria-label', 'giovedì ' + d.getDate() + ' ' + MESI[d.getMonth()]);
+  }
+  aggiorna();
+  setInterval(aggiorna, 60000); // anche se la pagina resta aperta oltre la mezzanotte
 })();
 </script>
 
