@@ -1,13 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Riccardo Ingegneri</title>
-<meta http-equiv="refresh" content="0; url=/webinar/">
-<link rel="canonical" href="https://riccardoingegneri.it/webinar/">
+<title>Riccardo Ingegneri, consulente digitale</title>
+<meta name="description" content="Il tuo lavoro reso digitale, senza fatica. Un incontro online gratuito ogni giovedì alle 20 e una prima consulenza personale gratuita di 20 minuti.">
+<meta property="og:title" content="Riccardo Ingegneri, consulente digitale">
+<meta property="og:description" content="Il tuo lavoro reso digitale, senza fatica. Incontro online gratuito ogni giovedì alle 20 e prima consulenza gratuita di 20 minuti.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://riccardoingegneri.it/webinar/img/riccardo.jpg">
+<meta property="og:url" content="https://riccardoingegneri.it/">
+<link rel="canonical" href="https://riccardoingegneri.it/">
+<meta name="theme-color" content="#1d3d8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1d3d8a;      /* blu inchiostro */
+  --text:#18202f;     /* testo */
+  --paper:#f8f9fb;    /* carta */
+  --rule:#c9d5e7;     /* righe del quaderno */
+  --panel:#eceff5;
+  --lamp:#f3d74a;     /* giallo evidenziatore */
+  --margine:#e7b9b0;  /* margine rosso del quaderno */
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--text);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:3px}
+a:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+h1,h2,h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);margin:0;text-wrap:pretty}
+p{margin:0;text-wrap:pretty}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+
+/* ---------- testata: la pagina del quaderno ---------- */
+.foglio{position:relative;background-color:var(--paper);background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:34px 0 44px;border-bottom:3px solid var(--ink)}
+.chi{display:flex;align-items:center;gap:18px;margin-bottom:26px}
+.chi img{width:76px;height:76px;border-radius:50%;object-fit:cover;object-position:50% 20%;border:3px solid #fff;box-shadow:0 0 0 2px var(--ink)}
+.chi b{display:block;font-size:22px;line-height:1.2}
+.chi span{font-size:18px;color:#3b4354}
+h1{font-size:50px;line-height:1.04;max-width:13ch}
+h1 .ev{position:relative;white-space:nowrap}
+h1 .ev::before{content:"";position:absolute;left:-4px;right:-6px;bottom:6px;height:38%;background:var(--lamp);opacity:.85;z-index:-1;border-radius:3px 10px 6px 2px;transform-origin:left center}
+h1{position:relative;z-index:0}
+@media (prefers-reduced-motion:no-preference){
+  h1 .ev::before{transform:scaleX(0);animation:swipe .7s cubic-bezier(.6,.05,.3,1) .4s forwards}
+}
+@keyframes swipe{to{transform:scaleX(1)}}
+.sub{margin-top:20px;max-width:36em}
+
+/* ---------- le due porte ---------- */
+.porte{display:grid;gap:18px;padding:40px 0 18px}
+.porta{display:flex;flex-direction:column;background:#fff;border:2px solid var(--ink);border-radius:8px;padding:24px 22px 22px;text-decoration:none;color:var(--text);box-shadow:5px 6px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+.porta:hover{transform:translate(-1px,-2px);box-shadow:6px 8px 0 var(--ink)}
+.porta:active{transform:translate(2px,3px);box-shadow:2px 2px 0 var(--ink)}
+.quando{font-family:'Caveat',cursive;font-size:28px;line-height:1.1;color:var(--ink)}
+.porta h2{font-size:36px;line-height:1.08;margin:6px 0 10px}
+.gratis{display:inline-block;align-self:flex-start;background:var(--lamp);color:var(--text);font-weight:700;font-size:16px;padding:2px 9px;border-radius:3px;margin-bottom:12px}
+.porta p{font-size:18px;line-height:1.55}
+.vai{margin-top:auto;padding-top:20px}
+.vai span{display:flex;align-items:center;justify-content:center;min-height:58px;padding:0 20px;background:var(--ink);color:#fff;font-weight:700;font-size:20px;border-radius:7px}
+.porta.giallo .vai span{background:var(--lamp);color:var(--text);border:2px solid var(--ink)}
+
+/* ---------- chi sono ---------- */
+.racconto{padding:40px 0 48px}
+.racconto h2{font-size:34px;margin-bottom:14px}
+.racconto p{max-width:38em}
+.racconto p+p{margin-top:14px}
+.nota{font-family:'Caveat',cursive;font-size:27px;color:var(--ink);line-height:1.25;margin-top:18px}
+
+footer{border-top:3px solid var(--ink);padding:30px 0 52px;font-size:17px;line-height:1.75}
+footer a{display:inline-flex;min-height:44px;align-items:center}
+
+@media (min-width:860px){
+  body{font-size:20px}
+  .wrap{padding:0 48px}
+  .foglio{padding:60px 0 64px}
+  .foglio::before{content:"";position:absolute;top:0;bottom:0;left:max(24px,calc(50% - 520px + 20px));width:3px;background:var(--margine)}
+  h1{font-size:76px;max-width:16ch}
+  .chi img{width:88px;height:88px}
+  .porte{grid-template-columns:1fr 1fr;gap:28px;padding:56px 0 24px}
+  .porta{padding:30px 30px 28px}
+  .porta h2{font-size:42px}
+  .racconto{padding:56px 0 72px}
+}
+</style>
 </head>
 <body>
-<p><a href="/webinar/">Vai alla pagina dell'incontro "L'AI per chi lavora"</a></p>
+
+<header class="foglio">
+  <div class="wrap">
+    <div class="chi">
+      <img src="webinar/img/riccardo.jpg" alt="Riccardo Ingegneri" width="600" height="800">
+      <div><b>Riccardo Ingegneri</b><span>Consulente digitale</span></div>
+    </div>
+    <h1>Il tuo lavoro reso digitale, <span class="ev">senza fatica</span></h1>
+    <p class="sub">Per i conti hai il commercialista. Per il digitale puoi avere qualcuno che ti spiega le cose con calma e ti aiuta a usarle nel tuo lavoro: posta, documenti, clienti, intelligenza artificiale.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="porte">
+    <a class="porta" href="webinar/">
+      <span class="quando">ogni giovedì alle 20</span>
+      <h2>L'incontro online</h2>
+      <span class="gratis">Gratuito</span>
+      <p>45 minuti per capire cosa possono fare oggi gli strumenti digitali per chi lavora, con parole semplici e spazio per le tue domande. Ti basta un computer o il telefono.</p>
+      <span class="vai"><span>Iscriviti all'incontro</span></span>
+    </a>
+    <a class="porta giallo" href="parliamone/">
+      <span class="quando">quando ti è comodo</span>
+      <h2>La consulenza personale</h2>
+      <span class="gratis">La prima è gratuita · 20 minuti</span>
+      <p>Una videochiamata a tu per tu: guardiamo insieme la tua attività e ti dico con franchezza se e come posso esserti utile. Nessun impegno.</p>
+      <span class="vai"><span>Prenota la consulenza gratuita</span></span>
+    </a>
+  </div>
+
+  <section class="racconto">
+    <h2>Chi sono</h2>
+    <p>Per due anni ho insegnato intelligenza artificiale nei corsi dell'Istituto Volta. Oggi sono consulente e sviluppatore: costruisco automazioni e strumenti digitali per aziende e professionisti, per la posta, i documenti e le pratiche di tutti i giorni.</p>
+    <p>Il digitale oggi si vende spesso con la paura. Io preferisco spiegarlo bene, senza fretta e senza promesse esagerate.</p>
+    <p class="nota">Riccardo</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Riccardo Ingegneri</strong> · P.IVA 03837300833</p>
+    <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
+    <p><a href="webinar/privacy">Informativa privacy</a></p>
+  </div>
+</footer>
+
 </body>
 </html>
