@@ -4,15 +4,215 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Consulenza gratuita di 20 minuti con Riccardo Ingegneri</title>
-<meta name="robots" content="noindex">
+<meta name="description" content="Una videochiamata di 20 minuti a tu per tu per guardare insieme la tua attività. La prima consulenza è gratuita e senza impegno.">
 <meta property="og:title" content="Consulenza gratuita di 20 minuti con Riccardo Ingegneri">
 <meta property="og:description" content="Dimmi di cosa ti occupi e scegli tu l'orario. Gratuita e senza impegno.">
-<meta property="og:image" content="https://riccardoingegneri.it/webinar/img/riccardo.jpg">
-<meta http-equiv="refresh" content="0; url=https://docs.google.com/forms/d/e/1FAIpQLSfXwsXX429Yac0weYVJcCasGXFg66tH3pirb10WP7PBjbnFUw/viewform">
-<script>location.replace('https://docs.google.com/forms/d/e/1FAIpQLSfXwsXX429Yac0weYVJcCasGXFg66tH3pirb10WP7PBjbnFUw/viewform');</script>
-<style>body{margin:0;padding:48px 20px;font:18px/1.5 Arial,sans-serif;color:#18202f;background:#f8f9fb}a{color:#1d3d8a}</style>
+<meta property="og:image" content="https://riccardoingegneri.it/img/riccardo.jpg">
+<meta property="og:url" content="https://riccardoingegneri.it/parliamone/">
+<link rel="canonical" href="https://riccardoingegneri.it/parliamone/">
+<meta name="theme-color" content="#1d3d8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--panel:#eceff5;--lamp:#f3d74a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--text);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+h1,h2,h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);margin:0;text-wrap:pretty}
+p{margin:0;text-wrap:pretty}
+[hidden]{display:none!important}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+
+/* testata */
+.foglio{background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:22px 0 36px;border-bottom:3px solid var(--ink)}
+.casa{display:inline-flex;align-items:center;gap:12px;min-height:48px;text-decoration:none;color:var(--text);font-weight:700}
+.casa img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:50% 25%;border:3px solid #fff;box-shadow:0 0 0 2px var(--ink)}
+h1{font-size:48px;line-height:1.04;margin-top:22px}
+.gratis{display:inline-block;background:var(--lamp);font-weight:700;padding:2px 10px;border-radius:3px;margin-top:16px;font-size:18px}
+.sub{margin-top:14px}
+
+/* i tre passaggi */
+.passi{list-style:none;margin:0;padding:32px 0 36px;display:flex;flex-direction:column;gap:18px}
+.passi li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px}
+.passi .n{font-family:'Instrument Serif',Georgia,serif;font-size:44px;line-height:1;color:var(--ink)}
+
+/* modulo */
+.banda{background:var(--ink);padding:36px 0 22px}
+.banda h2{color:#fff;font-size:40px;margin-bottom:18px}
+.sheet{background-color:#fff;background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);border-radius:6px;border-top:10px solid var(--lamp);padding:28px 22px 30px}
+.campo{margin-bottom:24px}
+.campo label,.campo legend{display:block;font-weight:700;font-size:20px;line-height:1.35;margin-bottom:6px;color:var(--ink);padding:0}
+.aiuto{display:block;font-weight:400;font-size:17px;color:#4a5263}
+fieldset{border:0;margin:0 0 24px;padding:0;min-width:0}
+.campo input[type=text],.campo input[type=email],.campo textarea{display:block;width:100%;min-height:56px;padding:10px 14px;font:inherit;font-size:19px;color:var(--text);background:#fff;border:2px solid #9fb0cc;border-radius:6px}
+.campo textarea{min-height:120px;resize:vertical;line-height:1.5}
+.campo input:focus,.campo textarea:focus{outline:3px solid var(--lamp);outline-offset:1px;border-color:var(--ink)}
+[aria-invalid="true"]{border-color:#b3261e!important}
+.errore{display:block;margin-top:6px;font-size:17px;color:#b3261e;font-weight:700}
+.spunta{display:flex;gap:14px;align-items:flex-start;padding:9px 0;font-size:18px;line-height:1.45;cursor:pointer}
+.spunta input{flex:none;width:28px;height:28px;margin:0;accent-color:var(--ink);cursor:pointer}
+.campo .spunta{display:flex;margin:0;font-weight:400;font-size:18px;line-height:1.45;color:var(--text);border-top:1px solid var(--panel);background:#fff;padding:10px 0}
+.campo .spunta:first-of-type{border-top:0}
+.invia{display:flex;align-items:center;justify-content:center;width:100%;min-height:66px;margin-top:6px;padding:0 20px;font:inherit;font-size:22px;font-weight:700;color:var(--text);background:var(--lamp);border:3px solid var(--ink);border-radius:8px;box-shadow:4px 5px 0 var(--ink);cursor:pointer}
+.invia:hover{background:#f7e27a}
+.invia:active{transform:translate(2px,3px);box-shadow:2px 2px 0 var(--ink)}
+.invia[disabled]{opacity:.7;cursor:wait}
+.problema{margin-top:16px;padding:12px 14px;background:#fdf0ee;border-left:4px solid #b3261e;font-size:18px}
+.problema a{font-weight:700}
+.grazie h3{font-size:40px;line-height:1.1;margin-bottom:12px}
+.grazie p{font-size:20px}
+.grazie p+p{margin-top:12px}
+.grazie a.bt{display:flex;align-items:center;justify-content:center;min-height:60px;margin-top:20px;background:var(--ink);color:#fff;font-weight:700;font-size:20px;border-radius:7px;text-decoration:none}
+.fallback{padding:18px 4px 8px;font-size:18px}
+.fallback a{color:#fff;display:inline-flex;min-height:48px;align-items:center}
+
+footer{padding:30px 0 52px;font-size:17px;line-height:1.75;text-align:center}
+footer a{display:inline-flex;min-height:44px;align-items:center}
+@media (min-width:860px){
+  body{font-size:20px}
+  .foglio{padding:36px 0 52px}
+  h1{font-size:64px}
+  .banda{padding:56px 0 34px}
+  .banda h2{font-size:48px}
+  .sheet{padding:36px 36px 38px}
+}
+</style>
 </head>
 <body>
-<p>Sto aprendo il modulo per la consulenza gratuita.<br>Se non si apre, <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXwsXX429Yac0weYVJcCasGXFg66tH3pirb10WP7PBjbnFUw/viewform">tocca qui</a>.</p>
+
+<header class="foglio">
+  <div class="wrap">
+    <a class="casa" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
+    <h1>La tua consulenza personale</h1>
+    <span class="gratis">La prima è gratuita · 20 minuti · nessun impegno</span>
+    <p class="sub">Una videochiamata a tu per tu: guardiamo insieme la tua attività e ti dico con franchezza se e come posso esserti utile.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <ol class="passi">
+      <li><span class="n">1</span><p>Mi racconti in breve cosa ti interessa, qui sotto. Ci vuole un minuto.</p></li>
+      <li><span class="n">2</span><p>Ti arriva subito una mail con il link per scegliere tu giorno e ora.</p></li>
+      <li><span class="n">3</span><p>Ci sentiamo in videochiamata, dal computer o dal telefono.</p></li>
+    </ol>
+  </div>
+
+  <div class="banda" id="modulo-consulenza">
+    <div class="wrap">
+      <h2>Parliamone</h2>
+      <div class="sheet">
+        <!-- Il modulo invia i dati al Google Form «Voglio saperne di più»: la mail con il link per prenotare parte da Apps Script -->
+        <form id="modulo" novalidate>
+          <div class="campo">
+            <label for="f-nome">Nome e cognome</label>
+            <input id="f-nome" name="entry.1710759694" type="text" autocomplete="name" required>
+          </div>
+          <div class="campo">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="entry.611068517" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <fieldset class="campo" id="f-interessi">
+            <legend>Cosa ti interessa? <span class="aiuto">Puoi sceglierne più di uno.</span></legend>
+            <label class="spunta"><input type="checkbox" name="entry.1002371076" value="Imparare a usare questi strumenti (per me o per la mia azienda)"><span>Imparare a usare questi strumenti (per me o per la mia azienda)</span></label>
+            <label class="spunta"><input type="checkbox" name="entry.1002371076" value="Un'automazione su misura per il mio lavoro"><span>Un'automazione su misura per il mio lavoro</span></label>
+            <label class="spunta"><input type="checkbox" name="entry.1002371076" value="Un sito web su misura"><span>Un sito web su misura</span></label>
+            <label class="spunta"><input type="checkbox" name="entry.1002371076" value="Farmi trovare online: social, Google, recensioni"><span>Farmi trovare online: social, Google, recensioni</span></label>
+            <label class="spunta"><input type="checkbox" name="entry.1002371076" value="Biglietto da visita digitale o card NFC per le recensioni"><span>Biglietto da visita digitale o card NFC per le recensioni</span></label>
+            <label class="spunta"><input type="checkbox" name="entry.1002371076" value="Non lo so ancora, voglio capire cosa si può fare"><span>Non lo so ancora, voglio capire cosa si può fare</span></label>
+          </fieldset>
+          <div class="campo">
+            <label for="f-messaggio">Raccontami in due righe cosa ti farebbe risparmiare più tempo <span class="aiuto">Facoltativo</span></label>
+            <textarea id="f-messaggio" name="entry.184426650" rows="4"></textarea>
+          </div>
+          <label class="spunta"><input id="f-privacy" type="checkbox" name="entry.2047659587" value="Acconsento a essere ricontattato per la richiesta che ho fatto" required><span>Acconsento a essere ricontattato per la richiesta che ho fatto. <a href="/webinar/privacy" target="_blank" rel="noopener">Informativa</a></span></label>
+          <button class="invia" type="submit">Invia e scegli l'orario</button>
+          <p class="problema" id="problema" hidden>Non sono riuscito a inviare la richiesta. Controlla la connessione e riprova, oppure <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXwsXX429Yac0weYVJcCasGXFg66tH3pirb10WP7PBjbnFUw/viewform" target="_blank" rel="noopener">compila il modulo da questa pagina</a>.</p>
+        </form>
+        <div class="grazie" id="grazie" hidden tabindex="-1">
+          <h3>Grazie, <span id="g-nome">a presto</span>!</h3>
+          <p>Ti ho appena mandato una mail con il link per scegliere l'orario. Se non la trovi, guarda nella posta indesiderata.</p>
+          <p>Se preferisci, puoi sceglierlo subito:</p>
+          <a class="bt" href="/chiamata/">Scegli giorno e ora</a>
+        </div>
+      </div>
+      <p class="fallback"><a href="/">← Torna alla pagina principale</a></p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Riccardo Ingegneri</strong> · P.IVA 03837300833</p>
+    <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
+    <p><a href="/webinar/privacy">Informativa privacy</a></p>
+  </div>
+</footer>
+
+<script>
+// Controlla i campi e invia le risposte al Google Form (no-cors: Google non lascia leggere la risposta).
+(function () {
+  var URL_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSfXwsXX429Yac0weYVJcCasGXFg66tH3pirb10WP7PBjbnFUw/formResponse';
+  var form = document.getElementById('modulo');
+  var bottone = form.querySelector('.invia');
+
+  function segna(campo, dove, messaggio) {
+    campo.removeAttribute('aria-invalid');
+    if (!messaggio) return true;
+    var e = document.createElement('span');
+    e.className = 'errore';
+    e.id = campo.id + '-errore';
+    e.textContent = messaggio;
+    dove.parentNode.insertBefore(e, dove.nextSibling);
+    campo.setAttribute('aria-invalid', 'true');
+    campo.setAttribute('aria-describedby', e.id);
+    return false;
+  }
+  function controlla() {
+    form.querySelectorAll('.errore').forEach(function (e) { e.remove(); });
+    var nome = document.getElementById('f-nome'), email = document.getElementById('f-email');
+    var interessi = document.getElementById('f-interessi'), privacy = document.getElementById('f-privacy');
+    var scelti = interessi.querySelectorAll('input:checked').length;
+    var ok = [
+      segna(nome, nome, nome.value.trim() ? '' : 'Scrivi il tuo nome.'),
+      segna(email, email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()) ? '' : 'Controlla l\'indirizzo email: sembra incompleto.'),
+      segna(interessi, interessi.lastElementChild, scelti ? '' : 'Scegli almeno una voce, anche «Non lo so ancora».'),
+      segna(privacy, privacy.parentNode, privacy.checked ? '' : 'Per mandare la richiesta serve questa spunta.')
+    ];
+    var primo = [nome, email, interessi.querySelector('input'), privacy][ok.indexOf(false)];
+    if (primo) primo.focus();
+    return !primo;
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    document.getElementById('problema').hidden = true;
+    if (!controlla()) return;
+    var dati = new URLSearchParams();
+    form.querySelectorAll('input, textarea').forEach(function (i) {
+      if (!i.name || ((i.type === 'checkbox') && !i.checked)) return;
+      dati.append(i.name, i.value.trim());
+    });
+    bottone.disabled = true;
+    bottone.textContent = 'Invio in corso…';
+    fetch(URL_FORM, { method: 'POST', mode: 'no-cors', body: dati })
+      .then(function () {
+        var nome = document.getElementById('f-nome').value.trim().split(/\s+/)[0];
+        if (nome) document.getElementById('g-nome').textContent = nome;
+        form.hidden = true;
+        var g = document.getElementById('grazie');
+        g.hidden = false;
+        g.focus();
+      })
+      .catch(function () {
+        bottone.disabled = false;
+        bottone.textContent = 'Invia e scegli l\'orario';
+        document.getElementById('problema').hidden = false;
+      });
+  });
+})();
+</script>
 </body>
 </html>

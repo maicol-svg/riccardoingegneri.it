@@ -8,7 +8,7 @@
 <meta property="og:title" content="Riccardo Ingegneri, consulente digitale">
 <meta property="og:description" content="Il tuo lavoro reso digitale, senza fatica. Incontro online gratuito ogni giovedì alle 20 e prima consulenza gratuita di 20 minuti.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://riccardoingegneri.it/webinar/img/riccardo.jpg">
+<meta property="og:image" content="https://riccardoingegneri.it/img/riccardo.jpg">
 <meta property="og:url" content="https://riccardoingegneri.it/">
 <link rel="canonical" href="https://riccardoingegneri.it/">
 <meta name="theme-color" content="#1d3d8a">
@@ -32,71 +32,77 @@ a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:3px}
 a:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
 h1,h2,h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);margin:0;text-wrap:pretty}
 p{margin:0;text-wrap:pretty}
-.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
 
-/* ---------- testata: la pagina del quaderno ---------- */
-.foglio{position:relative;background-color:var(--paper);background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:34px 0 44px;border-bottom:3px solid var(--ink)}
-.chi{display:flex;align-items:center;gap:18px;margin-bottom:26px}
-.chi img{width:76px;height:76px;border-radius:50%;object-fit:cover;object-position:50% 20%;border:3px solid #fff;box-shadow:0 0 0 2px var(--ink)}
-.chi b{display:block;font-size:22px;line-height:1.2}
-.chi span{font-size:18px;color:#3b4354}
-h1{font-size:50px;line-height:1.04;max-width:13ch}
+/* ---------- testata: la pagina del quaderno con la foto attaccata ---------- */
+.foglio{background-color:var(--paper);background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:30px 0 44px;border-bottom:3px solid var(--ink)}
+.hero{display:grid;gap:30px;align-items:center}
+.foto{position:relative;justify-self:center;width:min(100%,340px);margin:14px 0 4px;transform:rotate(-1.8deg)}
+.foto img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;object-position:50% 30%;background:#fff;border:10px solid #fff;border-bottom-width:44px;box-shadow:0 16px 34px rgba(24,32,47,.18),0 2px 5px rgba(24,32,47,.14)}
+.foto::before{content:"";position:absolute;top:-16px;left:50%;width:132px;height:34px;margin-left:-66px;background:rgba(243,215,74,.72);transform:rotate(3deg);z-index:1}
+.foto figcaption{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:'Caveat',cursive;font-size:25px;color:var(--ink)}
+.ruolo{font-size:19px;font-weight:700;color:var(--ink);margin-bottom:10px}
+h1{position:relative;z-index:0;font-size:52px;line-height:1.03}
 h1 .ev{position:relative;white-space:nowrap}
 h1 .ev::before{content:"";position:absolute;left:-4px;right:-6px;bottom:6px;height:38%;background:var(--lamp);opacity:.85;z-index:-1;border-radius:3px 10px 6px 2px;transform-origin:left center}
-h1{position:relative;z-index:0}
 @media (prefers-reduced-motion:no-preference){
   h1 .ev::before{transform:scaleX(0);animation:swipe .7s cubic-bezier(.6,.05,.3,1) .4s forwards}
 }
 @keyframes swipe{to{transform:scaleX(1)}}
-.sub{margin-top:20px;max-width:36em}
+.sub{margin-top:20px;max-width:34em}
 
 /* ---------- le due porte ---------- */
-.porte{display:grid;gap:18px;padding:40px 0 18px}
+.porte{display:grid;gap:22px;padding:44px 0 20px}
 .porta{display:flex;flex-direction:column;background:#fff;border:2px solid var(--ink);border-radius:8px;padding:24px 22px 22px;text-decoration:none;color:var(--text);box-shadow:5px 6px 0 var(--ink);transition:transform .15s,box-shadow .15s}
 .porta:hover{transform:translate(-1px,-2px);box-shadow:6px 8px 0 var(--ink)}
 .porta:active{transform:translate(2px,3px);box-shadow:2px 2px 0 var(--ink)}
 .quando{font-family:'Caveat',cursive;font-size:28px;line-height:1.1;color:var(--ink)}
-.porta h2{font-size:36px;line-height:1.08;margin:6px 0 10px}
+.porta h2{font-size:38px;line-height:1.06;margin:6px 0 10px}
 .gratis{display:inline-block;align-self:flex-start;background:var(--lamp);color:var(--text);font-weight:700;font-size:16px;padding:2px 9px;border-radius:3px;margin-bottom:12px}
 .porta p{font-size:18px;line-height:1.55}
-.vai{margin-top:auto;padding-top:20px}
-.vai span{display:flex;align-items:center;justify-content:center;min-height:58px;padding:0 20px;background:var(--ink);color:#fff;font-weight:700;font-size:20px;border-radius:7px}
+.vai{margin-top:auto;padding-top:22px}
+.vai span{display:flex;align-items:center;justify-content:center;min-height:60px;padding:0 20px;background:var(--ink);color:#fff;font-weight:700;font-size:20px;border-radius:7px}
 .porta.giallo .vai span{background:var(--lamp);color:var(--text);border:2px solid var(--ink)}
 
 /* ---------- chi sono ---------- */
-.racconto{padding:40px 0 48px}
-.racconto h2{font-size:34px;margin-bottom:14px}
-.racconto p{max-width:38em}
+.racconto{padding:44px 0 52px;max-width:760px;margin:0 auto}
+.racconto h2{font-size:36px;margin-bottom:14px}
 .racconto p+p{margin-top:14px}
-.nota{font-family:'Caveat',cursive;font-size:27px;color:var(--ink);line-height:1.25;margin-top:18px}
+.nota{font-family:'Caveat',cursive;font-size:28px;color:var(--ink);line-height:1.25;margin-top:18px}
 
-footer{border-top:3px solid var(--ink);padding:30px 0 52px;font-size:17px;line-height:1.75}
+footer{border-top:3px solid var(--ink);padding:30px 0 52px;font-size:17px;line-height:1.75;text-align:center}
 footer a{display:inline-flex;min-height:44px;align-items:center}
 
-@media (min-width:860px){
+@media (min-width:900px){
   body{font-size:20px}
   .wrap{padding:0 48px}
-  .foglio{padding:60px 0 64px}
-  .foglio::before{content:"";position:absolute;top:0;bottom:0;left:max(24px,calc(50% - 520px + 20px));width:3px;background:var(--margine)}
-  h1{font-size:76px;max-width:16ch}
-  .chi img{width:88px;height:88px}
-  .porte{grid-template-columns:1fr 1fr;gap:28px;padding:56px 0 24px}
-  .porta{padding:30px 30px 28px}
-  .porta h2{font-size:42px}
-  .racconto{padding:56px 0 72px}
+  .foglio{padding:64px 0 72px}
+  .hero{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:64px}
+  .foto{order:2;width:min(100%,430px);margin:0}
+  .foto figcaption{font-size:28px}
+  h1{font-size:80px}
+  .ruolo{font-size:21px}
+  .porte{grid-template-columns:1fr 1fr;gap:32px;padding:64px 0 28px}
+  .porta{padding:32px 32px 30px}
+  .porta h2{font-size:46px}
+  .racconto{padding:64px 0 80px}
+  .racconto h2{font-size:44px}
 }
 </style>
 </head>
 <body>
 
 <header class="foglio">
-  <div class="wrap">
-    <div class="chi">
-      <img src="webinar/img/riccardo.jpg" alt="Riccardo Ingegneri" width="600" height="800">
-      <div><b>Riccardo Ingegneri</b><span>Consulente digitale</span></div>
+  <div class="wrap hero">
+    <figure class="foto">
+      <img src="img/riccardo.jpg" alt="Riccardo Ingegneri" width="900" height="1200">
+      <figcaption>Riccardo</figcaption>
+    </figure>
+    <div>
+      <p class="ruolo">Riccardo Ingegneri · consulente digitale</p>
+      <h1>Il tuo lavoro reso digitale, <span class="ev">senza fatica</span></h1>
+      <p class="sub">Per i conti hai il commercialista. Per il digitale puoi avere qualcuno che ti spiega le cose con calma e ti aiuta a usarle nel tuo lavoro: posta, documenti, clienti, intelligenza artificiale.</p>
     </div>
-    <h1>Il tuo lavoro reso digitale, <span class="ev">senza fatica</span></h1>
-    <p class="sub">Per i conti hai il commercialista. Per il digitale puoi avere qualcuno che ti spiega le cose con calma e ti aiuta a usarle nel tuo lavoro: posta, documenti, clienti, intelligenza artificiale.</p>
   </div>
 </header>
 
