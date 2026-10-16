@@ -63,6 +63,16 @@ strong{font-weight:700}
 .hero-text .sub{margin-bottom:28px}
 .btn{display:flex;align-items:center;justify-content:center;min-height:62px;padding:0 28px;background:var(--ink);color:#fff;font-size:22px;font-weight:700;border-radius:8px;text-decoration:none}
 .btn:hover{background:#163070}
+/* pulsante evidenziato: una sola passata gialla dopo quella sulla data, poi resta fermo */
+.cta{position:relative;isolation:isolate;overflow:hidden;min-height:68px;font-size:24px;background:var(--lamp);color:var(--text);border:3px solid var(--ink);box-shadow:4px 5px 0 var(--ink)}
+.cta::before{content:"";position:absolute;inset:0;background:var(--lamp);z-index:-1;transform-origin:left center}
+.cta:hover{background:#f7e27a;box-shadow:5px 7px 0 var(--ink)}
+.cta:active{transform:translate(2px,3px);box-shadow:2px 2px 0 var(--ink)}
+@media (prefers-reduced-motion:no-preference){
+  .cta{background:#fff;transition:box-shadow .15s}
+  .cta::before{transform:scaleX(0);animation:swipe .6s cubic-bezier(.6,.05,.3,1) 1.25s forwards}
+  .cta:hover::before{background:#f7e27a}
+}
 .btn-note{margin-top:12px;font-size:18px;line-height:1.5;text-align:center}
 
 /* ---------- video ---------- */
@@ -96,10 +106,26 @@ section h2{font-size:36px;line-height:1.12;margin-bottom:22px}
 .signup h2{color:#fff;font-size:42px;margin-bottom:8px}
 .signup .lead{margin-bottom:26px}
 .signup mark{background:var(--lamp);color:var(--text);padding:0 5px;font-weight:700;border-radius:2px}
-.form-sheet{background:#fff;border-radius:6px;border-top:10px solid var(--lamp);overflow:hidden}
-.form-sheet iframe{display:block;width:100%;height:900px;border:0;background:#fff}
+.form-sheet{background-color:#fff;background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);border-radius:6px;border-top:10px solid var(--lamp);color:var(--text);padding:28px 22px 30px}
+.campo{margin-bottom:24px}
+.campo label{display:block;font-weight:700;font-size:20px;line-height:1.35;margin-bottom:6px;color:var(--ink)}
+.campo .aiuto{display:block;font-weight:400;font-size:17px;color:#4a5263}
+.campo input{display:block;width:100%;min-height:56px;padding:10px 14px;font:inherit;font-size:19px;color:var(--text);background:#fff;border:2px solid #9fb0cc;border-radius:6px}
+.campo input:focus{outline:3px solid var(--lamp);outline-offset:1px;border-color:var(--ink)}
+.campo input[aria-invalid="true"]{border-color:#b3261e}
+.errore{display:block;margin-top:6px;font-size:17px;color:#b3261e;font-weight:700}
+.spunta{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;font-size:18px;line-height:1.45;cursor:pointer}
+.spunta input{flex:none;width:28px;height:28px;margin:1px 0 0;accent-color:var(--ink);cursor:pointer}
+.spunta a{color:var(--ink)}
+.invia{width:100%;margin-top:10px;border:0;cursor:pointer;font-family:inherit}
+.invia[disabled]{opacity:.7;cursor:wait}
+.grazie{padding:8px 4px}
+.grazie h3{font-size:40px;line-height:1.1;margin-bottom:12px}
+.grazie p{font-size:20px}
 .fallback{padding:18px 4px 8px;font-size:18px}
 .fallback a{color:#fff;display:inline-flex;min-height:48px;align-items:center}
+.problema{margin-top:16px;padding:12px 14px;background:#fdf0ee;border-left:4px solid #b3261e;font-size:18px}
+.problema a{color:var(--ink);font-weight:700}
 
 /* ---------- FAQ ---------- */
 .faq{display:flex;flex-direction:column;gap:10px}
@@ -163,7 +189,7 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
         <div class="hero-text">
           <h1>L'intelligenza artificiale e la tecnologia di oggi, spiegate semplice</h1>
           <p class="sub">Un incontro dal vivo per chi lavora e vuole capire cosa può fare la tecnologia per la sua attività. Senza gergo tecnico e senza fretta.</p>
-          <a class="btn" href="#iscrizione">Iscriviti gratis</a>
+          <a class="btn cta" href="#iscrizione">Iscriviti gratis</a>
           <p class="btn-note">Ricevi subito una mail con il link per entrare.</p>
         </div>
       </div>
@@ -215,9 +241,30 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
       <h2>Iscriviti gratis</h2>
       <p class="lead">Ci vediamo <mark>giovedì alle 20:00</mark>, online.</p>
       <div class="form-sheet">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdVGzUxkSgH0O3nS5nqawB8p5Nh2JARU2FbaSFsUWK2o-beaQ/viewform?embedded=true" title="Modulo di iscrizione" loading="lazy">Caricamento…</iframe>
+        <!-- Il modulo invia i dati al Google Form: le mail automatiche restano quelle di Apps Script -->
+        <form id="modulo" novalidate>
+          <div class="campo">
+            <label for="f-nome">Nome e cognome</label>
+            <input id="f-nome" name="entry.622737286" type="text" autocomplete="name" required>
+          </div>
+          <div class="campo">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="entry.1852853787" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <div class="campo">
+            <label for="f-lavoro">Che lavoro fai? <span class="aiuto">Facoltativo: mi aiuta a scegliere esempi utili per te.</span></label>
+            <input id="f-lavoro" name="entry.113207348" type="text" autocomplete="organization-title">
+          </div>
+          <label class="spunta"><input id="f-privacy" type="checkbox" name="entry.1917500661" value="Ho letto l'informativa e acconsento al trattamento dei miei dati per partecipare all'incontro" required><span>Ho letto l'<a href="privacy" target="_blank" rel="noopener">informativa</a> e acconsento al trattamento dei miei dati per partecipare all'incontro</span></label>
+          <label class="spunta"><input type="checkbox" name="entry.1247084656" value="Voglio ricevere via mail i prossimi incontri e novità sull'AI"><span>Voglio ricevere via mail i prossimi incontri e novità sull'AI <span class="aiuto">(facoltativo)</span></span></label>
+          <button class="btn cta invia" type="submit">Iscriviti gratis</button>
+          <p class="problema" id="problema" hidden>Non sono riuscito a inviare l'iscrizione. Controlla la connessione e riprova, oppure <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVGzUxkSgH0O3nS5nqawB8p5Nh2JARU2FbaSFsUWK2o-beaQ/viewform" target="_blank" rel="noopener">iscriviti da questa pagina</a>.</p>
+        </form>
+        <div class="grazie" id="grazie" hidden tabindex="-1">
+          <h3>Fatto, <span id="g-nome">sei iscritto</span>!</h3>
+          <p>Ti ho appena mandato una mail con la data e il link per entrare. Se non la trovi, guarda nella posta indesiderata.</p>
+        </div>
       </div>
-      <p class="fallback"><a href="https://docs.google.com/forms/d/e/1FAIpQLSdVGzUxkSgH0O3nS5nqawB8p5Nh2JARU2FbaSFsUWK2o-beaQ/viewform" target="_blank" rel="noopener">Il modulo non si vede? Aprilo in una pagina a parte</a></p>
     </div>
   </div>
 
@@ -282,6 +329,70 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
   }
   aggiorna();
   setInterval(aggiorna, 30000); // si aggiorna anche se la pagina resta aperta
+})();
+
+// Modulo d'iscrizione: controlla i campi e invia le risposte al Google Form.
+// Google non permette di leggere la risposta (no-cors): se la richiesta parte, l'iscrizione è arrivata.
+(function () {
+  var URL_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSdVGzUxkSgH0O3nS5nqawB8p5Nh2JARU2FbaSFsUWK2o-beaQ/formResponse';
+  var form = document.getElementById('modulo');
+  var bottone = form.querySelector('.invia');
+
+  function segna(campo, messaggio) {
+    var vecchio = campo.parentNode.querySelector('.errore');
+    if (vecchio) vecchio.remove();
+    campo.removeAttribute('aria-invalid');
+    if (!messaggio) return true;
+    var e = document.createElement('span');
+    e.className = 'errore';
+    e.id = campo.id + '-errore';
+    e.textContent = messaggio;
+    (campo.type === 'checkbox' ? campo.parentNode.parentNode.insertBefore(e, campo.parentNode.nextSibling) : campo.parentNode.appendChild(e));
+    campo.setAttribute('aria-invalid', 'true');
+    campo.setAttribute('aria-describedby', e.id);
+    return false;
+  }
+  function controlla() {
+    var nome = document.getElementById('f-nome');
+    var email = document.getElementById('f-email');
+    var privacy = document.getElementById('f-privacy');
+    form.querySelectorAll('.errore').forEach(function (e) { e.remove(); });
+    var ok = [
+      segna(nome, nome.value.trim() ? '' : 'Scrivi il tuo nome.'),
+      segna(email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()) ? '' : 'Controlla l\'indirizzo email: sembra incompleto.'),
+      segna(privacy, privacy.checked ? '' : 'Per iscriverti serve la spunta sull\'informativa.')
+    ];
+    var primo = [nome, email, privacy][ok.indexOf(false)];
+    if (primo) primo.focus();
+    return !primo;
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    document.getElementById('problema').hidden = true;
+    if (!controlla()) return;
+    var dati = new URLSearchParams();
+    form.querySelectorAll('input').forEach(function (i) {
+      if ((i.type === 'checkbox' && !i.checked) || !i.name) return;
+      dati.append(i.name, i.value.trim());
+    });
+    bottone.disabled = true;
+    bottone.textContent = 'Invio in corso…';
+    fetch(URL_FORM, { method: 'POST', mode: 'no-cors', body: dati })
+      .then(function () {
+        var nome = document.getElementById('f-nome').value.trim().split(/\s+/)[0];
+        if (nome) document.getElementById('g-nome').textContent = nome;
+        form.hidden = true;
+        var g = document.getElementById('grazie');
+        g.hidden = false;
+        g.focus();
+      })
+      .catch(function () {
+        bottone.disabled = false;
+        bottone.textContent = 'Iscriviti gratis';
+        document.getElementById('problema').hidden = false;
+      });
+  });
 })();
 </script>
 
