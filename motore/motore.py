@@ -131,8 +131,11 @@ ogni dato viene da una fonte verificata, e la fonte si cita. Oggi è {leggibile(
 LINEA EDITORIALE (decisa con Riccardo):
 {LINEA}
 
-L'incontro online gratuito è ogni {CONF['webinar']['giorno']} alle {CONF['webinar']['ora']} (il primo il 22 ottobre 2026);
-iscrizione: {CONF['webinar']['link']}. Si rispondono alle domande delle persone e si racconta la digitalizzazione del lavoro di oggi, con e senza AI."""
+L'incontro online gratuito è il giovedì alle {CONF['webinar']['ora']}; iscrizione: {CONF['webinar']['link']}. Si risponde alle domande
+delle persone e si racconta la digitalizzazione del lavoro di oggi, con e senza AI.
+IMPORTANTE: che si ripeta ogni settimana è un fatto interno di Riccardo. Per il pubblico è un appuntamento a data unica:
+«questo giovedì», «il prossimo giovedì», «giovedì 22 ottobre». Mai «il primo incontro», «la prima puntata», numeri di
+edizione, «di nuovo», «come ogni settimana» o simili."""
 
 SCHEMA_SLIDE = """Ogni slide è un oggetto JSON con questi campi, tutti facoltativi tranne "testa":
   "sfondo": "carta" | "giallo" | "blu"
@@ -216,7 +219,7 @@ def controlla_scaletta(scaletta, spazi, storia, lunedi):
     return errori
 
 
-def scrivi_post(voce, spazio, istruzione=''):
+def scrivi_post(voce, spazio, istruzione='', ricerca=0):
     """Scrive testi e slide di un post a partire dalla sua voce di scaletta."""
     f = CONF['formati'][voce['formato']]
     d = dt.date.fromisoformat(spazio['data'])
@@ -238,6 +241,9 @@ DIDASCALIE:
 Il prossimo incontro rispetto al giorno di uscita è {leggibile(gio)}: se nomini una data, deve essere questa. Non scrivere mai «ne parliamo giovedì».
 Mai inventare: usa solo i fatti della voce di scaletta.
 {('ISTRUZIONE DI RICCARDO PER QUESTA VERSIONE: ' + istruzione) if istruzione else ''}
+
+Se l'istruzione ti chiede un altro argomento, cercalo e verificalo sul web, e aggiungi al JSON anche
+"tema", "titolo", "angolo", "fatti" e "fonti" nuovi (stessa forma della voce di scaletta).
 
 Rispondi solo con un blocco ```json con:
 {{"testi": {{{', '.join(f'"{c}": "…"' for c in canali)}}},
@@ -262,6 +268,8 @@ Rispondi solo con un blocco ```json con:
                 e.append(f'la didascalia {c} deve contenere il link riccardoingegneri.it/webinar')
             if len(t) > 2100:
                 e.append(f'la didascalia {c} è troppo lunga')
+        if voce['formato'] in ('notizia', 'numero') and not (dati.get('fonti') or voce.get('fonti')):
+            e.append('una notizia o un numero devono avere le fonti')
         if len(dati.get('alt') or []) != len(sl):
             e.append('serve un testo alternativo per ogni slide')
         for i, x in enumerate(sl, 1):
@@ -271,11 +279,14 @@ Rispondi solo con un blocco ```json con:
                 e.append(f'slide {i}: "parola" e "sotto" si usano solo nel formato parola')
             if x.get('parola') and x.get('h1'):
                 e.append(f'slide {i}: con il post-it della parola non serve anche il titolo h1')
-        if 'ne parliamo giovedì' in json.dumps(dati, ensure_ascii=False).lower():
+        tutto = json.dumps(dati, ensure_ascii=False).lower()
+        if re.search(r'\b(prim[oa]|second[oa]|nuov[oa]|ennesim[oa])\s+(incontro|puntata|appuntamento|edizione|webinar)', tutto):
+            e.append("l'incontro del giovedì è un appuntamento a data unica: niente «primo incontro», «nuova puntata» e simili")
+        if 'ne parliamo giovedì' in tutto:
             e.append('non usare «ne parliamo giovedì»')
         return e
 
-    return claude_json(SISTEMA, richiesta, controlla, max_tokens=8000)
+    return claude_json(SISTEMA, richiesta, controlla, ricerca=ricerca, max_tokens=12000)
 
 
 def disegna_e_salva(disegnatore, post, versione):
@@ -348,7 +359,9 @@ REGOLE:
   ultimi {CONF['distanze']['stesso_tema_giorni']} giorni NON si ripetono; un tema si può riprendere (con un taglio nuovo) dopo {CONF['distanze']['ripresa_giorni']} giorni.
 - Promemoria del webinar: al massimo uno a settimana, almeno uno ogni due settimane (guarda lo storico), meglio la domenica o il giovedì mattina.
 - Niente doppioni con lo storico: un fatto, un'indagine o una norma già raccontati non tornano (neanche come «numero» o «parere»),
-  anche se hanno un'etichetta di tema diversa. Se c'è una novità vera su un tema già trattato, va bene solo con un taglio nuovo e dichiarato.
+  anche se hanno un'etichetta di tema diversa. Non si ripete nemmeno il MESSAGGIO di fondo di un post recente con un'altra
+  fonte: per esempio, dopo «più di un imprenditore su due non sa a cosa gli serve l'AI» non va un'altra indagine che dice
+  «molte PMI non usano l'AI / non sanno da dove cominciare». Se c'è una novità vera su un tema già trattato, va bene solo con un taglio nuovo e dichiarato.
 - I post di notizia o numero devono avere fonti verificate. Gli altri possono non averle, ma niente fatti inventati.
 - Pensa alla settimana come a un racconto: varia tono e argomento (AI, presenza online, tempo risparmiato, privacy, strumenti gratuiti…).
 - Aggiungi 2 post di «riserva» senza scadenza (formato a scelta tra consiglio, parola, domanda, parere): sostituiscono un post bloccato.
@@ -490,7 +503,7 @@ def lavori():
                 spazio = {'id': p['id'], 'data': d.isoformat(), 'giorno': leggibile(d), 'fascia': p.get('fascia', 'sera'), 'orari': p['orari']}
                 voce = {k: p.get(k) for k in ('formato', 'tema', 'titolo', 'angolo', 'fatti', 'fonti')}
                 voce['versione_precedente'] = {'testi': p.get('testi'), 'slide': p.get('slide')}
-                nuovo = dict(p, **scrivi_post(voce, spazio, lav['istruzione']))
+                nuovo = dict(p, **scrivi_post(voce, spazio, lav['istruzione'], ricerca=6))
                 disegna_e_salva(dis, nuovo, 'r' + str(int(time.time()))[-6:])
                 lav['risultato'] = nuovo
             except Exception as e:
