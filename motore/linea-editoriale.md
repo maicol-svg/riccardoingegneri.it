@@ -20,6 +20,7 @@ Social (notizie e strumenti spiegati) → webinar gratuito del giovedì (strumen
 - Frasi come le direbbe una persona in Italia: «a cosa gli serve davvero l'intelligenza artificiale», non «quali strumenti di AI».
 - Notizie verificate sulla fonte originale; fonte sempre citata. Nessuna risposta inventata.
 - Rimando finale (NON «ne parliamo giovedì»): «Se vuoi iniziare a orientarti, ogni giovedì alle 20 tengo un incontro online gratuito sugli strumenti digitali per il lavoro». IG: «Link in bio!» — FB/LinkedIn: link diretto riccardoingegneri.it/webinar.
+- L'incontro del giovedì, per il pubblico, è un appuntamento a data unica: «questo giovedì», «il prossimo giovedì», «giovedì 22 ottobre». Mai «il primo incontro», «la prima puntata», numeri di edizione (regola di Riccardo, 17/10). Che si ripeta ogni settimana è un fatto interno.
 - Per ora niente casi di clienti. Il percorso personale resta sullo sfondo (non è il tema del profilo).
 - Le idee si scelgono INSIEME prima di produrre.
 
