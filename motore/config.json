@@ -1,0 +1,30 @@
+{
+  "modello": "claude-sonnet-5-5",
+  "strumento_ricerca": "web_search_20250305",
+  "url_scrivania": "https://script.google.com/macros/s/AKfycbwnVB_8M2oiprBak9EdHAoBEfH8dj16F90r65n2Q-qLeLx4M97FOpmqn00lbPbT5ohUUQ/exec",
+  "url_immagini": "https://riccardoingegneri.it/social/piano",
+  "webinar": { "giorno": "giovedì", "ora": "20:00", "primo": "2026-10-22", "link": "riccardoingegneri.it/webinar" },
+
+  "_ritmo": "post al giorno: due nei giorni di maggior traffico (mar-gio), uno negli altri, sabato riposo",
+  "ritmo": { "lun": 1, "mar": 2, "mer": 2, "gio": 2, "ven": 1, "sab": 0, "dom": 1 },
+
+  "_orari": "ora italiana. Fonti: Buffer e Sprout Social 2026 (metà settimana mattina per IG/FB, pomeriggio per LinkedIn). Da rivedere con i nostri numeri dopo un mese.",
+  "orari": {
+    "mattina": { "instagram": "09:00", "facebook": "09:00", "linkedin": "11:00" },
+    "sera": { "instagram": "19:00", "facebook": "19:00", "linkedin": "16:00" },
+    "domenica": { "instagram": "18:30", "facebook": "18:30" }
+  },
+
+  "distanze": { "stesso_tema_giorni": 35, "ripresa_giorni": 90 },
+
+  "formati": {
+    "notizia": { "copertina": "carta", "slide": [4, 5], "max_settimana": 2, "descrizione": "Carosello sulla notizia della settimana, verificata sulla fonte originale. Copertina: la notizia in una frase intera e precisa, con il pezzo chiave ==evidenziato== e un invito a scorrere. Una frase scorrevole per slide; se ci sono numeri, le barre. Ultima slide: post-it «Il mio parere». Fonte in basso su ogni slide." },
+    "consiglio": { "copertina": "giallo", "slide": [2, 4], "max_settimana": 2, "descrizione": "Consiglio pratico da salvare: copertina sul blocco giallo con la promessa (es. «3 controlli prima di…»), poi un elenco numerato di 3-4 voci brevi, ultima con il post-it." },
+    "parola": { "copertina": "blu", "slide": [1, 2], "max_settimana": 1, "descrizione": "La parola della settimana: un termine che si sente in giro, spiegato semplice. Post-it con la parola e la definizione in una riga, sotto un esempio concreto dal lavoro di tutti i giorni." },
+    "numero": { "copertina": "carta", "slide": [1, 1], "max_settimana": 1, "descrizione": "Un numero verificato, grande, con una frase che lo spiega e un invito. Fonte obbligatoria." },
+    "domanda": { "copertina": "blu", "slide": [1, 1], "max_settimana": 1, "descrizione": "Una domanda al pubblico sul suo lavoro (non sulla tecnologia), con invito a rispondere nei commenti." },
+    "parere": { "copertina": "carta", "slide": [1, 2], "max_settimana": 1, "descrizione": "Un'affermazione calma, che va contro la paura del momento, con il post-it «Il mio parere»." },
+    "promemoria": { "copertina": "giallo", "slide": [1, 1], "max_settimana": 1, "descrizione": "Promemoria dell'incontro gratuito del giovedì alle 20: il calendarietto con la data giusta; si risponde alle domande delle persone e si racconta la digitalizzazione del lavoro di oggi, con e senza AI." },
+    "aggiornamento": { "copertina": "carta", "slide": [1, 2], "max_settimana": 2, "descrizione": "Correzione o aggiornamento di un post già pubblicato: timbro «Aggiornamento», cosa è cambiato, fonte. Solo dal controllo quotidiano." }
+  }
+}

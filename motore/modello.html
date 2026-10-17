@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Modello grafiche</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Instrument+Serif&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Firma grafica di Riccardo (vedi social/LINEA-EDITORIALE.md): foglio a righe, serif blu,
+     evidenziatore giallo a mano, appunti in Caveat, post-it. Tre fondi per dare ritmo alla griglia:
+     carta (foglio bianco a righe), giallo (blocco giallo), blu (inchiostro). */
+  :root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--lamp:#f3d74a;--grigio:#5b6475;--rosso:#e7b9b0;
+        --pad:#f9eaa0;--padrule:#d9c66a;--postit:#f7e27a}
+  html,body{margin:0;background:#ddd}
+  .tela{position:relative;box-sizing:border-box;overflow:hidden;width:1080px;height:1350px;padding:120px 100px 0 150px;
+    color:var(--text);font-family:'Atkinson Hyperlegible',Arial,sans-serif}
+  .carta{background:var(--paper) repeating-linear-gradient(to bottom,transparent 0 63px,var(--rule) 63px 64px)}
+  .giallo{background:var(--pad) repeating-linear-gradient(to bottom,transparent 0 63px,var(--padrule) 63px 64px)}
+  .blu{background:var(--ink);color:#fff}
+  .margine{position:absolute;top:0;bottom:0;left:110px;width:3px;background:var(--rosso)}
+  .giallo .margine{background:#d98b7a}
+  .blu .margine{display:none}
+  .testa{position:absolute;top:56px;left:150px;right:100px;display:flex;justify-content:space-between;align-items:center;font-size:34px;font-weight:700;color:var(--ink)}
+  .blu .testa{color:#fff}
+  .testa .pagina{font-family:'Caveat',cursive;font-size:48px;font-weight:700}
+  .corpo{position:relative}
+  h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);font-size:104px;line-height:1.04;margin:110px 0 56px}
+  .blu h1{color:#fff}
+  p{font-size:48px;line-height:1.45;margin:0 0 34px;max-width:840px}
+  b{color:var(--ink)}
+  .blu b{color:var(--lamp)}
+  .ev{background:linear-gradient(100deg,rgba(243,215,74,0) .6%,rgba(243,215,74,.95) 2.5%,rgba(243,215,74,.75) 6%,rgba(243,215,74,.55) 92%,rgba(243,215,74,.85) 96%,rgba(243,215,74,0) 99%);
+      border-radius:.7em .25em .6em .3em;padding:0 .12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .giallo .ev{background:linear-gradient(100deg,rgba(255,255,255,0) .6%,rgba(255,255,255,.95) 2.5%,rgba(255,255,255,.8) 6%,rgba(255,255,255,.7) 92%,rgba(255,255,255,.9) 96%,rgba(255,255,255,0) 99%)}
+  .blu .ev{color:var(--ink);background:linear-gradient(100deg,rgba(243,215,74,0) .6%,#f3d74a 2.5%,#f1d24a 50%,#f3d74a 96%,rgba(243,215,74,0) 99%)}
+  .invito{font-family:'Caveat',cursive;font-size:62px;color:var(--ink);font-weight:700;margin-top:10px;line-height:1.1}
+  .blu .invito{color:var(--lamp)}
+  .piede{position:absolute;left:150px;right:100px;bottom:70px;display:flex;justify-content:space-between;align-items:flex-end;gap:30px}
+  .fonte{font-size:26px;color:var(--grigio);max-width:620px;line-height:1.35}
+  .blu .fonte{color:#c9d5e7}
+  .firma{font-family:"Caveat",cursive;font-size:46px;line-height:.95;text-align:right;color:var(--ink);font-weight:700;transform:rotate(-4deg);white-space:nowrap}
+  .blu .firma{color:#fff}
+  .postit{position:relative;background:var(--postit);width:780px;box-sizing:border-box;padding:46px 54px 50px;margin:40px 0 0 10px;transform:rotate(-2.2deg);
+      box-shadow:0 18px 30px rgba(24,32,47,.16),0 2px 4px rgba(24,32,47,.12)}
+  .postit::before{content:"";position:absolute;top:-22px;left:50%;width:170px;height:44px;margin-left:-85px;background:rgba(255,255,255,.55);transform:rotate(3deg)}
+  .postit .chi{font-family:'Caveat',cursive;font-size:44px;color:var(--ink);font-weight:700;margin-bottom:8px}
+  .postit .cosa{font-family:'Caveat',cursive;font-size:60px;line-height:1.15;color:var(--text);font-weight:500}
+  .barre{margin:10px 0 40px}
+  .riga{display:flex;align-items:center;gap:26px;margin:26px 0}
+  .riga .et{width:230px;font-size:34px;color:var(--grigio)}
+  .riga .barra{height:74px;background:var(--rule);border-radius:6px 14px 10px 6px}
+  .riga .barra.forte{background:var(--ink)}
+  .riga .val{font-family:'Instrument Serif',Georgia,serif;font-size:72px;color:var(--ink)}
+  .numero{font-family:'Instrument Serif',Georgia,serif;color:var(--ink);font-size:300px;line-height:.9;margin:90px 0 10px}
+  .blu .numero{color:var(--lamp)}
+  .numero-et{font-size:46px;line-height:1.35;max-width:820px;margin-bottom:40px}
+  ol.elenco{list-style:none;padding:0;margin:0 0 30px;counter-reset:n}
+  ol.elenco li{position:relative;counter-increment:n;font-size:46px;line-height:1.38;padding-left:96px;margin:0 0 34px;max-width:780px}
+  ol.elenco li::before{content:counter(n);position:absolute;left:0;top:-14px;font-family:'Caveat',cursive;font-weight:700;font-size:86px;color:var(--ink)}
+  /* La parola della settimana: post-it grande al centro del fondo blu */
+  .parola{margin:200px 0 0 -10px;width:820px;transform:rotate(-3deg);text-align:left}
+  .parola .chi{font-size:46px}
+  .parola .voce{font-family:'Caveat',cursive;font-weight:700;color:var(--ink);font-size:150px;line-height:1;margin:6px 0 18px}
+  .parola .cosa{font-size:56px}
+  .sotto-parola{font-size:48px;line-height:1.45;color:#fff;max-width:820px;margin-top:80px}
+  /* Il riquadro calendario del promemoria */
+  .calendario{display:flex;align-items:stretch;background:#fff;border-radius:18px;margin:30px 0 50px;width:780px;box-shadow:0 14px 26px rgba(24,32,47,.12);transform:rotate(-1.2deg)}
+  .calendario .giorno{width:250px;border-right:3px solid var(--rule);text-align:center;padding:30px 10px;color:var(--ink)}
+  .calendario .giorno .gs{font-size:38px}
+  .calendario .giorno .gn{font-family:'Instrument Serif',Georgia,serif;font-size:170px;line-height:1}
+  .calendario .giorno .gm{font-size:38px}
+  .calendario .info{padding:36px 40px;font-size:42px;line-height:1.45;display:flex;flex-direction:column;justify-content:center}
+  .calendario .info .ora{font-family:'Instrument Serif',Georgia,serif;font-size:96px;color:var(--ink);line-height:1}
+  .timbro{display:inline-block;border:6px solid #b3261e;color:#b3261e;font-weight:700;font-size:40px;padding:8px 26px;border-radius:10px;transform:rotate(-6deg);margin:70px 0 -40px;letter-spacing:.5px}
+</style>
+</head>
+<body>
+<div id="tela" class="tela carta"></div>
+<script>
+/* Disegna una slide. s = {sfondo, testa, h1, p:[], numero:{valore,etichetta}, barre:[{et,val,pct,forte}],
+   elenco:[], postit:{chi,cosa}, parola:{voce,cosa}, sotto, calendario:{giorno,numero,mese,ora,righe:[]},
+   timbro, invito, fonte}. Nel testo: ==evidenziato== e **grassetto**. */
+function md(t) {
+  return String(t == null ? '' : t)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/==(.+?)==/g, '<span class="ev">$1</span>')
+    .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+}
+function disegna(s, n, tot) {
+  var t = document.getElementById('tela');
+  t.className = 'tela ' + (s.sfondo || 'carta');
+  var h = '<div class="margine"></div>';
+  h += '<div class="testa"><span>' + md(s.testa) + '</span><span class="pagina">' + (tot > 1 ? n + '/' + tot + (n < tot ? ' →' : '') : '') + '</span></div>';
+  h += '<div class="corpo" id="corpo">';
+  if (s.timbro) h += '<div class="timbro">' + md(s.timbro) + '</div>';
+  if (s.parola) {
+    h += '<div class="postit parola"><div class="chi">' + md(s.parola.chi || 'La parola della settimana') + '</div>' +
+      '<div class="voce">' + md(s.parola.voce) + '</div><div class="cosa">' + md(s.parola.cosa) + '</div></div>';
+  }
+  if (s.numero) h += '<div class="numero">' + md(s.numero.valore) + '</div>';
+  if (s.h1) h += '<h1 id="h1">' + md(s.h1) + '</h1>';
+  if (s.numero && s.numero.etichetta) h += '<div class="numero-et">' + md(s.numero.etichetta) + '</div>';
+  if (s.calendario) {
+    var c = s.calendario;
+    h += '<div class="calendario"><div class="giorno"><div class="gs">' + md(c.giorno) + '</div><div class="gn">' + md(c.numero) + '</div><div class="gm">' + md(c.mese) + '</div></div>' +
+      '<div class="info"><div class="ora">' + md(c.ora) + '</div>' + (c.righe || []).map(md).join('<br>') + '</div></div>';
+  }
+  (s.p || []).forEach(function (x) { h += '<p>' + md(x) + '</p>'; });
+  if (s.barre && s.barre.length) {
+    h += '<div class="barre">' + s.barre.map(function (b) {
+      return '<div class="riga"><span class="et">' + md(b.et) + '</span><span class="barra' + (b.forte ? ' forte' : '') + '" style="width:' + Math.max(20, Math.round((b.pct || 0) * 4.4)) + 'px"></span><span class="val">' + md(b.val) + '</span></div>';
+    }).join('') + '</div>';
+  }
+  if (s.elenco && s.elenco.length) h += '<ol class="elenco">' + s.elenco.map(function (x) { return '<li>' + md(x) + '</li>'; }).join('') + '</ol>';
+  if (s.sotto) h += '<div class="sotto-parola">' + md(s.sotto) + '</div>';
+  if (s.postit) h += '<div class="postit"><div class="chi">' + md(s.postit.chi || 'Il mio parere') + '</div><div class="cosa">' + md(s.postit.cosa) + '</div></div>';
+  if (s.invito) h += '<div class="invito">' + md(s.invito) + '</div>';
+  h += '</div>';
+  h += '<div class="piede" id="piede"><span class="fonte">' + md(s.fonte) + '</span><span class="firma">Riccardo<br>Ingegneri</span></div>';
+  t.innerHTML = h;
+  return adatta();
+}
+/* Rimpicciolisce i testi finché il contenuto non sta sopra il piede. Restituisce false se non ci sta. */
+function adatta() {
+  var corpo = document.getElementById('corpo'), piede = document.getElementById('piede');
+  var limite = function () { return piede.getBoundingClientRect().top - 30; };
+  var fuori = function () { return corpo.getBoundingClientRect().bottom > limite(); };
+  var scala = 1, el = corpo.querySelectorAll('h1,p,li,.numero,.numero-et,.postit .cosa,.voce,.sotto-parola,.invito,.calendario .info');
+  var base = Array.prototype.map.call(el, function (e) { return parseFloat(getComputedStyle(e).fontSize); });
+  var h1 = document.getElementById('h1'), mt = h1 ? parseFloat(getComputedStyle(h1).marginTop) : 0;
+  while (fuori() && scala > 0.6) {
+    scala -= 0.04;
+    Array.prototype.forEach.call(el, function (e, i) { e.style.fontSize = (base[i] * scala) + 'px'; });
+    if (h1) h1.style.marginTop = (mt * scala) + 'px';
+  }
+  return !fuori();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+# Motore del piano editoriale (vedi motore/motore.py).
+# Orari in UTC: l'Italia è UTC+2 in estate, UTC+1 in inverno.
+name: Social
+
+on:
+  schedule:
+    - cron: '0 6 * * 6'        # sabato mattina: piano della settimana dopo
+    - cron: '30 3 * * *'       # ogni giorno all'alba: controllo dei post del giorno
+    - cron: '17 5-21 * * *'    # ogni ora di giorno: modifiche chieste dalla Scrivania
+  workflow_dispatch:
+    inputs:
+      cosa:
+        description: 'piano, controllo o lavori'
+        required: true
+        default: lavori
+      settimana:
+        description: 'solo per il piano: lunedì della settimana (aaaa-mm-gg), vuoto = la prossima'
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: social
+  cancel-in-progress: false
+
+jobs:
+  motore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cosa fare
+        id: cosa
+        run: |
+          if [ -n "${{ github.event.inputs.cosa }}" ]; then echo "cosa=${{ github.event.inputs.cosa }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 6 * * 6" ]; then echo "cosa=piano" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "30 3 * * *" ]; then echo "cosa=controllo" >> "$GITHUB_OUTPUT"
+          else echo "cosa=lavori" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: motore/requirements.txt
+      - name: Programmi
+        run: |
+          pip install -q -r motore/requirements.txt
+          if [ "${{ steps.cosa.outputs.cosa }}" != "lavori" ]; then python -m playwright install --with-deps chromium; fi
+      - name: Motore
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MOTORE_TOKEN: ${{ secrets.MOTORE_TOKEN }}
+          SETTIMANA: ${{ github.event.inputs.settimana }}
+        run: |
+          if [ "${{ steps.cosa.outputs.cosa }}" = "lavori" ]; then
+            # Playwright solo se ci sono davvero modifiche da fare
+            if python motore/motore.py lavori-in-attesa; then
+              python -m playwright install --with-deps chromium
+              python motore/motore.py lavori
+            fi
+          else
+            python motore/motore.py "${{ steps.cosa.outputs.cosa }}"
+          fi

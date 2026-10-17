@@ -1,0 +1,508 @@
+"""Motore del piano editoriale di Riccardo.
+
+  python motore.py piano       prepara il piano della settimana dopo e lo manda alla Scrivania
+  python motore.py controllo   controllo del mattino sui post del giorno e su quelli già pubblicati
+  python motore.py lavori      esegue le richieste di modifica fatte dalla Scrivania
+
+Gira su GitHub Actions (.github/workflows/social.yml). Chiavi: ANTHROPIC_API_KEY e MOTORE_TOKEN
+(il codice che la Scrivania usa per riconoscere il motore). Le immagini finiscono in social/piano/.
+"""
+import concurrent.futures as cf
+import datetime as dt
+import json
+import os
+import pathlib
+import re
+import subprocess
+import sys
+import time
+
+import anthropic
+import requests
+
+QUI = pathlib.Path(__file__).parent
+RADICE = QUI.parent
+CONF = json.loads((QUI / 'config.json').read_text(encoding='utf8'))
+LINEA = (QUI / 'linea-editoriale.md').read_text(encoding='utf8')
+ROMA = dt.timezone(dt.timedelta(hours=1))  # sostituito sotto con l'ora legale giusta
+GIORNI = ['lun', 'mar', 'mer', 'gio', 'ven', 'sab', 'dom']
+NOMI_GIORNI = ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato', 'domenica']
+MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre']
+
+try:
+    from zoneinfo import ZoneInfo
+    ROMA = ZoneInfo('Europe/Rome')
+except Exception:
+    pass
+
+
+def log(*a):
+    print(*a, flush=True)
+
+
+def oggi():
+    return dt.datetime.now(ROMA).date()
+
+
+def leggibile(d):
+    return f'{NOMI_GIORNI[d.weekday()]} {d.day} {MESI[d.month - 1]}'
+
+
+# ---------------------------------------------------------------- Scrivania
+
+def scrivania(azione, **dati):
+    """Chiama l'app web della Scrivania (Apps Script). Il POST risponde con un rinvio: lo seguiamo a mano."""
+    corpo = json.dumps({'token': os.environ['MOTORE_TOKEN'], 'azione': azione, **dati}, ensure_ascii=False)
+    for tentativo in range(3):
+        try:
+            r = requests.post(CONF['url_scrivania'], data=corpo.encode('utf8'),
+                              headers={'Content-Type': 'application/json'}, allow_redirects=False, timeout=120)
+            if r.status_code in (301, 302, 303):
+                r = requests.get(r.headers['Location'], timeout=120)
+            r.raise_for_status()
+            risposta = r.json()
+            if not risposta.get('ok'):
+                raise RuntimeError(risposta.get('errore') or 'risposta senza ok')
+            return risposta
+        except Exception as e:
+            log(f'Scrivania ({azione}) tentativo {tentativo + 1}: {e}')
+            if tentativo == 2:
+                raise
+            time.sleep(10)
+
+
+# ---------------------------------------------------------------- Claude
+
+cliente = None
+
+
+def claude(sistema, messaggi, ricerca=0, max_tokens=12000):
+    """Una conversazione con Claude; con ricerca>0 può cercare sul web. Restituisce il testo finale."""
+    global cliente
+    cliente = cliente or anthropic.Anthropic()
+    strumenti = []
+    if ricerca:
+        strumenti = [{'type': CONF['strumento_ricerca'], 'name': 'web_search', 'max_uses': ricerca,
+                      'user_location': {'type': 'approximate', 'country': 'IT', 'timezone': 'Europe/Rome'}}]
+    messaggi = list(messaggi)
+    for _ in range(6):  # pause_turn: la ricerca lunga si riprende da dove era
+        with cliente.messages.stream(model=CONF['modello'], max_tokens=max_tokens, system=sistema,
+                                     messages=messaggi, tools=strumenti or anthropic.NOT_GIVEN) as s:
+            m = s.get_final_message()
+        if m.stop_reason == 'pause_turn':
+            messaggi.append({'role': 'assistant', 'content': m.content})
+            continue
+        testo = ''.join(b.text for b in m.content if b.type == 'text')
+        u = m.usage
+        log(f'  Claude: {u.input_tokens} in, {u.output_tokens} out, stop={m.stop_reason}')
+        return testo, messaggi + [{'role': 'assistant', 'content': m.content}]
+    raise RuntimeError('Claude non ha finito la risposta')
+
+
+def estrai_json(testo):
+    blocchi = re.findall(r'```(?:json)?\s*(\{.*?\}|\[.*?\])\s*```', testo, re.S)
+    grezzo = blocchi[-1] if blocchi else testo[testo.find('{'):testo.rfind('}') + 1]
+    return json.loads(grezzo)
+
+
+def claude_json(sistema, richiesta, controlla=None, ricerca=0, max_tokens=12000, tentativi=3):
+    """Chiede un JSON; se non è valido o non passa i controlli, rimanda gli errori a Claude e riprova."""
+    messaggi = [{'role': 'user', 'content': richiesta}]
+    for n in range(tentativi):
+        testo, storia = claude(sistema, messaggi, ricerca=ricerca if n == 0 else 0, max_tokens=max_tokens)
+        try:
+            dati = estrai_json(testo)
+            errori = controlla(dati) if controlla else []
+        except Exception as e:
+            dati, errori = None, [f'JSON non leggibile: {e}']
+        if not errori:
+            return dati
+        log('  da correggere:', errori)
+        messaggi = storia + [{'role': 'user', 'content': 'Ci sono questi problemi, correggili e rimanda il JSON completo:\n- ' + '\n- '.join(errori)}]
+    raise RuntimeError('JSON non valido dopo vari tentativi: ' + '; '.join(errori))
+
+
+# ---------------------------------------------------------------- testi comuni
+
+SISTEMA = f"""Sei il redattore dei social di Riccardo Ingegneri, consulente digitale a Messina.
+Scrivi in italiano, come lui: calmo, caldo, autorevole, senza paura e senza hype. Mai inventare fatti:
+ogni dato viene da una fonte verificata, e la fonte si cita. Oggi è {leggibile(oggi())} {oggi().year}.
+
+LINEA EDITORIALE (decisa con Riccardo):
+{LINEA}
+
+L'incontro online gratuito è ogni {CONF['webinar']['giorno']} alle {CONF['webinar']['ora']} (il primo il 22 ottobre 2026);
+iscrizione: {CONF['webinar']['link']}. Si rispondono alle domande delle persone e si racconta la digitalizzazione del lavoro di oggi, con e senza AI."""
+
+SCHEMA_SLIDE = """Ogni slide è un oggetto JSON con questi campi, tutti facoltativi tranne "testa":
+  "sfondo": "carta" | "giallo" | "blu"
+  "testa": etichetta in alto a sinistra (es. "La notizia della settimana")
+  "h1": titolo grande in serif (max ~90 caratteri in copertina, ~50 nelle altre)
+  "p": [paragrafi brevi, max 2-3 per slide, ~140 caratteri l'uno]
+  "numero": {"valore": "38%", "etichetta": "frase che lo spiega"}
+  "barre": [{"et": "etichetta breve", "val": "38%", "pct": 38, "forte": true}]   (pct 0-100; forte = barra blu)
+  "elenco": [voci numerate, 3-4, brevi]
+  "parola": {"voce": "automazione", "cosa": "definizione in una riga"}   (solo formato parola)
+  "sotto": esempio concreto sotto la parola (solo formato parola)
+  "calendario": {"giorno": "giovedì", "numero": "22", "mese": "ottobre", "ora": "20:00", "righe": ["online e gratuito", "…"]}
+  "postit": {"chi": "Il mio parere", "cosa": "una o due frasi a mano, max ~110 caratteri"}
+  "timbro": "Aggiornamento"
+  "invito": riga a mano in fondo (es. "Ti spiego cosa cambia →")
+  "fonte": riga piccola in basso: "Fonte: …" oppure "Per iniziare a orientarti: riccardoingegneri.it/webinar"
+Nel testo: ==parole evidenziate== (una sola volta per slide, il pezzo chiave) e **grassetto** (con misura)."""
+
+
+def descrizione_formati():
+    return '\n'.join(f'- {k} (copertina {v["copertina"]}, {v["slide"][0]}-{v["slide"][1]} slide, max {v["max_settimana"]} a settimana): {v["descrizione"]}'
+                     for k, v in CONF['formati'].items() if k != 'aggiornamento')
+
+
+def prossimo_giovedi(d):
+    return d + dt.timedelta(days=(3 - d.weekday()) % 7)
+
+
+# ---------------------------------------------------------------- piano settimanale
+
+def spazi_settimana(lunedi):
+    """Gli spazi di pubblicazione della settimana: (id, data, fascia, orari)."""
+    spazi = []
+    for i in range(7):
+        d = lunedi + dt.timedelta(days=i)
+        n = CONF['ritmo'][GIORNI[i]]
+        fasce = [] if n == 0 else (['domenica'] if i == 6 else (['mattina', 'sera'] if n >= 2 else ['sera']))
+        for f in fasce:
+            spazi.append({'id': f'{d.isoformat()}-{f}', 'data': d.isoformat(), 'giorno': leggibile(d),
+                          'fascia': f, 'orari': CONF['orari'][f]})
+    return spazi
+
+
+def controlla_scaletta(scaletta, spazi, storia, lunedi):
+    errori = []
+    voci = scaletta.get('post', [])
+    per_spazio = {v.get('spazio'): v for v in voci}
+    for s in spazi:
+        if s['id'] not in per_spazio:
+            errori.append(f'manca lo spazio {s["id"]}')
+    for v in voci:
+        if v.get('spazio') not in {s['id'] for s in spazi}:
+            errori.append(f'spazio sconosciuto {v.get("spazio")}')
+        if v.get('formato') not in CONF['formati'] or v.get('formato') == 'aggiornamento':
+            errori.append(f'{v.get("spazio")}: formato non valido {v.get("formato")}')
+        if v.get('formato') in ('notizia', 'numero') and not v.get('fonti'):
+            errori.append(f'{v.get("spazio")}: una {v["formato"]} deve avere la fonte')
+    ordinati = [per_spazio[s['id']] for s in spazi if s['id'] in per_spazio]
+    for a, b in zip(ordinati, ordinati[1:]):
+        ca, cb = CONF['formati'].get(a.get('formato'), {}).get('copertina'), CONF['formati'].get(b.get('formato'), {}).get('copertina')
+        if a.get('formato') == b.get('formato'):
+            errori.append(f'{a["spazio"]} e {b["spazio"]}: stesso formato di fila ({a["formato"]})')
+        elif ca and ca == cb:
+            errori.append(f'{a["spazio"]} e {b["spazio"]}: due copertine «{ca}» di fila, la griglia sembra uguale')
+    conta = {}
+    for v in voci:
+        conta[v.get('formato')] = conta.get(v.get('formato'), 0) + 1
+    for f, n in conta.items():
+        if f in CONF['formati'] and n > CONF['formati'][f]['max_settimana']:
+            errori.append(f'troppi post «{f}»: {n} (massimo {CONF["formati"][f]["max_settimana"]})')
+    temi = [v.get('tema') for v in voci]
+    if len(set(temi)) != len(temi):
+        errori.append('due post con lo stesso tema nella stessa settimana')
+    limite = (lunedi - dt.timedelta(days=CONF['distanze']['stesso_tema_giorni'])).isoformat()
+    recenti = {p['tema'] for p in storia if p.get('tema') and p.get('data', '') >= limite}
+    for v in voci:
+        if v.get('tema') in recenti:
+            errori.append(f'{v["spazio"]}: il tema «{v["tema"]}» è già uscito da meno di {CONF["distanze"]["stesso_tema_giorni"]} giorni')
+    return errori
+
+
+def scrivi_post(voce, spazio, istruzione=''):
+    """Scrive testi e slide di un post a partire dalla sua voce di scaletta."""
+    f = CONF['formati'][voce['formato']]
+    d = dt.date.fromisoformat(spazio['data'])
+    gio = prossimo_giovedi(d)
+    canali = list(spazio['orari'].keys())
+    richiesta = f"""Scrivi il post per {spazio['giorno']} ({spazio['fascia']}), canali: {', '.join(canali)}.
+
+VOCE DI SCALETTA:
+{json.dumps(voce, ensure_ascii=False, indent=1)}
+
+FORMATO «{voce['formato']}»: {f['descrizione']}
+Slide: da {f['slide'][0]} a {f['slide'][1]}. La copertina (prima slide) ha "sfondo": "{f['copertina']}"; le altre "carta" salvo il formato parola (blu).
+{SCHEMA_SLIDE}
+
+DIDASCALIE:
+- instagram: calda e parlata, emoji con misura, punto di vista personale, chiude con il rimando «Se vuoi iniziare a orientarti, ogni giovedì alle 20 tengo un incontro online gratuito sugli strumenti digitali per il lavoro 📆 Link in bio!», poi la fonte (se c'è) e 3-5 hashtag.
+- facebook: come instagram, ma al posto di «Link in bio!» il link diretto https://riccardoingegneri.it/webinar e al massimo 2 hashtag.
+- linkedin: stessa voce, un filo più professionale, paragrafi brevi, link https://riccardoingegneri.it/webinar, 2-3 hashtag.
+Il prossimo incontro rispetto al giorno di uscita è {leggibile(gio)}: se nomini una data, deve essere questa. Non scrivere mai «ne parliamo giovedì».
+Mai inventare: usa solo i fatti della voce di scaletta.
+{('ISTRUZIONE DI RICCARDO PER QUESTA VERSIONE: ' + istruzione) if istruzione else ''}
+
+Rispondi solo con un blocco ```json con:
+{{"testi": {{{', '.join(f'"{c}": "…"' for c in canali)}}},
+  "slide": [ … ],
+  "alt": ["testo alternativo di ogni slide, una frase"],
+  "affermazioni": ["ogni fatto verificabile che il post afferma, in una frase, per i controlli futuri"]}}"""
+
+    def controlla(dati):
+        e = []
+        sl = dati.get('slide') or []
+        if not (f['slide'][0] <= len(sl) <= f['slide'][1]):
+            e.append(f'servono da {f["slide"][0]} a {f["slide"][1]} slide, ne hai messe {len(sl)}')
+        if sl and sl[0].get('sfondo') != f['copertina']:
+            e.append(f'la copertina deve avere sfondo {f["copertina"]}')
+        for c in canali:
+            t = (dati.get('testi') or {}).get(c, '')
+            if len(t) < 80:
+                e.append(f'manca la didascalia per {c}')
+            if c == 'instagram' and 'Link in bio' not in t:
+                e.append('la didascalia instagram deve finire con «Link in bio!»')
+            if c in ('facebook', 'linkedin') and 'riccardoingegneri.it/webinar' not in t:
+                e.append(f'la didascalia {c} deve contenere il link riccardoingegneri.it/webinar')
+            if len(t) > 2100:
+                e.append(f'la didascalia {c} è troppo lunga')
+        if len(dati.get('alt') or []) != len(sl):
+            e.append('serve un testo alternativo per ogni slide')
+        if 'ne parliamo giovedì' in json.dumps(dati, ensure_ascii=False).lower():
+            e.append('non usare «ne parliamo giovedì»')
+        return e
+
+    return claude_json(SISTEMA, richiesta, controlla, max_tokens=8000)
+
+
+def disegna_e_salva(disegnatore, post, versione):
+    """Disegna le slide di un post in social/piano/<id>/; se un testo non ci sta lo fa accorciare."""
+    cartella = RADICE / 'social' / 'piano' / post['id']
+    nome = f'{post["id"]}-{versione}'
+    percorsi, avvisi = disegnatore.disegna(post['slide'], cartella, nome)
+    if avvisi:
+        log('  testo lungo, accorcio:', avvisi)
+        richiesta = ('Queste slide hanno testi che non entrano nella grafica: ' + '; '.join(avvisi) +
+                     '. Accorciali mantenendo il senso e rimanda solo il blocco ```json {"slide": [...]}.\n\n' +
+                     json.dumps({'slide': post['slide']}, ensure_ascii=False))
+        post['slide'] = claude_json(SISTEMA, richiesta, lambda d: [] if len(d.get('slide', [])) == len(post['slide']) else ['stesso numero di slide'], max_tokens=6000)['slide']
+        percorsi, avvisi = disegnatore.disegna(post['slide'], cartella, nome)
+    v = int(time.time())
+    post['immagini'] = [f'{CONF["url_immagini"]}/{post["id"]}/{p.name}?v={v}' for p in percorsi]
+    return percorsi
+
+
+def pubblica_immagini(messaggio):
+    """Carica le immagini sul sito (GitHub Pages): servono a Buffer e alle mail di anteprima."""
+    git = lambda *a: subprocess.run(['git', *a], cwd=RADICE, check=True)
+    git('add', 'social/piano')
+    if subprocess.run(['git', 'diff', '--cached', '--quiet'], cwd=RADICE).returncode == 0:
+        return
+    git('-c', 'user.name=Motore social', '-c', 'user.email=motore@riccardoingegneri.it', 'commit', '-q', '-m', messaggio)
+    for _ in range(3):
+        if subprocess.run(['git', 'pull', '-q', '--rebase'], cwd=RADICE).returncode == 0 and \
+           subprocess.run(['git', 'push', '-q'], cwd=RADICE).returncode == 0:
+            break
+        time.sleep(5)
+    aspetta_sito()
+
+
+def aspetta_sito():
+    """GitHub Pages impiega un minuto o due a mettere online le immagini nuove."""
+    time.sleep(60)
+
+
+def piano():
+    from grafiche import Disegnatore
+    o = oggi()
+    lunedi = o + dt.timedelta(days=(7 - o.weekday()) % 7 or 7)
+    if os.environ.get('SETTIMANA'):
+        lunedi = dt.date.fromisoformat(os.environ['SETTIMANA'])
+    log(f'Piano della settimana da {leggibile(lunedi)}')
+    st = scrivania('storia')
+    storia = st.get('post', [])
+    spazi = spazi_settimana(lunedi)
+    giovedi = [leggibile(lunedi + dt.timedelta(days=3))]
+    elenco_storia = '\n'.join(f'- {p["data"]} · {p.get("formato")} · tema «{p.get("tema")}» · {p.get("titolo", "")}' for p in storia[-80:]) or '(ancora niente)'
+
+    richiesta = f"""Prepara la scaletta dei post per la settimana da {leggibile(lunedi)} a {leggibile(lunedi + dt.timedelta(days=6))}.
+L'incontro di questa settimana è {giovedi[0]} alle 20.
+
+1. Cerca sul web le notizie degli ultimi 7-10 giorni utili al pubblico di Riccardo (titolari di piccole imprese,
+   professionisti, artigiani in Italia): intelligenza artificiale e strumenti digitali per il lavoro, norme, dati,
+   novità degli strumenti che usano (Google, WhatsApp, Microsoft, ChatGPT…). Verifica ogni fatto sulla fonte originale
+   (ente, giornale serio, comunicato ufficiale) e annota data e link.
+2. Riempi ESATTAMENTE questi spazi, uno per post:
+{json.dumps([{k: s[k] for k in ('id', 'giorno', 'fascia')} for s in spazi], ensure_ascii=False, indent=1)}
+
+FORMATI disponibili:
+{descrizione_formati()}
+
+REGOLE:
+- Rotazione varia e non schematica: mai lo stesso formato due volte di fila, mai due copertine dello stesso colore di fila
+  (carta / giallo / blu), al massimo i limiti settimanali indicati.
+- Il «tema» è un'etichetta breve in minuscolo con trattini (es. «decreto-ai-italia», «scheda-google»): i temi degli
+  ultimi {CONF['distanze']['stesso_tema_giorni']} giorni NON si ripetono; un tema si può riprendere (con un taglio nuovo) dopo {CONF['distanze']['ripresa_giorni']} giorni.
+- Promemoria del webinar: al massimo uno a settimana, almeno uno ogni due settimane (guarda lo storico), meglio la domenica o il giovedì mattina.
+- I post di notizia o numero devono avere fonti verificate. Gli altri possono non averle, ma niente fatti inventati.
+- Pensa alla settimana come a un racconto: varia tono e argomento (AI, presenza online, tempo risparmiato, privacy, strumenti gratuiti…).
+- Aggiungi 2 post di «riserva» senza scadenza (formato a scelta tra consiglio, parola, domanda, parere): sostituiscono un post bloccato.
+
+STORICO DEI POST (più vecchi in alto):
+{elenco_storia}
+
+Rispondi con un blocco ```json:
+{{"post": [{{"spazio": "id dello spazio", "formato": "…", "tema": "…", "titolo": "titolo interno breve",
+            "angolo": "cosa dice il post e perché interessa a chi lavora, 2-3 frasi",
+            "fatti": ["fatti verificati con numeri e date, uno per riga"],
+            "fonti": [{{"titolo": "…", "url": "…", "data": "aaaa-mm-gg"}}]}}],
+  "riserva": [ stessi campi, senza "spazio" ]}}"""
+
+    scaletta = claude_json(SISTEMA, richiesta, lambda d: controlla_scaletta(d, spazi, storia, lunedi),
+                           ricerca=15, max_tokens=16000)
+    log(f'Scaletta pronta: {len(scaletta["post"])} post + {len(scaletta.get("riserva", []))} di riserva')
+
+    per_spazio = {s['id']: s for s in spazi}
+    lavori = [(v, per_spazio[v['spazio']]) for v in scaletta['post']]
+    for i, r in enumerate(scaletta.get('riserva', [])[:2]):
+        lavori.append((dict(r, spazio=f'riserva-{lunedi.isoformat()}-{i + 1}'),
+                       {'id': f'riserva-{lunedi.isoformat()}-{i + 1}', 'data': lunedi.isoformat(), 'giorno': 'un giorno qualsiasi',
+                        'fascia': 'sera', 'orari': CONF['orari']['sera']}))
+
+    def uno(coppia):
+        voce, spazio = coppia
+        log(f'Scrivo {spazio["id"]} ({voce["formato"]})')
+        scritto = scrivi_post(voce, spazio)
+        return {'id': spazio['id'], 'data': spazio['data'] if not spazio['id'].startswith('riserva') else '',
+                'fascia': spazio['fascia'], 'orari': spazio['orari'], 'formato': voce['formato'], 'tema': voce['tema'],
+                'titolo': voce['titolo'], 'angolo': voce.get('angolo', ''), 'fatti': voce.get('fatti', []),
+                'fonti': voce.get('fonti', []), 'riserva': spazio['id'].startswith('riserva'), **scritto}
+
+    with cf.ThreadPoolExecutor(4) as ex:
+        posts = list(ex.map(uno, lavori))
+    with Disegnatore() as d:
+        for p in posts:
+            disegna_e_salva(d, p, 'v1')
+    pubblica_immagini(f'Piano social: settimana dal {lunedi.isoformat()}')
+    # lanciato a mano: la mail del piano parte subito; dal calendario, domenica alle 17
+    scrivania('piano', settimana=lunedi.isoformat(), post=posts, subito=os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch')
+    log('Piano inviato alla Scrivania.')
+
+
+# ---------------------------------------------------------------- controllo del mattino
+
+def controllo():
+    from grafiche import Disegnatore
+    o = oggi()
+    dati = scrivania('oggi', data=o.isoformat())
+    di_oggi, recenti = dati.get('oggi', []), dati.get('recenti', [])
+    log(f'Controllo di {leggibile(o)}: {len(di_oggi)} post in uscita, {len(recenti)} già pubblicati da tenere d\'occhio')
+
+    def riassunto(p):
+        return {k: p.get(k) for k in ('id', 'data', 'orari', 'formato', 'titolo', 'testi', 'slide', 'fonti', 'affermazioni')}
+
+    richiesta = f"""Controllo del mattino di {leggibile(o)} {o.year}.
+
+A. POST IN USCITA OGGI (già approvati da Riccardo):
+{json.dumps([riassunto(p) for p in di_oggi], ensure_ascii=False, indent=1) if di_oggi else '(nessuno)'}
+
+B. AFFERMAZIONI DEI POST GIÀ PUBBLICATI NELLE ULTIME SETTIMANE:
+{json.dumps([{k: p.get(k) for k in ('id', 'data', 'titolo', 'affermazioni', 'fonti')} for p in recenti], ensure_ascii=False, indent=1) if recenti else '(nessuno)'}
+
+Per ogni post di oggi verifica, cercando sul web:
+1. che ogni fatto sia ancora vero oggi e che le fonti dicano davvero quello che il post afferma;
+2. che date e riferimenti siano giusti rispetto al giorno di uscita (es. il giovedì giusto per l'incontro);
+3. se nelle ultime 48 ore è uscita una notizia importante che cambia il contesto o rende il post fuori luogo.
+Poi guarda le affermazioni già pubblicate (B): se una è diventata falsa o superata, proponi un aggiornamento pubblico.
+Sii prudente: segnala solo con una fonte concreta. Se è tutto a posto, dillo.
+
+Rispondi con un blocco ```json:
+{{"post": [{{"id": "…", "esito": "ok" | "modifica" | "blocca", "motivo": "spiegazione semplice per Riccardo",
+            "correzione": "cosa cambiare (solo se modifica)", "fonti": [{{"titolo": "…", "url": "…"}}]}}],
+  "aggiornamenti": [{{"riferito_a": "id del post pubblicato", "motivo": "cosa è cambiato", "fatti": ["…"], "fonti": [{{"titolo": "…", "url": "…", "data": "…"}}]}}],
+  "notizie": ["eventuali notizie importanti di oggi, una riga ciascuna, anche se non toccano i post"]}}"""
+
+    def controlla(d):
+        ids = {p['id'] for p in di_oggi}
+        visti = {x.get('id') for x in d.get('post', [])}
+        return [f'manca l\'esito per {i}' for i in ids - visti]
+
+    esito = claude_json(SISTEMA, richiesta, controlla, ricerca=8 if (di_oggi or recenti) else 3, max_tokens=8000)
+
+    proposte = []
+    with Disegnatore() as dis:
+        for x in esito.get('post', []):
+            if x.get('esito') != 'modifica':
+                continue
+            p = next(p for p in di_oggi if p['id'] == x['id'])
+            log(f'Correggo {p["id"]}: {x.get("correzione")}')
+            spazio = {'id': p['id'], 'data': p['data'], 'giorno': leggibile(dt.date.fromisoformat(p['data'])),
+                      'fascia': p.get('fascia', 'sera'), 'orari': p['orari']}
+            voce = {k: p.get(k) for k in ('formato', 'tema', 'titolo', 'angolo', 'fatti', 'fonti')}
+            voce['fonti'] = (voce.get('fonti') or []) + x.get('fonti', [])
+            nuovo = dict(p, **scrivi_post(voce, spazio, 'Correggi così: ' + (x.get('correzione') or x.get('motivo'))))
+            nuovo['fonti'] = voce['fonti']
+            disegna_e_salva(dis, nuovo, f'c{o.strftime("%m%d")}')
+            x['proposta'] = nuovo
+        for i, a in enumerate(esito.get('aggiornamenti', [])):
+            orig = next((p for p in recenti if p['id'] == a.get('riferito_a')), None)
+            if not orig:
+                continue
+            d = o + dt.timedelta(days=1)
+            fascia = 'domenica' if d.weekday() == 6 else 'sera'
+            if CONF['ritmo'][GIORNI[d.weekday()]] == 0:
+                d += dt.timedelta(days=1)
+                fascia = 'sera'
+            pid = f'agg-{o.isoformat()}-{i + 1}'
+            spazio = {'id': pid, 'data': d.isoformat(), 'giorno': leggibile(d), 'fascia': fascia, 'orari': CONF['orari'][fascia]}
+            voce = {'formato': 'aggiornamento', 'tema': (orig.get('tema') or 'aggiornamento') + '-agg',
+                    'titolo': 'Aggiornamento: ' + (orig.get('titolo') or ''), 'angolo': a.get('motivo'),
+                    'fatti': a.get('fatti', []), 'fonti': a.get('fonti', []), 'post_originale': orig.get('titolo')}
+            nuovo = {'id': pid, 'data': d.isoformat(), 'fascia': fascia, 'orari': CONF['orari'][fascia], **voce, 'riferito_a': orig['id'],
+                     **scrivi_post(voce, spazio)}
+            disegna_e_salva(dis, nuovo, 'v1')
+            proposte.append(nuovo)
+    pubblica_immagini(f'Controllo social del {o.isoformat()}')
+    scrivania('controllo', data=o.isoformat(), esiti=esito.get('post', []), aggiornamenti=proposte,
+              notizie=esito.get('notizie', []))
+    log('Esito inviato alla Scrivania.')
+
+
+# ---------------------------------------------------------------- richieste dalla Scrivania
+
+def lavori():
+    elenco = scrivania('lavori').get('lavori', [])
+    if not elenco:
+        log('Nessuna richiesta in attesa.')
+        return
+    from grafiche import Disegnatore
+    with Disegnatore() as dis:
+        for lav in elenco:
+            p = lav['post']
+            log(f'Rifaccio {p["id"]}: {lav["istruzione"]}')
+            try:
+                d = dt.date.fromisoformat(p['data']) if p.get('data') else oggi()
+                spazio = {'id': p['id'], 'data': d.isoformat(), 'giorno': leggibile(d), 'fascia': p.get('fascia', 'sera'), 'orari': p['orari']}
+                voce = {k: p.get(k) for k in ('formato', 'tema', 'titolo', 'angolo', 'fatti', 'fonti')}
+                voce['versione_precedente'] = {'testi': p.get('testi'), 'slide': p.get('slide')}
+                nuovo = dict(p, **scrivi_post(voce, spazio, lav['istruzione']))
+                disegna_e_salva(dis, nuovo, 'r' + str(int(time.time()))[-6:])
+                lav['risultato'] = nuovo
+            except Exception as e:
+                lav['errore'] = str(e)[:500]
+    pubblica_immagini('Social: modifiche richieste dalla Scrivania')
+    for lav in elenco:
+        scrivania('risultato', id=lav['post']['id'], risultato=lav.get('risultato'), errore=lav.get('errore'))
+    log(f'{len(elenco)} richieste eseguite.')
+
+
+def lavori_in_attesa():
+    """Esce con 0 se ci sono richieste da eseguire (così l'Action installa il browser solo quando serve)."""
+    n = len(scrivania('lavori').get('lavori', []))
+    log(f'Richieste in attesa: {n}')
+    sys.exit(0 if n else 1)
+
+
+if __name__ == '__main__':
+    cosa = sys.argv[1]
+    if not os.environ.get('MOTORE_TOKEN') or not os.environ.get('ANTHROPIC_API_KEY'):
+        # chiavi non ancora inserite su GitHub: i giri automatici non fanno nulla (e non mandano mail d'errore)
+        log('Mancano le chiavi MOTORE_TOKEN e/o ANTHROPIC_API_KEY nei secrets di GitHub.')
+        if cosa == 'piano':
+            sys.exit(2)
+        sys.exit(1 if cosa == 'lavori-in-attesa' else 0)
+    {'piano': piano, 'controllo': controllo, 'lavori': lavori, 'lavori-in-attesa': lavori_in_attesa}[sys.argv[1]]()
