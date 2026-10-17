@@ -149,6 +149,8 @@ SCHEMA_SLIDE = """Ogni slide è un oggetto JSON con questi campi, tutti facoltat
   "timbro": "Aggiornamento"
   "invito": riga a mano in fondo (es. "Ti spiego cosa cambia →")
   "fonte": riga piccola in basso: "Fonte: …" oppure "Per iniziare a orientarti: riccardoingegneri.it/webinar"
+Il calendarietto è SOLO del formato promemoria; post-it della parola e "sotto" SOLO del formato parola.
+Non scrivere la firma: c'è già in ogni slide.
 Nel testo: ==parole evidenziate== (una sola volta per slide, il pezzo chiave) e **grassetto** (con misura)."""
 
 
@@ -262,6 +264,13 @@ Rispondi solo con un blocco ```json con:
                 e.append(f'la didascalia {c} è troppo lunga')
         if len(dati.get('alt') or []) != len(sl):
             e.append('serve un testo alternativo per ogni slide')
+        for i, x in enumerate(sl, 1):
+            if x.get('calendario') and voce['formato'] != 'promemoria':
+                e.append(f'slide {i}: il calendarietto si usa solo nel formato promemoria')
+            if (x.get('parola') or x.get('sotto')) and voce['formato'] != 'parola':
+                e.append(f'slide {i}: "parola" e "sotto" si usano solo nel formato parola')
+            if x.get('parola') and x.get('h1'):
+                e.append(f'slide {i}: con il post-it della parola non serve anche il titolo h1')
         if 'ne parliamo giovedì' in json.dumps(dati, ensure_ascii=False).lower():
             e.append('non usare «ne parliamo giovedì»')
         return e
@@ -314,7 +323,7 @@ def piano():
         lunedi = dt.date.fromisoformat(os.environ['SETTIMANA'])
     log(f'Piano della settimana da {leggibile(lunedi)}')
     st = scrivania('storia')
-    storia = st.get('post', [])
+    storia = sorted(CONF.get('storico_esterno', []) + st.get('post', []), key=lambda p: p.get('data', ''))
     spazi = spazi_settimana(lunedi)
     giovedi = [leggibile(lunedi + dt.timedelta(days=3))]
     elenco_storia = '\n'.join(f'- {p["data"]} · {p.get("formato")} · tema «{p.get("tema")}» · {p.get("titolo", "")}' for p in storia[-80:]) or '(ancora niente)'
@@ -338,6 +347,8 @@ REGOLE:
 - Il «tema» è un'etichetta breve in minuscolo con trattini (es. «decreto-ai-italia», «scheda-google»): i temi degli
   ultimi {CONF['distanze']['stesso_tema_giorni']} giorni NON si ripetono; un tema si può riprendere (con un taglio nuovo) dopo {CONF['distanze']['ripresa_giorni']} giorni.
 - Promemoria del webinar: al massimo uno a settimana, almeno uno ogni due settimane (guarda lo storico), meglio la domenica o il giovedì mattina.
+- Niente doppioni con lo storico: un fatto, un'indagine o una norma già raccontati non tornano (neanche come «numero» o «parere»),
+  anche se hanno un'etichetta di tema diversa. Se c'è una novità vera su un tema già trattato, va bene solo con un taglio nuovo e dichiarato.
 - I post di notizia o numero devono avere fonti verificate. Gli altri possono non averle, ma niente fatti inventati.
 - Pensa alla settimana come a un racconto: varia tono e argomento (AI, presenza online, tempo risparmiato, privacy, strumenti gratuiti…).
 - Aggiungi 2 post di «riserva» senza scadenza (formato a scelta tra consiglio, parola, domanda, parere): sostituiscono un post bloccato.
@@ -353,7 +364,7 @@ Rispondi con un blocco ```json:
   "riserva": [ stessi campi, senza "spazio" ]}}"""
 
     scaletta = claude_json(SISTEMA, richiesta, lambda d: controlla_scaletta(d, spazi, storia, lunedi),
-                           ricerca=15, max_tokens=16000)
+                           ricerca=15, max_tokens=32000)
     log(f'Scaletta pronta: {len(scaletta["post"])} post + {len(scaletta.get("riserva", []))} di riserva')
 
     per_spazio = {s['id']: s for s in spazi}

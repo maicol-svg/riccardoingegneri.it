@@ -17,6 +17,15 @@
 
   "distanze": { "stesso_tema_giorni": 35, "ripresa_giorni": 90 },
 
+  "_storico_esterno": "post usciti prima del motore: contano per non ripetere temi",
+  "storico_esterno": [
+    { "data": "2026-10-15", "formato": "presentazione", "tema": "chi-sono", "titolo": "Chi sono: Riccardo, consulente e sviluppatore, ex docente di AI all'Istituto Volta" },
+    { "data": "2026-10-15", "formato": "carosello", "tema": "cinque-domande-ai", "titolo": "Le 5 domande che mi fanno a ogni incontro (costi, uso nell'attività, dati dei clienti…)" },
+    { "data": "2026-10-15", "formato": "video", "tema": "video-webinar", "titolo": "Reel: costa davvero così tanto? Posso usarla? Dove finiscono i dati?" },
+    { "data": "2026-10-16", "formato": "notizia", "tema": "indagine-cna-imprese-ai", "titolo": "Indagine CNA (Mugello AI Forum): piccole imprese con AI dal 7% al 38%, il 56,7% non sa quali strumenti servano" },
+    { "data": "2026-10-16", "formato": "notizia", "tema": "decreto-ai-italia", "titolo": "Decreto legislativo 179/2026 sull'AI, in vigore dal 23 ottobre: decisioni sul lavoro a una persona, formazione negli ordini" }
+  ],
+
   "formati": {
     "notizia": { "copertina": "carta", "slide": [4, 5], "max_settimana": 2, "descrizione": "Carosello sulla notizia della settimana, verificata sulla fonte originale. Copertina: la notizia in una frase intera e precisa, con il pezzo chiave ==evidenziato== e un invito a scorrere. Una frase scorrevole per slide; se ci sono numeri, le barre. Ultima slide: post-it «Il mio parere». Fonte in basso su ogni slide." },
     "consiglio": { "copertina": "giallo", "slide": [2, 4], "max_settimana": 2, "descrizione": "Consiglio pratico da salvare: copertina sul blocco giallo con la promessa (es. «3 controlli prima di…»), poi un elenco numerato di 3-4 voci brevi, ultima con il post-it." },
