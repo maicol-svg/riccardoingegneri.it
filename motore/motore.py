@@ -495,6 +495,8 @@ Rispondi con un blocco ```json:
 def controllo_mancante(risposta):
     """Il controllo dell'alba a volte GitHub lo fa partire ore dopo, o mai: dalle 6 il giro orario lo recupera."""
     adesso = dt.datetime.now(ROMA)
+    if 'ultimoControllo' not in risposta:  # Scrivania non ancora aggiornata: meglio non rifare il controllo ogni ora
+        return False
     return adesso.hour >= 6 and risposta.get('ultimoControllo') != adesso.date().isoformat()
 
 
