@@ -93,6 +93,7 @@ def claude(sistema, messaggi, ricerca=0, max_tokens=12000):
             messaggi.append({'role': 'assistant', 'content': m.content})
             continue
         testo = ''.join(b.text for b in m.content if b.type == 'text')
+        testo = re.sub(r'</?cite[^>]*>', '', testo)  # i segni delle citazioni della ricerca web non devono finire nei testi
         u = m.usage
         log(f'  Claude: {u.input_tokens} in, {u.output_tokens} out, stop={m.stop_reason}')
         return testo, messaggi + [{'role': 'assistant', 'content': m.content}]
@@ -433,6 +434,9 @@ Per ogni post di oggi verifica, cercando sul web:
 3. se nelle ultime 48 ore è uscita una notizia importante che cambia il contesto o rende il post fuori luogo.
 Poi guarda le affermazioni già pubblicate (B): se una è diventata falsa o superata, proponi un aggiornamento pubblico.
 Sii prudente: segnala solo con una fonte concreta. Se è tutto a posto, dillo.
+Non sono da verificare né da cambiare i dati dell'incontro di Riccardo: il titolo «{CONF['webinar']['titolo']}», il giorno, l'ora,
+il link e il fatto che sia gratuito sono ufficiali. «modifica» solo per un errore vero (fatto sbagliato, data sbagliata), non per gusto.
+Le notizie: al massimo 5, una frase semplice ciascuna (niente codici, niente segni di citazione), scritte per Riccardo.
 
 Rispondi con un blocco ```json:
 {{"post": [{{"id": "…", "esito": "ok" | "modifica" | "blocca", "motivo": "spiegazione semplice per Riccardo",
@@ -488,8 +492,19 @@ Rispondi con un blocco ```json:
 
 # ---------------------------------------------------------------- richieste dalla Scrivania
 
+def controllo_mancante(risposta):
+    """Il controllo dell'alba a volte GitHub lo fa partire ore dopo, o mai: dalle 6 il giro orario lo recupera."""
+    adesso = dt.datetime.now(ROMA)
+    return adesso.hour >= 6 and risposta.get('ultimoControllo') != adesso.date().isoformat()
+
+
 def lavori():
-    elenco = scrivania('lavori').get('lavori', [])
+    risposta = scrivania('lavori')
+    if controllo_mancante(risposta):
+        log('Il controllo di oggi non è ancora stato fatto: lo faccio adesso.')
+        controllo()
+        risposta = scrivania('lavori')
+    elenco = risposta.get('lavori', [])
     if not elenco:
         log('Nessuna richiesta in attesa.')
         return
@@ -516,9 +531,10 @@ def lavori():
 
 def lavori_in_attesa():
     """Esce con 0 se ci sono richieste da eseguire (così l'Action installa il browser solo quando serve)."""
-    n = len(scrivania('lavori').get('lavori', []))
+    risposta = scrivania('lavori')
+    n = len(risposta.get('lavori', []))
     log(f'Richieste in attesa: {n}')
-    sys.exit(0 if n else 1)
+    sys.exit(0 if n or controllo_mancante(risposta) else 1)
 
 
 if __name__ == '__main__':
