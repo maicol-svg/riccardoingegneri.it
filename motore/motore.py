@@ -135,7 +135,7 @@ LINEA EDITORIALE (decisa con Riccardo):
 L'incontro online gratuito è il giovedì alle {CONF['webinar']['ora']}; iscrizione: {CONF['webinar']['link']}. Si risponde alle domande
 delle persone e si racconta la digitalizzazione del lavoro di oggi, con e senza AI.
 IMPORTANTE: che si ripeta ogni settimana (e che Riccardo lo tenga solo con abbastanza iscritti) è un fatto interno.
-Per il pubblico è sempre «il prossimo giovedì alle 20» (il giovedì stesso «stasera alle 20»), MAI con una data precisa
+Per il pubblico è sempre «il prossimo giovedì alle 20» («questo giovedì alle 20» da lunedì a giovedì), MAI con una data precisa
 (niente «22 ottobre», «giovedì 29»). Mai «il primo incontro», «la prima puntata», numeri di edizione, «di nuovo»,
 «ogni giovedì», «come ogni settimana» o simili. L'incontro si nomina solo nel promemoria e nell'unico post della
 settimana con il rimando leggero: tutti gli altri post non lo nominano."""
@@ -232,7 +232,7 @@ def scrivi_post(voce, spazio, istruzione='', ricerca=0):
     f = CONF['formati'][voce['formato']]
     d = dt.date.fromisoformat(spazio['data'])
     canali = list(spazio['orari'].keys())
-    quando_inc = 'stasera alle 20' if d.weekday() == 3 and spazio['fascia'] == 'mattina' else 'il prossimo giovedì alle 20'
+    quando_inc = 'questo giovedì alle 20' if d.weekday() <= 3 else 'il prossimo giovedì alle 20'
     tipo = 'promemoria' if voce['formato'] == 'promemoria' else ('rimando' if voce.get('rimando') else 'nessuno')
     chiusura = {
         'promemoria': f"CHIUSURA: questo è il promemoria. Parla del valore dell'incontro ({quando_inc}, online e gratuito): il problema che affronta e cosa si porta a casa chi partecipa. Instagram chiude con «Link in bio!», facebook e linkedin con il link https://riccardoingegneri.it/webinar.",
@@ -253,7 +253,7 @@ DIDASCALIE:
 - facebook: come instagram, al massimo 2 hashtag.
 - linkedin: stessa voce, un filo più professionale, paragrafi brevi, 2-3 hashtag.
 {chiusura}
-Niente date precise dell'incontro: «il prossimo giovedì alle 20» (il giovedì stesso «stasera alle 20»). Mai «ogni giovedì». Non scrivere mai «ne parliamo giovedì».
+Niente date precise dell'incontro: «il prossimo giovedì alle 20» («questo giovedì alle 20» da lunedì a giovedì). Mai «ogni giovedì». Non scrivere mai «ne parliamo giovedì».
 Mai inventare: usa solo i fatti della voce di scaletta.
 {('ISTRUZIONE DI RICCARDO PER QUESTA VERSIONE: ' + istruzione) if istruzione else ''}
 
@@ -298,7 +298,7 @@ Rispondi solo con un blocco ```json con:
                 e.append(f'slide {i}: con il post-it della parola non serve anche il titolo h1')
         tutto = json.dumps({'testi': dati.get('testi'), 'slide': dati.get('slide')}, ensure_ascii=False).lower()
         if re.search(r'\bgioved[iì]\s+\d{1,2}\b|\b\d{1,2}\s+(' + '|'.join(MESI) + r')\b.{0,40}\b(alle 20|incontro|webinar)', tutto):
-            e.append('niente date precise per l\'incontro: «il prossimo giovedì alle 20» (o «stasera alle 20» il giovedì)')
+            e.append('niente date precise per l\'incontro: «il prossimo giovedì alle 20»')
         if 'ogni giovedì' in tutto or 'ogni giovedi' in tutto:
             e.append('non scrivere «ogni giovedì»: per il pubblico è «il prossimo giovedì»')
         if any((x.get('calendario') or {}).get('numero') or (x.get('calendario') or {}).get('mese') for x in sl):

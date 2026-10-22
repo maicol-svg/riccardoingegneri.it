@@ -20,7 +20,7 @@ Social (notizie e strumenti spiegati) → webinar gratuito del giovedì (strumen
 - Frasi come le direbbe una persona in Italia: «a cosa gli serve davvero l'intelligenza artificiale», non «quali strumenti di AI».
 - Notizie verificate sulla fonte originale; fonte sempre citata. Nessuna risposta inventata.
 - **Promemoria del webinar con misura (Riccardo, 22/10):** su 9-10 post a settimana, solo 1-2 parlano dell'incontro (10-15%): il promemoria e, al massimo, un rimando leggero in un altro post. Gli altri post NON nominano l'incontro: finiscono con una domanda o un invito a commentare o a scrivere.
-- Nei contenuti organici **mai una data precisa**: sempre «il prossimo giovedì alle 20» (il giovedì stesso: «stasera alle 20»). Date precise solo nelle sponsorizzate o in post approvati apposta da Riccardo nel piano.
+- Nei contenuti organici **mai una data precisa**: sempre «il prossimo giovedì alle 20» o «questo giovedì alle 20»: mai quale giovedì, per i dettagli c'è il link alla pagina, che mostra la data giusta da sola. Date precise solo nelle sponsorizzate o in post approvati apposta da Riccardo nel piano.
 - Il promemoria punta sul valore (il problema che affronta, cosa si porta a casa chi partecipa), non sulla richiesta di partecipare. Mai «non mancare», «ultimi posti», «ti aspetto» ripetuti.
 - Mai «il primo incontro», «la prima puntata», numeri di edizione, «ogni giovedì», «come ogni settimana». Per il pubblico è il prossimo giovedì; che si ripeta (e che si tenga solo con abbastanza iscritti) è un fatto interno di Riccardo, mai scritto.
 - Per ora niente casi di clienti. Il percorso personale resta sullo sfondo (non è il tema del profilo).
