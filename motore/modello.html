@@ -101,7 +101,10 @@ function disegna(s, n, tot) {
   if (s.numero && s.numero.etichetta) h += '<div class="numero-et">' + md(s.numero.etichetta) + '</div>';
   if (s.calendario) {
     var c = s.calendario;
-    h += '<div class="calendario"><div class="giorno"><div class="gs">' + md(c.giorno) + '</div><div class="gn">' + md(c.numero) + '</div><div class="gm">' + md(c.mese) + '</div></div>' +
+    // senza numero e mese (i promemoria organici non portano la data): «il prossimo / giovedì»
+    var gn = c.numero ? '<div class="gn">' + md(c.numero) + '</div><div class="gm">' + md(c.mese) + '</div>'
+      : '<div class="gn" style="font-size:76px;margin-top:14px">' + md(c.giorno || 'giovedì') + '</div>';
+    h += '<div class="calendario"><div class="giorno"><div class="gs">' + (c.numero ? md(c.giorno) : 'il prossimo') + '</div>' + gn + '</div>' +
       '<div class="info"><div class="ora">' + md(c.ora) + '</div>' + (c.righe || []).map(md).join('<br>') + '</div></div>';
   }
   (s.p || []).forEach(function (x) { h += '<p>' + md(x) + '</p>'; });

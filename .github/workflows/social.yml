@@ -5,7 +5,7 @@ name: Social
 on:
   schedule:
     - cron: '0 6 * * 6'        # sabato mattina: piano della settimana dopo
-    - cron: '30 3 * * *'       # ogni giorno all'alba: controllo dei post del giorno
+    - cron: '0 15 * * *'       # ogni giorno nel pomeriggio: controllo dei post di domani (GitHub ritarda anche di ore)
     - cron: '17 5-21 * * *'    # ogni ora di giorno: modifiche chieste dalla Scrivania
   workflow_dispatch:
     inputs:
@@ -35,7 +35,7 @@ jobs:
         run: |
           if [ -n "${{ github.event.inputs.cosa }}" ]; then echo "cosa=${{ github.event.inputs.cosa }}" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.event.schedule }}" = "0 6 * * 6" ]; then echo "cosa=piano" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.event.schedule }}" = "30 3 * * *" ]; then echo "cosa=controllo" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 15 * * *" ]; then echo "cosa=controllo" >> "$GITHUB_OUTPUT"
           else echo "cosa=lavori" >> "$GITHUB_OUTPUT"; fi
       - uses: actions/setup-python@v5
         with:

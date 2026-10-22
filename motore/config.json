@@ -24,7 +24,7 @@
     "numero": { "copertina": "carta", "slide": [1, 1], "max_settimana": 1, "descrizione": "Un numero verificato, grande, con una frase che lo spiega e un invito. Fonte obbligatoria." },
     "domanda": { "copertina": "blu", "slide": [1, 1], "max_settimana": 1, "descrizione": "Una domanda al pubblico sul suo lavoro (non sulla tecnologia), con invito a rispondere nei commenti." },
     "parere": { "copertina": "carta", "slide": [1, 2], "max_settimana": 1, "descrizione": "Un'affermazione calma, che va contro la paura del momento, con il post-it «Il mio parere»." },
-    "promemoria": { "copertina": "giallo", "slide": [1, 1], "max_settimana": 1, "descrizione": "Promemoria dell'incontro gratuito del giovedì alle 20: il calendarietto con la data giusta; si risponde alle domande delle persone e si racconta la digitalizzazione del lavoro di oggi, con e senza AI." },
+    "promemoria": { "copertina": "giallo", "slide": [1, 1], "max_settimana": 1, "descrizione": "Promemoria dell'incontro gratuito del prossimo giovedì alle 20, SENZA data (calendarietto con solo giorno e ora). Non chiede attenzione: parte da un problema concreto di chi lavora e dice cosa si porta a casa chi partecipa (una risposta alle sue domande, strumenti digitali spiegati con parole normali, con e senza AI)." },
     "aggiornamento": { "copertina": "carta", "slide": [1, 2], "max_settimana": 2, "descrizione": "Correzione o aggiornamento di un post già pubblicato: timbro «Aggiornamento», cosa è cambiato, fonte. Solo dal controllo quotidiano." }
   }
 }

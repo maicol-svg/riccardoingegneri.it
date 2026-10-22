@@ -134,9 +134,11 @@ LINEA EDITORIALE (decisa con Riccardo):
 
 L'incontro online gratuito è il giovedì alle {CONF['webinar']['ora']}; iscrizione: {CONF['webinar']['link']}. Si risponde alle domande
 delle persone e si racconta la digitalizzazione del lavoro di oggi, con e senza AI.
-IMPORTANTE: che si ripeta ogni settimana è un fatto interno di Riccardo. Per il pubblico è un appuntamento a data unica:
-«questo giovedì», «il prossimo giovedì», «giovedì 22 ottobre». Mai «il primo incontro», «la prima puntata», numeri di
-edizione, «di nuovo», «come ogni settimana» o simili."""
+IMPORTANTE: che si ripeta ogni settimana (e che Riccardo lo tenga solo con abbastanza iscritti) è un fatto interno.
+Per il pubblico è sempre «il prossimo giovedì alle 20» (il giovedì stesso «stasera alle 20»), MAI con una data precisa
+(niente «22 ottobre», «giovedì 29»). Mai «il primo incontro», «la prima puntata», numeri di edizione, «di nuovo»,
+«ogni giovedì», «come ogni settimana» o simili. L'incontro si nomina solo nel promemoria e nell'unico post della
+settimana con il rimando leggero: tutti gli altri post non lo nominano."""
 
 SCHEMA_SLIDE = """Ogni slide è un oggetto JSON con questi campi, tutti facoltativi tranne "testa":
   "sfondo": "carta" | "giallo" | "blu"
@@ -148,7 +150,7 @@ SCHEMA_SLIDE = """Ogni slide è un oggetto JSON con questi campi, tutti facoltat
   "elenco": [voci numerate, 3-4, brevi]
   "parola": {"voce": "automazione", "cosa": "definizione in una riga"}   (solo formato parola)
   "sotto": esempio concreto sotto la parola (solo formato parola)
-  "calendario": {"giorno": "giovedì", "numero": "22", "mese": "ottobre", "ora": "20:00", "righe": ["online e gratuito", "…"]}
+  "calendario": {"giorno": "giovedì", "ora": "20:00", "righe": ["online e gratuito", "…"]}   (MAI numero o mese: niente date)
   "postit": {"chi": "Il mio parere", "cosa": "una o due frasi a mano, max ~110 caratteri"}
   "timbro": "Aggiornamento"
   "invito": riga a mano in fondo (es. "Ti spiego cosa cambia →")
@@ -209,6 +211,11 @@ def controlla_scaletta(scaletta, spazi, storia, lunedi):
     for f, n in conta.items():
         if f in CONF['formati'] and n > CONF['formati'][f]['max_settimana']:
             errori.append(f'troppi post «{f}»: {n} (massimo {CONF["formati"][f]["max_settimana"]})')
+    if conta.get('promemoria', 0) != 1:
+        errori.append(f'serve esattamente un promemoria nella settimana (ne hai messi {conta.get("promemoria", 0)})')
+    rimandi = [v for v in voci if v.get('rimando') and v.get('formato') != 'promemoria']
+    if len(rimandi) > 1:
+        errori.append(f'al massimo un post con "rimando": true, ne hai messi {len(rimandi)}')
     temi = [v.get('tema') for v in voci]
     if len(set(temi)) != len(temi):
         errori.append('due post con lo stesso tema nella stessa settimana')
@@ -224,8 +231,14 @@ def scrivi_post(voce, spazio, istruzione='', ricerca=0):
     """Scrive testi e slide di un post a partire dalla sua voce di scaletta."""
     f = CONF['formati'][voce['formato']]
     d = dt.date.fromisoformat(spazio['data'])
-    gio = prossimo_giovedi(d)
     canali = list(spazio['orari'].keys())
+    quando_inc = 'stasera alle 20' if d.weekday() == 3 and spazio['fascia'] == 'mattina' else 'il prossimo giovedì alle 20'
+    tipo = 'promemoria' if voce['formato'] == 'promemoria' else ('rimando' if voce.get('rimando') else 'nessuno')
+    chiusura = {
+        'promemoria': f"CHIUSURA: questo è il promemoria. Parla del valore dell'incontro ({quando_inc}, online e gratuito): il problema che affronta e cosa si porta a casa chi partecipa. Instagram chiude con «Link in bio!», facebook e linkedin con il link https://riccardoingegneri.it/webinar.",
+        'rimando': f"CHIUSURA: una sola riga leggera in fondo, del tipo «Se vuoi orientarti con calma, {quando_inc} tengo un incontro online gratuito» (Instagram: «link in bio», facebook e linkedin: https://riccardoingegneri.it/webinar).",
+        'nessuno': "CHIUSURA: NON nominare l'incontro del giovedì né il link del webinar. Chiudi con una domanda a chi legge o un invito a commentare o a scrivere in privato.",
+    }[tipo]
     richiesta = f"""Scrivi il post per {spazio['giorno']} ({spazio['fascia']}), canali: {', '.join(canali)}.
 
 VOCE DI SCALETTA:
@@ -236,10 +249,11 @@ Slide: da {f['slide'][0]} a {f['slide'][1]}. La copertina (prima slide) ha "sfon
 {SCHEMA_SLIDE}
 
 DIDASCALIE:
-- instagram: calda e parlata, emoji con misura, punto di vista personale, chiude con il rimando «Se vuoi iniziare a orientarti, ogni giovedì alle 20 tengo un incontro online gratuito sugli strumenti digitali per il lavoro 📆 Link in bio!», poi la fonte (se c'è) e 3-5 hashtag.
-- facebook: come instagram, ma al posto di «Link in bio!» il link diretto https://riccardoingegneri.it/webinar e al massimo 2 hashtag.
-- linkedin: stessa voce, un filo più professionale, paragrafi brevi, link https://riccardoingegneri.it/webinar, 2-3 hashtag.
-Il prossimo incontro rispetto al giorno di uscita è {leggibile(gio)}: se nomini una data, deve essere questa. Non scrivere mai «ne parliamo giovedì».
+- instagram: calda e parlata, emoji con misura, punto di vista personale, poi la fonte (se c'è) e 3-5 hashtag.
+- facebook: come instagram, al massimo 2 hashtag.
+- linkedin: stessa voce, un filo più professionale, paragrafi brevi, 2-3 hashtag.
+{chiusura}
+Niente date precise dell'incontro: «il prossimo giovedì alle 20» (il giovedì stesso «stasera alle 20»). Mai «ogni giovedì». Non scrivere mai «ne parliamo giovedì».
 Mai inventare: usa solo i fatti della voce di scaletta.
 {('ISTRUZIONE DI RICCARDO PER QUESTA VERSIONE: ' + istruzione) if istruzione else ''}
 
@@ -263,10 +277,12 @@ Rispondi solo con un blocco ```json con:
             t = (dati.get('testi') or {}).get(c, '')
             if len(t) < 80:
                 e.append(f'manca la didascalia per {c}')
-            if c == 'instagram' and 'Link in bio' not in t:
-                e.append('la didascalia instagram deve finire con «Link in bio!»')
-            if c in ('facebook', 'linkedin') and 'riccardoingegneri.it/webinar' not in t:
+            if tipo == 'promemoria' and c == 'instagram' and 'link in bio' not in t.lower():
+                e.append('la didascalia instagram del promemoria deve finire con «Link in bio!»')
+            if tipo != 'nessuno' and c in ('facebook', 'linkedin') and 'riccardoingegneri.it/webinar' not in t:
                 e.append(f'la didascalia {c} deve contenere il link riccardoingegneri.it/webinar')
+            if tipo == 'nessuno' and re.search(r'riccardoingegneri\.it/webinar|incontro online|webinar', t, re.I):
+                e.append(f"la didascalia {c} non deve nominare l'incontro del giovedì: chiudi con una domanda")
             if len(t) > 2100:
                 e.append(f'la didascalia {c} è troppo lunga')
         if voce['formato'] in ('notizia', 'numero') and not (dati.get('fonti') or voce.get('fonti')):
@@ -280,7 +296,13 @@ Rispondi solo con un blocco ```json con:
                 e.append(f'slide {i}: "parola" e "sotto" si usano solo nel formato parola')
             if x.get('parola') and x.get('h1'):
                 e.append(f'slide {i}: con il post-it della parola non serve anche il titolo h1')
-        tutto = json.dumps(dati, ensure_ascii=False).lower()
+        tutto = json.dumps({'testi': dati.get('testi'), 'slide': dati.get('slide')}, ensure_ascii=False).lower()
+        if re.search(r'\bgioved[iì]\s+\d{1,2}\b|\b\d{1,2}\s+(' + '|'.join(MESI) + r')\b.{0,40}\b(alle 20|incontro|webinar)', tutto):
+            e.append('niente date precise per l\'incontro: «il prossimo giovedì alle 20» (o «stasera alle 20» il giovedì)')
+        if 'ogni giovedì' in tutto or 'ogni giovedi' in tutto:
+            e.append('non scrivere «ogni giovedì»: per il pubblico è «il prossimo giovedì»')
+        if any((x.get('calendario') or {}).get('numero') or (x.get('calendario') or {}).get('mese') for x in sl):
+            e.append('il calendarietto non porta numero né mese: solo giorno e ora')
         if re.search(r'\b(prim[oa]|second[oa]|nuov[oa]|ennesim[oa])\s+(incontro|puntata|appuntamento|edizione|webinar)', tutto):
             e.append("l'incontro del giovedì è un appuntamento a data unica: niente «primo incontro», «nuova puntata» e simili")
         if 'ne parliamo giovedì' in tutto:
@@ -358,7 +380,10 @@ REGOLE:
   (carta / giallo / blu), al massimo i limiti settimanali indicati.
 - Il «tema» è un'etichetta breve in minuscolo con trattini (es. «decreto-ai-italia», «scheda-google»): i temi degli
   ultimi {CONF['distanze']['stesso_tema_giorni']} giorni NON si ripetono; un tema si può riprendere (con un taglio nuovo) dopo {CONF['distanze']['ripresa_giorni']} giorni.
-- Promemoria del webinar: al massimo uno a settimana, almeno uno ogni due settimane (guarda lo storico), meglio la domenica o il giovedì mattina.
+- Webinar con misura (regola di Riccardo): ESATTAMENTE un post «promemoria» a settimana (meglio la domenica sera o il
+  giovedì mattina) e, al massimo, UN altro post con "rimando": true (un rimando leggero all'incontro in chiusura).
+  Tutti gli altri post non nominano l'incontro. Il promemoria parla del valore (il problema concreto che affronta,
+  cosa si porta a casa chi partecipa), non chiede attenzione.
 - Niente doppioni con lo storico: un fatto, un'indagine o una norma già raccontati non tornano (neanche come «numero» o «parere»),
   anche se hanno un'etichetta di tema diversa. Non si ripete nemmeno il MESSAGGIO di fondo di un post recente con un'altra
   fonte: per esempio, dopo «più di un imprenditore su due non sa a cosa gli serve l'AI» non va un'altra indagine che dice
@@ -371,7 +396,7 @@ STORICO DEI POST (più vecchi in alto):
 {elenco_storia}
 
 Rispondi con un blocco ```json:
-{{"post": [{{"spazio": "id dello spazio", "formato": "…", "tema": "…", "titolo": "titolo interno breve",
+{{"post": [{{"spazio": "id dello spazio", "formato": "…", "tema": "…", "titolo": "titolo interno breve", "rimando": false,
             "angolo": "cosa dice il post e perché interessa a chi lavora, 2-3 frasi",
             "fatti": ["fatti verificati con numeri e date, uno per riga"],
             "fonti": [{{"titolo": "…", "url": "…", "data": "aaaa-mm-gg"}}]}}],
@@ -410,9 +435,16 @@ Rispondi con un blocco ```json:
 
 # ---------------------------------------------------------------- controllo del mattino
 
+def giorno_da_controllare():
+    """Dalle 14 si controllano i post di domani (giro della sera): GitHub fa partire i giri anche con ore di ritardo,
+    e un controllo che arriva dopo l'uscita dei post delle 9 non serve più a niente."""
+    adesso = dt.datetime.now(ROMA)
+    return adesso.date() + dt.timedelta(days=1 if adesso.hour >= 14 else 0)
+
+
 def controllo():
     from grafiche import Disegnatore
-    o = oggi()
+    o = giorno_da_controllare()
     dati = scrivania('oggi', data=o.isoformat())
     di_oggi, recenti = dati.get('oggi', []), dati.get('recenti', [])
     log(f'Controllo di {leggibile(o)}: {len(di_oggi)} post in uscita, {len(recenti)} già pubblicati da tenere d\'occhio')
@@ -420,9 +452,9 @@ def controllo():
     def riassunto(p):
         return {k: p.get(k) for k in ('id', 'data', 'orari', 'formato', 'titolo', 'testi', 'slide', 'fonti', 'affermazioni')}
 
-    richiesta = f"""Controllo del mattino di {leggibile(o)} {o.year}.
+    richiesta = f"""Controllo dei post in uscita {leggibile(o)} {o.year} (oggi è {leggibile(oggi())}).
 
-A. POST IN USCITA OGGI (già approvati da Riccardo):
+A. POST IN USCITA QUEL GIORNO (già approvati da Riccardo):
 {json.dumps([riassunto(p) for p in di_oggi], ensure_ascii=False, indent=1) if di_oggi else '(nessuno)'}
 
 B. AFFERMAZIONI DEI POST GIÀ PUBBLICATI NELLE ULTIME SETTIMANE:
@@ -435,7 +467,8 @@ Per ogni post di oggi verifica, cercando sul web:
 Poi guarda le affermazioni già pubblicate (B): se una è diventata falsa o superata, proponi un aggiornamento pubblico.
 Sii prudente: segnala solo con una fonte concreta. Se è tutto a posto, dillo.
 Non sono da verificare né da cambiare i dati dell'incontro di Riccardo: il titolo «{CONF['webinar']['titolo']}», il giorno, l'ora,
-il link e il fatto che sia gratuito sono ufficiali. «modifica» solo per un errore vero (fatto sbagliato, data sbagliata), non per gusto.
+il link e il fatto che sia gratuito sono ufficiali. Il campo «titolo» è un'etichetta interna che non si pubblica: non è mai
+un motivo per fermare un post. «modifica» solo per un errore vero (fatto sbagliato, data sbagliata), non per gusto.
 Le notizie: al massimo 5, una frase semplice ciascuna (niente codici, niente segni di citazione), scritte per Riccardo.
 
 Rispondi con un blocco ```json:
@@ -493,11 +526,13 @@ Rispondi con un blocco ```json:
 # ---------------------------------------------------------------- richieste dalla Scrivania
 
 def controllo_mancante(risposta):
-    """Il controllo dell'alba a volte GitHub lo fa partire ore dopo, o mai: dalle 6 il giro orario lo recupera."""
+    """Il controllo della sera a volte GitHub lo fa partire ore dopo, o mai: il giro orario lo recupera
+    (dalle 19 per i post di domani, dalle 6 per quelli di oggi se la sera è saltata)."""
     adesso = dt.datetime.now(ROMA)
     if 'ultimoControllo' not in risposta:  # Scrivania non ancora aggiornata: meglio non rifare il controllo ogni ora
         return False
-    return adesso.hour >= 6 and risposta.get('ultimoControllo') != adesso.date().isoformat()
+    serve = adesso.date() + dt.timedelta(days=1) if adesso.hour >= 19 else (adesso.date() if adesso.hour >= 6 else None)
+    return bool(serve) and (risposta.get('ultimoControllo') or '') < serve.isoformat()
 
 
 def lavori():
