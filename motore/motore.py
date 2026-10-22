@@ -176,7 +176,8 @@ SCHEMA_SLIDE = """Ogni slide è un oggetto JSON con questi campi, tutti facoltat
   "calendario": {"giorno": "giovedì", "ora": "20:00", "righe": ["online e gratuito", "…"]}   (MAI numero o mese: niente date)
   "postit": {"chi": "Il mio parere", "cosa": "una o due frasi a mano, max ~110 caratteri"}
   "timbro": "Aggiornamento"
-  "invito": riga a mano in fondo (es. "Ti spiego cosa cambia →")
+  "invito": riga a mano in fondo (es. "Ti spiego cosa cambia"). Frecce: → solo se c'è un'altra slide da scorrere,
+            ↓ quando inviti a commentare, nessuna freccia per «link in bio» (le aggiusta comunque il motore)
   "fonte": riga piccola in basso: "Fonte: …" oppure "Per iniziare a orientarti: riccardoingegneri.it/webinar"
 Il calendarietto è SOLO del formato promemoria; post-it della parola e "sotto" SOLO del formato parola.
 Non scrivere la firma: c'è già in ogni slide.
@@ -337,10 +338,44 @@ Rispondi solo con un blocco ```json con:
     return claude_json(SISTEMA, richiesta, controlla, ricerca=ricerca, max_tokens=12000)
 
 
+FRECCE = re.compile(r'\s*(?:→|➡️?|👉|↓|⬇️?|👇|->)\s*')
+COMMENTI = re.compile(r'comment|scrivimel|scrivimi|dimmi|raccontami|rispondi', re.I)
+BIO = re.compile(r'link in bio|nel profilo|in bio\b', re.I)
+
+
+def sistema_frecce(post):
+    """Una freccia dice dove andare: → solo per scorrere il carosello, ↓ verso i commenti, nessuna per il link in bio."""
+    sl = post.get('slide') or []
+    for i, s in enumerate(sl):
+        inv = s.get('invito')
+        if not inv:
+            continue
+        nudo = FRECCE.sub(' ', inv).strip()
+        if BIO.search(nudo):
+            s['invito'] = nudo
+        elif COMMENTI.search(nudo):
+            s['invito'] = nudo + ' ↓'
+        elif i < len(sl) - 1:
+            s['invito'] = nudo + ' →'
+        else:
+            s['invito'] = nudo
+    for canale, testo in (post.get('testi') or {}).items():
+        righe = []
+        for r in str(testo).split('\n'):
+            if FRECCE.search(r) and BIO.search(r):
+                r = FRECCE.sub(' ', r).strip()
+            elif re.search(r'→|➡️?|👉', r) and COMMENTI.search(r) and 'http' not in r:
+                r = re.sub(r'\s*(?:→|➡️?|👉)\s*', ' 👇 ', r).strip()
+            righe.append(r)
+        post['testi'][canale] = '\n'.join(righe)
+    return post
+
+
 def disegna_e_salva(disegnatore, post, versione):
     """Disegna le slide di un post in social/piano/<id>/; se un testo non ci sta lo fa accorciare."""
     cartella = RADICE / 'social' / 'piano' / post['id']
     nome = f'{post["id"]}-{versione}'
+    sistema_frecce(post)
     percorsi, avvisi = disegnatore.disegna(post['slide'], cartella, nome)
     if avvisi:
         log('  testo lungo, accorcio:', avvisi)

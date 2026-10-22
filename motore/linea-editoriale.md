@@ -24,6 +24,7 @@ Social (notizie e strumenti spiegati) → webinar gratuito del giovedì (strumen
 - Il promemoria punta sul valore (il problema che affronta, cosa si porta a casa chi partecipa), non sulla richiesta di partecipare. Mai «non mancare», «ultimi posti», «ti aspetto» ripetuti.
 - Mai «il primo incontro», «la prima puntata», numeri di edizione, «ogni giovedì», «come ogni settimana». Per il pubblico è il prossimo giovedì; che si ripeta (e che si tenga solo con abbastanza iscritti) è un fatto interno di Riccardo, mai scritto.
 - **La calma è nel tono, non nelle parole (Riccardo, 22/10):** mai chiudere un post, un post-it o una slide con «con calma», «senza ansia», «senza fretta», «niente panico», «una cosa alla volta» e simili. Rimarcarlo è brutto. Un «niente panico» dentro un discorso, ogni tanto, va bene; in chiusura mai: si chiude con il fatto o con il consiglio concreto.
+- **Frecce con un senso (Riccardo, 22/10):** → solo dove c'è un carosello da scorrere; ↓ (o 👇 nelle didascalie) quando l'invito è a scrivere nei commenti; nessuna freccia accanto a «link in bio». Sono dettagli che separano un profilo curato da uno fatto male.
 - Per ora niente casi di clienti. Il percorso personale resta sullo sfondo (non è il tema del profilo).
 - Le idee si scelgono INSIEME prima di produrre.
 
