@@ -138,7 +138,30 @@ IMPORTANTE: che si ripeta ogni settimana (e che Riccardo lo tenga solo con abbas
 Per il pubblico è sempre «il prossimo giovedì alle 20» («questo giovedì alle 20» da lunedì a giovedì), MAI con una data precisa
 (niente «22 ottobre», «giovedì 29»). Mai «il primo incontro», «la prima puntata», numeri di edizione, «di nuovo»,
 «ogni giovedì», «come ogni settimana» o simili. L'incontro si nomina solo nel promemoria e nell'unico post della
-settimana con il rimando leggero: tutti gli altri post non lo nominano."""
+settimana con il rimando leggero: tutti gli altri post non lo nominano.
+TONO, NON PAROLE: la calma si sente da come scrivi, non si dichiara. Mai chiudere un post, un post-it o una slide
+con formule come «con calma», «senza ansia», «senza fretta», «niente panico», «niente allarmismi», «una cosa alla volta».
+Un «niente panico» dentro un discorso, ogni tanto, va bene; come frase finale mai: si chiude con il fatto o con il consiglio concreto."""
+
+RASSICURA = re.compile(r"con calma|senza ansia|senza fretta|senza paura|niente panico|nessun panico|niente allarmismi|"
+                       r"nessun allarmismo|una cosa alla volta|tranquill[oaie]|respira", re.I)
+
+
+def frasi_rassicuranti_finali(dati):
+    """Le formule rassicuranti messe in chiusura: l'ultimo paragrafo vero di ogni testo, i post-it, l'ultima slide."""
+    pezzi = []
+    for testo in (dati.get('testi') or {}).values():
+        par = [x.strip() for x in str(testo).split('\n\n') if x.strip()]
+        par = [x for x in par if not x.startswith(('Fonte', '#')) and 'http' not in x and 'link in bio' not in x.lower()]
+        if par:
+            pezzi.append(par[-1])
+    sl = dati.get('slide') or []
+    for x in sl:
+        pezzi.append(((x.get('postit') or {}).get('cosa')) or '')
+    if sl:
+        pezzi += [sl[-1].get('invito') or ''] + list(sl[-1].get('p') or [])
+    return sorted({m.group(0).lower() for t in pezzi for m in RASSICURA.finditer(t)})
+
 
 SCHEMA_SLIDE = """Ogni slide è un oggetto JSON con questi campi, tutti facoltativi tranne "testa":
   "sfondo": "carta" | "giallo" | "blu"
@@ -236,7 +259,7 @@ def scrivi_post(voce, spazio, istruzione='', ricerca=0):
     tipo = 'promemoria' if voce['formato'] == 'promemoria' else ('rimando' if voce.get('rimando') else 'nessuno')
     chiusura = {
         'promemoria': f"CHIUSURA: questo è il promemoria. Parla del valore dell'incontro ({quando_inc}, online e gratuito): il problema che affronta e cosa si porta a casa chi partecipa. Instagram chiude con «Link in bio!», facebook e linkedin con il link https://riccardoingegneri.it/webinar.",
-        'rimando': f"CHIUSURA: una sola riga leggera in fondo, del tipo «Se vuoi orientarti con calma, {quando_inc} tengo un incontro online gratuito» (Instagram: «link in bio», facebook e linkedin: https://riccardoingegneri.it/webinar).",
+        'rimando': f"CHIUSURA: una sola riga leggera in fondo, del tipo «Se vuoi orientarti, {quando_inc} tengo un incontro online gratuito» (Instagram: «link in bio», facebook e linkedin: https://riccardoingegneri.it/webinar).",
         'nessuno': "CHIUSURA: NON nominare l'incontro del giovedì né il link del webinar. Chiudi con una domanda a chi legge o un invito a commentare o a scrivere in privato.",
     }[tipo]
     richiesta = f"""Scrivi il post per {spazio['giorno']} ({spazio['fascia']}), canali: {', '.join(canali)}.
@@ -305,6 +328,8 @@ Rispondi solo con un blocco ```json con:
             e.append('il calendarietto non porta numero né mese: solo giorno e ora')
         if re.search(r'\b(prim[oa]|second[oa]|nuov[oa]|ennesim[oa])\s+(incontro|puntata|appuntamento|edizione|webinar)', tutto):
             e.append("l'incontro del giovedì è un appuntamento a data unica: niente «primo incontro», «nuova puntata» e simili")
+        for frase in frasi_rassicuranti_finali(dati):
+            e.append(f'la calma è nel tono, non si dichiara: togli «{frase}» dalla chiusura (testo finale, post-it o ultima slide)')
         if 'ne parliamo giovedì' in tutto:
             e.append('non usare «ne parliamo giovedì»')
         return e
