@@ -1,6 +1,17 @@
 {
   "modello": "claude-sonnet-5-5",
-  "strumento_ricerca": "web_search_20250305",
+  "_modello_leggero": "per i lavori meccanici (accorciare un testo che non entra nella slide): costa 20 volte meno",
+  "modello_leggero": "claude-haiku-5-5",
+  "_strumento_ricerca": "la versione 20260209 filtra i risultati prima di passarli al modello: meno token letti. Se il modello non la accetta, il motore torna da solo alla 20250305",
+  "strumento_ricerca": "web_search_20260209",
+  "_prezzi": "dollari per milione di token (platform.claude.com/docs/en/about-claude/pricing, ottobre 2026); ricerca: dollari per ricerca",
+  "prezzi": {
+    "claude-sonnet-5-5": { "in": 2, "out": 10, "cache_scrittura": 2.5, "cache_lettura": 0.1 },
+    "claude-haiku-5-5": { "in": 0.1, "out": 0.5, "cache_scrittura": 0.125, "cache_lettura": 0.01 },
+    "ricerca": 0.01
+  },
+  "_controllo_recenti": "giorno in cui il controllo rilegge anche i post già pubblicati (per un eventuale aggiornamento): una volta a settimana",
+  "controllo_recenti": "dom",
   "url_scrivania": "https://script.google.com/macros/s/AKfycbwnVB_8M2oiprBak9EdHAoBEfH8dj16F90r65n2Q-qLeLx4M97FOpmqn00lbPbT5ohUUQ/exec",
   "url_immagini": "https://riccardoingegneri.it/social/piano",
   "webinar": { "titolo": "L'AI per chi lavora", "giorno": "giovedì", "ora": "20:00", "primo": "2026-10-22", "link": "riccardoingegneri.it/webinar" },

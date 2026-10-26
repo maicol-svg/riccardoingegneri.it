@@ -74,30 +74,69 @@ def scrivania(azione, **dati):
 # ---------------------------------------------------------------- Claude
 
 cliente = None
+RICERCA_DI_RISERVA = 'web_search_20250305'
+CONSUMI = []  # una riga per chiamata: serve al riepilogo dei costi a fine giro
 
 
-def claude(sistema, messaggi, ricerca=0, max_tokens=12000):
+def costo(modello, u):
+    """Dollari spesi per una chiamata, con i prezzi di config.json (ricerche web comprese)."""
+    p = CONF['prezzi'].get(modello) or CONF['prezzi'][CONF['modello']]
+    return ((u['in'] * p['in'] + u['out'] * p['out'] + u['cache_scrittura'] * p['cache_scrittura'] +
+             u['cache_lettura'] * p['cache_lettura']) / 1e6 + u['ricerche'] * CONF['prezzi']['ricerca'])
+
+
+def claude(sistema, messaggi, ricerca=0, max_tokens=12000, modello=None):
     """Una conversazione con Claude; con ricerca>0 può cercare sul web. Restituisce il testo finale."""
     global cliente
     cliente = cliente or anthropic.Anthropic()
+    modello = modello or CONF['modello']
     strumenti = []
     if ricerca:
         strumenti = [{'type': CONF['strumento_ricerca'], 'name': 'web_search', 'max_uses': ricerca,
                       'user_location': {'type': 'approximate', 'country': 'IT', 'timezone': 'Europe/Rome'}}]
     messaggi = list(messaggi)
+    u = {'in': 0, 'out': 0, 'cache_scrittura': 0, 'cache_lettura': 0, 'ricerche': 0}
     for _ in range(6):  # pause_turn: la ricerca lunga si riprende da dove era
-        with cliente.messages.stream(model=CONF['modello'], max_tokens=max_tokens, system=sistema,
-                                     messages=messaggi, tools=strumenti or anthropic.NOT_GIVEN) as s:
-            m = s.get_final_message()
+        try:
+            # cache automatica: le riprese dopo pause_turn e i post scritti in serie rileggono lo stesso inizio a 1/20 del prezzo
+            with cliente.messages.stream(model=modello, max_tokens=max_tokens, system=sistema, messages=messaggi,
+                                         tools=strumenti or anthropic.NOT_GIVEN, cache_control={'type': 'ephemeral'}) as s:
+                m = s.get_final_message()
+        except anthropic.BadRequestError as e:
+            if strumenti and strumenti[0]['type'] != RICERCA_DI_RISERVA and 'web_search' in str(e):
+                log(f'  la ricerca {strumenti[0]["type"]} non è accettata, uso {RICERCA_DI_RISERVA}')
+                strumenti[0]['type'] = CONF['strumento_ricerca'] = RICERCA_DI_RISERVA
+                continue
+            raise
+        mu = m.usage
+        u['in'] += mu.input_tokens
+        u['out'] += mu.output_tokens
+        u['cache_scrittura'] += mu.cache_creation_input_tokens or 0
+        u['cache_lettura'] += mu.cache_read_input_tokens or 0
+        u['ricerche'] += (mu.server_tool_use.web_search_requests or 0) if mu.server_tool_use else 0
         if m.stop_reason == 'pause_turn':
             messaggi.append({'role': 'assistant', 'content': m.content})
             continue
         testo = ''.join(b.text for b in m.content if b.type == 'text')
         testo = re.sub(r'</?cite[^>]*>', '', testo)  # i segni delle citazioni della ricerca web non devono finire nei testi
-        u = m.usage
-        log(f'  Claude: {u.input_tokens} in, {u.output_tokens} out, stop={m.stop_reason}')
+        CONSUMI.append(dict(u, modello=modello, dollari=costo(modello, u)))
+        log(f'  Claude ({modello}): {u["in"]} in, {u["cache_lettura"]} dalla cache, {u["cache_scrittura"]} in cache, '
+            f'{u["out"]} out, {u["ricerche"]} ricerche, ${CONSUMI[-1]["dollari"]:.3f}, stop={m.stop_reason}')
         return testo, messaggi + [{'role': 'assistant', 'content': m.content}]
     raise RuntimeError('Claude non ha finito la risposta')
+
+
+def riepilogo_consumi(cosa):
+    """A fine giro: quanto è costato. Va nel log e nel riepilogo dell'esecuzione su GitHub."""
+    if not CONSUMI:
+        return
+    tot = {k: sum(c[k] for c in CONSUMI) for k in ('in', 'out', 'cache_scrittura', 'cache_lettura', 'ricerche', 'dollari')}
+    riga = (f'Costo del giro «{cosa}»: ${tot["dollari"]:.2f} — {len(CONSUMI)} chiamate, {tot["in"]} token letti, '
+            f'{tot["cache_lettura"]} dalla cache, {tot["cache_scrittura"]} messi in cache, {tot["out"]} scritti, {tot["ricerche"]} ricerche')
+    log(riga)
+    if os.environ.get('GITHUB_STEP_SUMMARY'):
+        with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf8') as f:
+            f.write(riga + '\n')
 
 
 def estrai_json(testo):
@@ -106,11 +145,11 @@ def estrai_json(testo):
     return json.loads(grezzo)
 
 
-def claude_json(sistema, richiesta, controlla=None, ricerca=0, max_tokens=12000, tentativi=3):
+def claude_json(sistema, richiesta, controlla=None, ricerca=0, max_tokens=12000, tentativi=3, modello=None):
     """Chiede un JSON; se non è valido o non passa i controlli, rimanda gli errori a Claude e riprova."""
     messaggi = [{'role': 'user', 'content': richiesta}]
     for n in range(tentativi):
-        testo, storia = claude(sistema, messaggi, ricerca=ricerca if n == 0 else 0, max_tokens=max_tokens)
+        testo, storia = claude(sistema, messaggi, ricerca=ricerca if n == 0 else 0, max_tokens=max_tokens, modello=modello)
         try:
             dati = estrai_json(testo)
             errori = controlla(dati) if controlla else []
@@ -382,7 +421,8 @@ def disegna_e_salva(disegnatore, post, versione):
         richiesta = ('Queste slide hanno testi che non entrano nella grafica: ' + '; '.join(avvisi) +
                      '. Accorciali mantenendo il senso e rimanda solo il blocco ```json {"slide": [...]}.\n\n' +
                      json.dumps({'slide': post['slide']}, ensure_ascii=False))
-        post['slide'] = claude_json(SISTEMA, richiesta, lambda d: [] if len(d.get('slide', [])) == len(post['slide']) else ['stesso numero di slide'], max_tokens=6000)['slide']
+        post['slide'] = claude_json(SISTEMA, richiesta, lambda d: [] if len(d.get('slide', [])) == len(post['slide']) else ['stesso numero di slide'], max_tokens=6000,
+                                    modello=CONF['modello_leggero'])['slide']
         percorsi, avvisi = disegnatore.disegna(post['slide'], cartella, nome)
     v = int(time.time())
     post['immagini'] = [f'{CONF["url_immagini"]}/{post["id"]}/{p.name}?v={v}' for p in percorsi]
@@ -507,7 +547,15 @@ def controllo():
     o = giorno_da_controllare()
     dati = scrivania('oggi', data=o.isoformat())
     di_oggi, recenti = dati.get('oggi', []), dati.get('recenti', [])
+    # i post già pubblicati si rileggono una volta a settimana, non a ogni controllo: un aggiornamento pubblico
+    # è un fatto raro (Riccardo, 26/10), e rileggerli ogni giorno costava più di metà della spesa del motore
+    if GIORNI[o.weekday()] != CONF['controllo_recenti']:
+        recenti = []
     log(f'Controllo di {leggibile(o)}: {len(di_oggi)} post in uscita, {len(recenti)} già pubblicati da tenere d\'occhio')
+    if not di_oggi and not recenti:
+        scrivania('controllo', data=o.isoformat(), esiti=[], aggiornamenti=[], notizie=[])
+        log('Niente da controllare: nessuna chiamata a Claude.')
+        return
 
     def riassunto(p):
         return {k: p.get(k) for k in ('id', 'data', 'orari', 'formato', 'titolo', 'testi', 'slide', 'fonti', 'affermazioni')}
@@ -524,7 +572,9 @@ Per ogni post di oggi verifica, cercando sul web:
 1. che ogni fatto sia ancora vero oggi e che le fonti dicano davvero quello che il post afferma;
 2. che date e riferimenti siano giusti rispetto al giorno di uscita (es. il giovedì giusto per l'incontro);
 3. se nelle ultime 48 ore è uscita una notizia importante che cambia il contesto o rende il post fuori luogo.
-Poi guarda le affermazioni già pubblicate (B): se una è diventata falsa o superata, proponi un aggiornamento pubblico.
+Poi guarda le affermazioni già pubblicate (B): se un fatto è CAMBIATO DOPO la pubblicazione, con una fonte datata dopo il post,
+proponi un aggiornamento pubblico. Al massimo uno. «Non trovo più la fonte» o «forse il dato era un altro» NON sono motivi
+per un aggiornamento pubblico: scrivili nelle notizie per Riccardo. Correggersi in pubblico è raro, e mai per smentire sé stessi.
 Sii prudente: segnala solo con una fonte concreta. Se è tutto a posto, dillo.
 Non sono da verificare né da cambiare i dati dell'incontro di Riccardo: il titolo «{CONF['webinar']['titolo']}», il giorno, l'ora,
 il link e il fatto che sia gratuito sono ufficiali. Il campo «titolo» è un'etichetta interna che non si pubblica: non è mai
@@ -559,7 +609,7 @@ Rispondi con un blocco ```json:
             nuovo['fonti'] = voce['fonti']
             disegna_e_salva(dis, nuovo, f'c{o.strftime("%m%d")}')
             x['proposta'] = nuovo
-        for i, a in enumerate(esito.get('aggiornamenti', [])):
+        for i, a in enumerate(esito.get('aggiornamenti', [])[:1]):
             orig = next((p for p in recenti if p['id'] == a.get('riferito_a')), None)
             if not orig:
                 continue
@@ -642,4 +692,7 @@ if __name__ == '__main__':
         if cosa == 'piano':
             sys.exit(2)
         sys.exit(1 if cosa == 'lavori-in-attesa' else 0)
-    {'piano': piano, 'controllo': controllo, 'lavori': lavori, 'lavori-in-attesa': lavori_in_attesa}[sys.argv[1]]()
+    try:
+        {'piano': piano, 'controllo': controllo, 'lavori': lavori, 'lavori-in-attesa': lavori_in_attesa}[sys.argv[1]]()
+    finally:
+        riepilogo_consumi(cosa)
