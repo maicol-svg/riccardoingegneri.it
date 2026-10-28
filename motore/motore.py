@@ -225,7 +225,7 @@ Nel testo: ==parole evidenziate== (una sola volta per slide, il pezzo chiave) e 
 
 def descrizione_formati():
     return '\n'.join(f'- {k} (copertina {v["copertina"]}, {v["slide"][0]}-{v["slide"][1]} slide, max {v["max_settimana"]} a settimana): {v["descrizione"]}'
-                     for k, v in CONF['formati'].items() if k != 'aggiornamento')
+                     for k, v in CONF['formati'].items() if k != 'aggiornamento' and not v.get('escluso'))
 
 
 def prossimo_giovedi(d):
@@ -257,7 +257,7 @@ def controlla_scaletta(scaletta, spazi, storia, lunedi):
     for v in voci:
         if v.get('spazio') not in {s['id'] for s in spazi}:
             errori.append(f'spazio sconosciuto {v.get("spazio")}')
-        if v.get('formato') not in CONF['formati'] or v.get('formato') == 'aggiornamento':
+        if v.get('formato') not in CONF['formati'] or v.get('formato') == 'aggiornamento' or CONF['formati'][v['formato']].get('escluso'):
             errori.append(f'{v.get("spazio")}: formato non valido {v.get("formato")}')
         if v.get('formato') in ('notizia', 'numero') and not v.get('fonti'):
             errori.append(f'{v.get("spazio")}: una {v["formato"]} deve avere la fonte')
@@ -490,7 +490,7 @@ REGOLE:
   «molte PMI non usano l'AI / non sanno da dove cominciare». Se c'è una novità vera su un tema già trattato, va bene solo con un taglio nuovo e dichiarato.
 - I post di notizia o numero devono avere fonti verificate. Gli altri possono non averle, ma niente fatti inventati.
 - Pensa alla settimana come a un racconto: varia tono e argomento (AI, presenza online, tempo risparmiato, privacy, strumenti gratuiti…).
-- Aggiungi 2 post di «riserva» senza scadenza (formato a scelta tra consiglio, parola, domanda, parere): sostituiscono un post bloccato.
+- Aggiungi 2 post di «riserva» senza scadenza (formato a scelta tra consiglio, domanda, parere): sostituiscono un post bloccato.
 
 STORICO DEI POST (più vecchi in alto):
 {elenco_storia}
