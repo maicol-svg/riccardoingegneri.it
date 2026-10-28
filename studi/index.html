@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/img/logo/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/img/logo/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/logo/apple-touch-icon.png">
+<title>L'AI in studio, in regola — Riccardo Ingegneri</title>
+<meta name="description" content="Percorso pratico sull'intelligenza artificiale per studi di avvocati, commercialisti e consulenti del lavoro: tre incontri sui vostri casi, regole interne e informativa ai clienti.">
+<meta property="og:title" content="L'AI in studio, in regola">
+<meta property="og:description" content="Tre incontri pratici per usare l'AI bene e in regola, sui casi del vostro studio.">
+<meta property="og:image" content="https://riccardoingegneri.it/img/riccardo.jpg">
+<meta property="og:url" content="https://riccardoingegneri.it/studi/">
+<link rel="canonical" href="https://riccardoingegneri.it/studi/">
+<meta name="theme-color" content="#1d3d8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sito.css">
+<style>
+:root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--panel:#eceff5;--lamp:#f3d74a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--text);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+h1,h2,h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);margin:0;text-wrap:pretty}
+p{margin:0;text-wrap:pretty}
+[hidden]{display:none!important}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+
+/* testata */
+.foglio{background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:22px 0 36px;border-bottom:3px solid var(--ink)}
+.casa{display:inline-flex;align-items:center;gap:12px;min-height:48px;text-decoration:none;color:var(--text);font-weight:700}
+.casa img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:50% 25%;border:3px solid #fff;box-shadow:0 0 0 2px var(--ink)}
+h1{font-size:48px;line-height:1.04;margin-top:22px}
+.gratis{display:inline-block;background:var(--lamp);font-weight:700;padding:2px 10px;border-radius:3px;margin-top:16px;font-size:18px}
+.sub{margin-top:14px}
+
+/* i tre passaggi */
+.passi{list-style:none;margin:0;padding:32px 0 36px;display:flex;flex-direction:column;gap:18px}
+.passi li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px}
+.passi .n{font-family:'Instrument Serif',Georgia,serif;font-size:44px;line-height:1;color:var(--ink)}
+
+/* modulo */
+.banda{background:var(--ink);padding:36px 0 22px}
+.banda h2{color:#fff;font-size:40px;margin-bottom:18px}
+.sheet{background-color:#fff;background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);border-radius:6px;border-top:10px solid var(--lamp);padding:28px 22px 30px}
+.campo{margin-bottom:24px}
+.campo label,.campo legend{display:block;font-weight:700;font-size:20px;line-height:1.35;margin-bottom:6px;color:var(--ink);padding:0}
+.aiuto{display:block;font-weight:400;font-size:17px;color:#4a5263}
+fieldset{border:0;margin:0 0 24px;padding:0;min-width:0}
+.campo input[type=text],.campo input[type=email],.campo textarea{display:block;width:100%;min-height:56px;padding:10px 14px;font:inherit;font-size:19px;color:var(--text);background:#fff;border:2px solid #9fb0cc;border-radius:6px}
+.campo textarea{min-height:120px;resize:vertical;line-height:1.5}
+.campo input:focus,.campo textarea:focus{outline:3px solid var(--lamp);outline-offset:1px;border-color:var(--ink)}
+[aria-invalid="true"]{border-color:#b3261e!important}
+.errore{display:block;margin-top:6px;font-size:17px;color:#b3261e;font-weight:700}
+.spunta{display:flex;gap:14px;align-items:flex-start;padding:9px 0;font-size:18px;line-height:1.45;cursor:pointer}
+.spunta input{flex:none;width:28px;height:28px;margin:0;accent-color:var(--ink);cursor:pointer}
+.campo .spunta{display:flex;margin:0;font-weight:400;font-size:18px;line-height:1.45;color:var(--text);border-top:1px solid var(--panel);background:#fff;padding:10px 0}
+.campo .spunta:first-of-type{border-top:0}
+.invia{display:flex;align-items:center;justify-content:center;width:100%;min-height:66px;margin-top:6px;padding:0 20px;font:inherit;font-size:22px;font-weight:700;color:var(--text);background:var(--lamp);border:3px solid var(--ink);border-radius:8px;box-shadow:4px 5px 0 var(--ink);cursor:pointer}
+.invia:hover{background:#f7e27a}
+.invia:active{transform:translate(2px,3px);box-shadow:2px 2px 0 var(--ink)}
+.invia[disabled]{opacity:.7;cursor:wait}
+.problema{margin-top:16px;padding:12px 14px;background:#fdf0ee;border-left:4px solid #b3261e;font-size:18px}
+.problema a{font-weight:700}
+.grazie h3{font-size:40px;line-height:1.1;margin-bottom:12px}
+.grazie p{font-size:20px}
+.grazie p+p{margin-top:12px}
+.grazie a.bt{display:flex;align-items:center;justify-content:center;min-height:60px;margin-top:20px;background:var(--ink);color:#fff;font-weight:700;font-size:20px;border-radius:7px;text-decoration:none}
+.fallback{padding:18px 4px 8px;font-size:18px}
+.fallback a{color:#fff;display:inline-flex;min-height:48px;align-items:center}
+
+footer{padding:30px 0 52px;font-size:17px;line-height:1.75;text-align:center}
+footer a{display:inline-flex;min-height:44px;align-items:center}
+@media (min-width:860px){
+  body{font-size:20px}
+  .foglio{padding:36px 0 52px}
+  h1{font-size:64px}
+  .banda{padding:56px 0 34px}
+  .banda h2{font-size:48px}
+  .sheet{padding:36px 36px 38px}
+}
+
+.blocco{padding:34px 0;border-bottom:1px solid var(--rule)}
+.blocco h2{font-size:38px;line-height:1.1;margin-bottom:14px}
+.blocco p+p,.blocco p+ul,.blocco ul+p{margin-top:12px}
+.blocco ul{margin:10px 0 0;padding-left:22px}
+.blocco li{margin:6px 0}
+.legge{background:#fff;border-left:6px solid var(--lamp);padding:14px 16px;margin-top:16px;border-radius:4px}
+.incontri{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-direction:column;gap:16px}
+.incontri li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;margin:0}
+.incontri .n{font-family:'Instrument Serif',Georgia,serif;font-size:44px;line-height:1;color:var(--ink)}
+.incontri b{color:var(--ink)}
+.cta{display:flex;align-items:center;justify-content:center;min-height:66px;margin-top:22px;padding:0 20px;font-size:22px;font-weight:700;color:var(--text);background:var(--lamp);border:3px solid var(--ink);border-radius:8px;box-shadow:4px 5px 0 var(--ink);text-decoration:none}
+.cta:hover{background:#f7e27a}
+.banda p{color:#fff}
+@media (min-width:900px){
+  .wrap{max-width:1180px;padding:0 48px}
+  .foglio{padding:56px 0 64px}
+  h1{font-size:76px}
+  .blocco{padding:64px 0}
+  .blocco h2{font-size:46px}
+  .banda .cta{display:inline-flex;min-width:340px}
+}
+</style>
+</head>
+<body>
+
+<nav class="barra-sito" aria-label="Menu principale">
+  <div class="barra-in">
+    <a class="marchio" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
+    <ul>
+      <li><a href="/webinar/">Incontro</a></li>
+      <li><a href="/servizi/">Servizi</a></li>
+      <li><a class="parla" href="/parliamone/">Parliamone</a></li>
+    </ul>
+  </div>
+  <span class="avanzamento" aria-hidden="true"></span>
+</nav>
+
+<header class="foglio">
+  <div class="wrap">
+    <h1>L'AI in studio, in regola</h1>
+    <span class="gratis">Per avvocati, commercialisti e consulenti del lavoro</span>
+    <p class="sub">Tre incontri pratici per usare l'intelligenza artificiale bene, sui casi del vostro studio, con regole chiare per voi e per i vostri clienti.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="blocco sez">
+      <div class="sez-testo">
+      <h2>Perché adesso</h2>
+      <p>In molti studi l'AI è già entrata: una bozza, una sintesi, una mail. Spesso ognuno la usa per conto suo, senza regole su cosa si può inserire e cosa no.</p>
+      <div class="legge">
+        <p><b>Cosa dicono le regole.</b> L'AI Act europeo chiede a chi usa sistemi di AI di curare la competenza delle persone che li usano (art. 4). La legge italiana sull'AI (L. 132/2025, art. 13) chiede al professionista che la usa di dirlo al cliente con parole chiare, e di restare lui il responsabile del lavoro.</p>
+      </div>
+      <p>Non serve diventare esperti. Serve usarla bene, con calma, sul vostro lavoro.</p>
+      </div>
+      <div class="sez-vis" aria-hidden="true">
+        <svg viewBox="0 0 480 380">
+          <path d="M240 50 v260" stroke="#1d3d8a" stroke-width="8" stroke-linecap="round"/>
+          <path d="M170 320 h140" stroke="#1d3d8a" stroke-width="10" stroke-linecap="round"/>
+          <path d="M90 90 l300 -20" stroke="#1d3d8a" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="240" cy="80" r="14" fill="#f3d74a" stroke="#1d3d8a" stroke-width="5"/>
+          <path d="M90 90 l-50 110 h100 z M390 70 l-50 110 h100 z" fill="none" stroke="#1d3d8a" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M30 200 q60 40 120 0 z" fill="#fff" stroke="#1d3d8a" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M330 180 q60 40 120 0 z" fill="#f3d74a" stroke="#1d3d8a" stroke-width="6" stroke-linejoin="round"/>
+          <text x="90" y="268" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="32" fill="#5b6475">AI Act</text>
+          <text x="390" y="248" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="32" fill="#5b6475">L. 132/2025</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="blocco sez inversa">
+      <div class="sez-testo">
+      <h2>Come funziona</h2>
+      <p>Si parte da una <b>chiacchierata gratuita di 20 minuti</b>: cosa usate oggi, cosa vi preoccupa, chi partecipa. Poi tre incontri da due ore, in studio o online, a una settimana di distanza.</p>
+      <ol class="incontri">
+        <li><span class="n">1</span><p><b>Cos'è, e cosa dice la legge.</b> Come funzionano questi strumenti, dove sbagliano, privacy e segreto professionale: cosa non si inserisce mai.</p></li>
+        <li><span class="n">2</span><p><b>Le mani in pasta, sui vostri casi.</b> Ricerche, bozze, sintesi di documenti, mail, con strumenti scelti insieme e impostati in modo sicuro.</p></li>
+        <li><span class="n">3</span><p><b>Le regole dello studio.</b> Chi usa cosa, per cosa, chi controlla. Come informare i clienti.</p></li>
+      </ol>
+      </div>
+      <div class="sez-vis" aria-hidden="true">
+        <svg viewBox="0 0 480 380">
+          <path d="M80 60 v260" stroke="#c9d5e7" stroke-width="8" stroke-dasharray="4 14" stroke-linecap="round"/>
+          <g font-family="Instrument Serif" font-size="44" fill="#1d3d8a" text-anchor="middle">
+            <circle cx="80" cy="80" r="34" fill="#fff" stroke="#1d3d8a" stroke-width="6"/><text x="80" y="95">1</text>
+            <circle cx="80" cy="190" r="34" fill="#fff" stroke="#1d3d8a" stroke-width="6"/><text x="80" y="205">2</text>
+            <circle cx="80" cy="300" r="34" fill="#f3d74a" stroke="#1d3d8a" stroke-width="6"/><text x="80" y="315">3</text>
+          </g>
+          <g fill="#fff" stroke="#1d3d8a" stroke-width="5"><rect x="140" y="52" width="300" height="56" rx="10"/><rect x="140" y="162" width="300" height="56" rx="10"/><rect x="140" y="272" width="300" height="56" rx="10"/></g>
+          <g font-family="Caveat" font-weight="700" font-size="32" fill="#1d3d8a"><text x="160" y="90">cos'è, e la legge</text><text x="160" y="200">sui vostri casi</text><text x="160" y="310">le regole dello studio</text></g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="blocco sez">
+      <div class="sez-testo">
+      <h2>Cosa resta allo studio</h2>
+      <ul>
+        <li>un vademecum di una pagina, da tenere sulla scrivania;</li>
+        <li>una policy interna sull'uso dell'AI, adattata allo studio;</li>
+        <li>un modello di informativa ai clienti, che lo studio rivede e fa suo;</li>
+        <li>un attestato di partecipazione per ogni persona;</li>
+        <li>un mese di domande via mail o WhatsApp dopo l'ultimo incontro.</li>
+      </ul>
+      <p>Prezzo fisso per studio, senza abbonamenti: ve lo dico dopo la chiacchierata, quando so quante persone partecipano.</p>
+      </div>
+      <div class="sez-vis" aria-hidden="true">
+        <svg viewBox="0 0 480 380">
+          <g transform="translate(-90 0)">
+          <g stroke="#1d3d8a" stroke-width="5" stroke-linejoin="round">
+            <rect x="150" y="40" width="220" height="280" rx="10" fill="#fff" transform="rotate(8 260 180)"/>
+            <rect x="130" y="50" width="220" height="280" rx="10" fill="#fff" transform="rotate(-5 240 190)"/>
+            <rect x="120" y="56" width="220" height="280" rx="10" fill="#fff"/>
+          </g>
+          <rect x="146" y="86" width="120" height="16" rx="4" fill="#1d3d8a"/>
+          <g fill="#c9d5e7"><rect x="146" y="124" width="168" height="10" rx="4"/><rect x="146" y="148" width="150" height="10" rx="4"/><rect x="146" y="172" width="160" height="10" rx="4"/><rect x="146" y="196" width="120" height="10" rx="4"/></g>
+          <circle cx="300" cy="280" r="34" fill="#f3d74a" stroke="#1d3d8a" stroke-width="5"/>
+          <path d="M284 280 l12 12 l22 -24" fill="none" stroke="#1d3d8a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <text x="318" y="130" font-family="Caveat" font-weight="700" font-size="30" fill="#5b6475">vademecum</text>
+          <text x="318" y="180" font-family="Caveat" font-weight="700" font-size="30" fill="#5b6475">policy</text>
+          <text x="318" y="230" font-family="Caveat" font-weight="700" font-size="30" fill="#5b6475">informativa</text>
+          <text x="318" y="280" font-family="Caveat" font-weight="700" font-size="30" fill="#5b6475">attestato</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="blocco sez inversa">
+      <div class="sez-testo">
+      <h2>Chi sono</h2>
+      <p>Sono Riccardo Ingegneri, consulente digitale. Ho insegnato nei corsi di AI dell'Istituto Volta, ho tenuto un corso di 48 ore sull'AI nel programma GOL e un corso su AI, GDPR e AI Act per professionisti del settore legale. Sul campo realizzo assistenti AI e automazioni per aziende e studi.</p>
+      </div>
+      <figure class="polaroid"><img src="/img/riccardo.jpg" alt="Riccardo Ingegneri" width="900" height="1200" loading="lazy"><figcaption>Riccardo</figcaption></figure>
+    </section>
+  </div>
+
+  <div class="banda">
+    <div class="wrap">
+      <h2>Parliamone</h2>
+      <p>Venti minuti, gratuiti e senza impegno, per capire come siete messi.</p>
+      <a class="cta" href="/parliamone/">Fissa la chiacchierata</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="piede-link"><a href="/webinar/">Incontro</a><a href="/servizi/">Servizi</a><a href="/parliamone/">Parliamone</a></p>
+    Riccardo Ingegneri · <a href="/">riccardoingegneri.it</a> · <a href="/webinar/privacy">Privacy</a>
+  </div>
+</footer>
+<script src="/assets/sito.js"></script>
+</body>
+</html>
