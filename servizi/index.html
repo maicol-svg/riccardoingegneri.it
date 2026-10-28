@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Servizi: sessioni pratiche, automazioni e formazione con Riccardo Ingegneri</title>
+<meta name="description" content="Una sessione pratica sul tuo lavoro, un'automazione su misura o una formazione per il tuo gruppo. Chiedi i dettagli: ti arrivano subito via mail.">
+<meta property="og:title" content="Cosa posso fare per te">
+<meta property="og:description" content="Sessione pratica, automazioni su misura, formazione per gruppi. I dettagli ti arrivano via mail.">
+<meta property="og:image" content="https://riccardoingegneri.it/img/riccardo.jpg">
+<meta property="og:url" content="https://riccardoingegneri.it/servizi/">
+<link rel="canonical" href="https://riccardoingegneri.it/servizi/">
+<meta name="theme-color" content="#1d3d8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--panel:#eceff5;--lamp:#f3d74a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--text);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+h1,h2,h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);margin:0;text-wrap:pretty}
+p{margin:0;text-wrap:pretty}
+[hidden]{display:none!important}
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+
+/* testata */
+.foglio{background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:22px 0 36px;border-bottom:3px solid var(--ink)}
+.casa{display:inline-flex;align-items:center;gap:12px;min-height:48px;text-decoration:none;color:var(--text);font-weight:700}
+.casa img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:50% 25%;border:3px solid #fff;box-shadow:0 0 0 2px var(--ink)}
+h1{font-size:48px;line-height:1.04;margin-top:22px}
+.sub{margin-top:14px}
+
+/* i servizi */
+.servizi{padding:30px 0 40px;display:flex;flex-direction:column;gap:22px}
+.servizio{background:#fff;border-radius:8px;border-left:8px solid var(--ink);padding:24px 22px 24px}
+.servizio:nth-child(2){border-left-color:var(--lamp)}
+.servizio:nth-child(3){border-left-color:#8fa6d4}
+.servizio h2{font-size:36px;line-height:1.08;margin-bottom:16px}
+.voce{margin-top:12px}
+.voce b{display:block;font-size:16px;color:var(--ink)}
+.chiedi{display:flex;align-items:center;justify-content:center;width:100%;min-height:58px;margin-top:20px;padding:0 18px;font:inherit;font-size:20px;font-weight:700;color:#fff;background:var(--ink);border:0;border-radius:8px;cursor:pointer}
+.chiedi:hover{background:#163070}
+.incerto{padding:0 0 40px}
+.incerto p{background:var(--panel);border-radius:8px;padding:16px 18px}
+
+/* modulo */
+.banda{background:var(--ink);padding:36px 0 22px}
+.banda h2{color:#fff;font-size:40px;margin-bottom:18px}
+.sheet{background-color:#fff;background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);border-radius:6px;border-top:10px solid var(--lamp);padding:28px 22px 30px}
+.campo{margin-bottom:24px}
+.campo label,.campo legend{display:block;font-weight:700;font-size:20px;line-height:1.35;margin-bottom:6px;color:var(--ink);padding:0}
+.aiuto{display:block;font-weight:400;font-size:17px;color:#4a5263}
+fieldset{border:0;margin:0 0 24px;padding:0;min-width:0}
+.campo input[type=text],.campo input[type=email],.campo textarea{display:block;width:100%;min-height:56px;padding:10px 14px;font:inherit;font-size:19px;color:var(--text);background:#fff;border:2px solid #9fb0cc;border-radius:6px}
+.campo textarea{min-height:110px;resize:vertical;line-height:1.5}
+.campo input:focus,.campo textarea:focus{outline:3px solid var(--lamp);outline-offset:1px;border-color:var(--ink)}
+[aria-invalid="true"]{border-color:#b3261e!important}
+.errore{display:block;margin-top:6px;font-size:17px;color:#b3261e;font-weight:700}
+.spunta{display:flex;gap:14px;align-items:flex-start;padding:9px 0;font-size:18px;line-height:1.45;cursor:pointer}
+.spunta input{flex:none;width:28px;height:28px;margin:0;accent-color:var(--ink);cursor:pointer}
+.campo .spunta{display:flex;margin:0;font-weight:400;font-size:18px;line-height:1.45;color:var(--text);border-top:1px solid var(--panel);background:#fff;padding:10px 0}
+.campo .spunta:first-of-type{border-top:0}
+.nascosto{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.invia{display:flex;align-items:center;justify-content:center;width:100%;min-height:66px;margin-top:6px;padding:0 20px;font:inherit;font-size:22px;font-weight:700;color:var(--text);background:var(--lamp);border:3px solid var(--ink);border-radius:8px;box-shadow:4px 5px 0 var(--ink);cursor:pointer}
+.invia:hover{background:#f7e27a}
+.invia:active{transform:translate(2px,3px);box-shadow:2px 2px 0 var(--ink)}
+.invia[disabled]{opacity:.7;cursor:wait}
+.problema{margin-top:16px;padding:12px 14px;background:#fdf0ee;border-left:4px solid #b3261e;font-size:18px}
+.grazie h3{font-size:40px;line-height:1.1;margin-bottom:12px}
+.grazie p{font-size:20px}
+.grazie p+p{margin-top:12px}
+.fallback{padding:18px 4px 8px;font-size:18px}
+.fallback a{color:#fff;display:inline-flex;min-height:48px;align-items:center}
+
+footer{padding:30px 0 52px;font-size:17px;line-height:1.75;text-align:center}
+footer a{display:inline-flex;min-height:44px;align-items:center}
+@media (min-width:860px){
+  body{font-size:20px}
+  .foglio{padding:36px 0 52px}
+  h1{font-size:64px}
+  .servizio{padding:30px 32px}
+  .banda{padding:56px 0 34px}
+  .banda h2{font-size:48px}
+  .sheet{padding:36px 36px 38px}
+}
+</style>
+</head>
+<body>
+
+<header class="foglio">
+  <div class="wrap">
+    <a class="casa" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
+    <h1>Cosa posso fare per te</h1>
+    <p class="sub">Tre modi di lavorare insieme, dal più semplice al più su misura. Scegli quello che ti interessa: i dettagli, con i costi, ti arrivano subito via mail.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="servizi">
+      <article class="servizio" id="sessione">
+        <h2>Una sessione pratica sul tuo lavoro</h2>
+        <p class="voce"><b>Per chi</b>Professionisti, consulenti e piccoli uffici che vogliono usare l'intelligenza artificiale e gli strumenti digitali, ma non sanno da dove partire.</p>
+        <p class="voce"><b>Come funziona</b>Un'ora online a tu per tu. Partiamo da un'attività concreta del tuo lavoro e la proviamo insieme, con lo strumento adatto.</p>
+        <p class="voce"><b>Cosa ti resta</b>Un procedimento che puoi ripetere da solo e un riepilogo scritto dei prossimi passi.</p>
+        <button type="button" class="chiedi" data-servizio="sessione">Ricevi i dettagli via mail</button>
+      </article>
+
+      <article class="servizio" id="automazione">
+        <h2>Un'automazione su misura</h2>
+        <p class="voce"><b>Per chi</b>Chi ogni settimana perde tempo in lavori ripetitivi: posta, documenti, pratiche, informazioni da copiare da un posto all'altro.</p>
+        <p class="voce"><b>Come funziona</b>Guardiamo insieme il processo, poi ti propongo per iscritto una soluzione circoscritta, con tempi e costi chiari prima di iniziare.</p>
+        <p class="voce"><b>Cosa ti resta</b>Uno strumento funzionante che fa quel lavoro al posto tuo, con le istruzioni per usarlo.</p>
+        <button type="button" class="chiedi" data-servizio="automazione">Ricevi i dettagli via mail</button>
+      </article>
+
+      <article class="servizio" id="formazione">
+        <h2>Formazione per il tuo gruppo</h2>
+        <p class="voce"><b>Per chi</b>Studi, uffici, aziende ed enti di formazione che vogliono far lavorare meglio le persone con questi strumenti.</p>
+        <p class="voce"><b>Come funziona</b>Da uno a tre incontri di 2 ore, online o in presenza, su un tema scelto insieme: dimostrazioni, esercizi su casi vostri, limiti e controlli.</p>
+        <p class="voce"><b>Cosa ti resta</b>Indicazioni pratiche per tutto il gruppo, da usare dal giorno dopo.</p>
+        <button type="button" class="chiedi" data-servizio="formazione">Ricevi i dettagli via mail</button>
+      </article>
+    </div>
+
+    <div class="incerto">
+      <p>Non sai quale fa per te? Parliamone in una <a href="/parliamone/">consulenza gratuita di 20 minuti</a>.</p>
+    </div>
+  </div>
+
+  <div class="banda" id="richiesta">
+    <div class="wrap">
+      <h2>Ricevi i dettagli</h2>
+      <div class="sheet">
+        <!-- Il modulo invia a Apps Script (progetto «Webinar AI», Servizi.gs): la mail con i dettagli parte da lì -->
+        <form id="modulo" novalidate>
+          <fieldset class="campo" id="f-servizio">
+            <legend>Cosa ti interessa?</legend>
+            <label class="spunta"><input type="radio" name="servizio" value="sessione"><span>Una sessione pratica sul tuo lavoro</span></label>
+            <label class="spunta"><input type="radio" name="servizio" value="automazione"><span>Un'automazione su misura</span></label>
+            <label class="spunta"><input type="radio" name="servizio" value="formazione"><span>Formazione per il tuo gruppo</span></label>
+          </fieldset>
+          <div class="campo">
+            <label for="f-nome">Nome e cognome</label>
+            <input id="f-nome" name="nome" type="text" autocomplete="name" required>
+          </div>
+          <div class="campo">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <div class="campo">
+            <label for="f-lavoro">Che lavoro fai?</label>
+            <input id="f-lavoro" name="lavoro" type="text" autocomplete="organization-title" required>
+          </div>
+          <div class="campo">
+            <label for="f-problema">C'è un problema preciso da cui partire? <span class="aiuto">Facoltativo</span></label>
+            <textarea id="f-problema" name="problema" rows="3"></textarea>
+          </div>
+          <div class="nascosto" aria-hidden="true"><label for="f-sito">Lascia vuoto</label><input id="f-sito" name="sito" type="text" tabindex="-1" autocomplete="off"></div>
+          <label class="spunta"><input id="f-privacy" type="checkbox" required><span>Acconsento a essere ricontattato per la richiesta che ho fatto. <a href="/webinar/privacy" target="_blank" rel="noopener">Informativa</a></span></label>
+          <button class="invia" type="submit">Mandami i dettagli</button>
+          <p class="problema" id="problema" hidden>Non sono riuscito a inviare la richiesta. Controlla la connessione e riprova, oppure scrivimi a <a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a>.</p>
+        </form>
+        <div class="grazie" id="grazie" hidden tabindex="-1">
+          <h3>Grazie, <span id="g-nome">a presto</span>!</h3>
+          <p>Ti ho appena mandato una mail con i dettagli. Se non la trovi, guarda nella posta indesiderata.</p>
+          <p>Per qualsiasi domanda, rispondi pure a quella mail: arriva direttamente a me.</p>
+        </div>
+      </div>
+      <p class="fallback"><a href="/">← Torna alla pagina principale</a></p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Riccardo Ingegneri</strong> · P.IVA 03837300833</p>
+    <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
+    <p><a href="/webinar/privacy">Informativa privacy</a></p>
+  </div>
+</footer>
+
+<script>
+// I pulsanti dei servizi scelgono la voce nel modulo e ci portano lì.
+document.querySelectorAll('.chiedi').forEach(function (b) {
+  b.addEventListener('click', function () {
+    document.querySelector('input[name=servizio][value="' + b.dataset.servizio + '"]').checked = true;
+    document.getElementById('richiesta').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(function () { document.getElementById('f-nome').focus({ preventScroll: true }); }, 500);
+  });
+});
+
+// Controlla i campi e invia a Apps Script (no-cors: la risposta non si legge; se la richiesta parte, è arrivata).
+(function () {
+  var URL = 'https://script.google.com/macros/s/AKfycbwnVB_8M2oiprBak9EdHAoBEfH8dj16F90r65n2Q-qLeLx4M97FOpmqn00lbPbT5ohUUQ/exec';
+  var form = document.getElementById('modulo');
+  var bottone = form.querySelector('.invia');
+
+  function segna(campo, dove, messaggio) {
+    campo.removeAttribute('aria-invalid');
+    if (!messaggio) return true;
+    var e = document.createElement('span');
+    e.className = 'errore';
+    e.id = campo.id + '-errore';
+    e.textContent = messaggio;
+    dove.parentNode.insertBefore(e, dove.nextSibling);
+    campo.setAttribute('aria-invalid', 'true');
+    campo.setAttribute('aria-describedby', e.id);
+    return false;
+  }
+  function controlla() {
+    form.querySelectorAll('.errore').forEach(function (e) { e.remove(); });
+    var servizio = document.getElementById('f-servizio'), nome = document.getElementById('f-nome'), email = document.getElementById('f-email');
+    var lavoro = document.getElementById('f-lavoro'), privacy = document.getElementById('f-privacy');
+    var ok = [
+      segna(servizio, servizio.lastElementChild, form.querySelector('input[name=servizio]:checked') ? '' : 'Scegli il servizio che ti interessa.'),
+      segna(nome, nome, nome.value.trim() ? '' : 'Scrivi il tuo nome.'),
+      segna(email, email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()) ? '' : 'Controlla l\'indirizzo email: sembra incompleto.'),
+      segna(lavoro, lavoro, lavoro.value.trim() ? '' : 'Scrivi in due parole che lavoro fai.'),
+      segna(privacy, privacy.parentNode, privacy.checked ? '' : 'Per mandare la richiesta serve questa spunta.')
+    ];
+    var primo = [servizio.querySelector('input'), nome, email, lavoro, privacy][ok.indexOf(false)];
+    if (primo) primo.focus();
+    return !primo;
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    document.getElementById('problema').hidden = true;
+    if (!controlla()) return;
+    var dati = new URLSearchParams();
+    dati.append('tipo', 'servizio');
+    dati.append('servizio', form.querySelector('input[name=servizio]:checked').value);
+    ['nome', 'email', 'lavoro', 'problema', 'sito'].forEach(function (n) { dati.append(n, form.elements[n].value.trim()); });
+    dati.append('privacy', 'si');
+    bottone.disabled = true;
+    bottone.textContent = 'Invio in corso…';
+    fetch(URL, { method: 'POST', mode: 'no-cors', body: dati })
+      .then(function () {
+        var nome = document.getElementById('f-nome').value.trim().split(/\s+/)[0];
+        if (nome) document.getElementById('g-nome').textContent = nome;
+        form.hidden = true;
+        var g = document.getElementById('grazie');
+        g.hidden = false;
+        g.focus();
+      })
+      .catch(function () {
+        bottone.disabled = false;
+        bottone.textContent = 'Mandami i dettagli';
+        document.getElementById('problema').hidden = false;
+      });
+  });
+})();
+</script>
+</body>
+</html>
