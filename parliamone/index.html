@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sito.css">
 <style>
 :root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--panel:#eceff5;--lamp:#f3d74a}
 *{box-sizing:border-box}
@@ -82,9 +83,20 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
 </head>
 <body>
 
+<nav class="barra-sito" aria-label="Menu principale">
+  <div class="barra-in">
+    <a class="marchio" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
+    <ul>
+      <li><a href="/webinar/">Incontro</a></li>
+      <li><a href="/servizi/">Servizi</a></li>
+      <li><a class="parla" href="/parliamone/">Parliamone</a></li>
+    </ul>
+  </div>
+  <span class="avanzamento" aria-hidden="true"></span>
+</nav>
+
 <header class="foglio">
   <div class="wrap">
-    <a class="casa" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
     <h1>La tua consulenza personale</h1>
     <span class="gratis">La prima è gratuita · 20 minuti · nessun impegno</span>
     <p class="sub">Una videochiamata a tu per tu: guardiamo insieme la tua attività e ti dico con franchezza se e come posso esserti utile.</p>
@@ -105,16 +117,16 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
       <h2>Parliamone</h2>
       <div class="sheet">
         <!-- Il modulo invia i dati al Google Form «Voglio saperne di più»: la mail con il link per prenotare parte da Apps Script -->
-        <form id="modulo" novalidate>
+        <form id="modulo" novalidate data-passi>
           <div class="campo">
             <label for="f-nome">Nome e cognome</label>
-            <input id="f-nome" name="entry.1710759694" type="text" autocomplete="name" required>
+            <input id="f-nome" data-passo name="entry.1710759694" type="text" autocomplete="name" required>
           </div>
           <div class="campo">
             <label for="f-email">Email</label>
-            <input id="f-email" name="entry.611068517" type="email" autocomplete="email" inputmode="email" required>
+            <input id="f-email" data-passo name="entry.611068517" type="email" autocomplete="email" inputmode="email" required>
           </div>
-          <fieldset class="campo" id="f-interessi">
+          <fieldset class="campo" id="f-interessi" data-passo>
             <legend>Cosa ti interessa? <span class="aiuto">Puoi sceglierne più di uno.</span></legend>
             <label class="spunta"><input type="checkbox" name="entry.1002371076" value="Imparare a usare questi strumenti (per me o per la mia azienda)"><span>Imparare a usare questi strumenti (per me o per la mia azienda)</span></label>
             <label class="spunta"><input type="checkbox" name="entry.1002371076" value="Un'automazione su misura per il mio lavoro"><span>Un'automazione su misura per il mio lavoro</span></label>
@@ -127,11 +139,11 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
             <label for="f-messaggio">Raccontami in due righe cosa ti farebbe risparmiare più tempo <span class="aiuto">Facoltativo</span></label>
             <textarea id="f-messaggio" name="entry.184426650" rows="4"></textarea>
           </div>
-          <label class="spunta"><input id="f-privacy" type="checkbox" name="entry.2047659587" value="Acconsento a essere ricontattato per la richiesta che ho fatto" required><span>Acconsento a essere ricontattato per la richiesta che ho fatto. <a href="/webinar/privacy" target="_blank" rel="noopener">Informativa</a></span></label>
+          <label class="spunta"><input id="f-privacy" data-passo type="checkbox" name="entry.2047659587" value="Acconsento a essere ricontattato per la richiesta che ho fatto" required><span>Acconsento a essere ricontattato per la richiesta che ho fatto. <a href="/webinar/privacy" target="_blank" rel="noopener">Informativa</a></span></label>
           <button class="invia" type="submit">Invia e scegli l'orario</button>
           <p class="problema" id="problema" hidden>Non sono riuscito a inviare la richiesta. Controlla la connessione e riprova, oppure <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXwsXX429Yac0weYVJcCasGXFg66tH3pirb10WP7PBjbnFUw/viewform" target="_blank" rel="noopener">compila il modulo da questa pagina</a>.</p>
         </form>
-        <div class="grazie" id="grazie" hidden tabindex="-1">
+        <div class="grazie" id="grazie" hidden tabindex="-1" data-timbro="Ricevuto">
           <h3>Grazie, <span id="g-nome">a presto</span>!</h3>
           <p>Ti ho appena mandato una mail con il link per scegliere l'orario. Se non la trovi, guarda nella posta indesiderata.</p>
           <p>Se preferisci, puoi sceglierlo subito:</p>
@@ -145,6 +157,7 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
 
 <footer>
   <div class="wrap">
+    <p class="piede-link"><a href="/webinar/">Incontro</a><a href="/servizi/">Servizi</a><a href="/parliamone/">Parliamone</a></p>
     <p><strong>Riccardo Ingegneri</strong> · P.IVA 03837300833</p>
     <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
     <p><a href="/webinar/privacy">Informativa privacy</a></p>
@@ -214,5 +227,6 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
   });
 })();
 </script>
+<script src="/assets/sito.js"></script>
 </body>
 </html>

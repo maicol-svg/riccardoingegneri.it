@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sito.css">
 <style>
 :root{
   --ink:#1d3d8a;      /* blu inchiostro */
@@ -70,6 +71,24 @@ h1 .ev::before{content:"";position:absolute;left:-4px;right:-6px;bottom:6px;heig
 .racconto p+p{margin-top:14px}
 .nota{font-family:'Caveat',cursive;font-size:28px;color:var(--ink);line-height:1.25;margin-top:18px}
 
+
+/* ---------- cosa posso fare per te: anteprima dei servizi ---------- */
+.offerta{padding:34px 0 20px}
+.offerta h2{font-size:38px;line-height:1.08}
+.offerta .intro{margin-top:10px;max-width:36em}
+.assaggi{display:grid;gap:22px;margin-top:26px}
+.assaggio{display:flex;flex-direction:column;background:#fff;border:2px solid var(--ink);border-radius:8px;overflow:hidden;text-decoration:none;color:var(--text);box-shadow:4px 5px 0 var(--ink);transition:transform .2s cubic-bezier(.3,1.4,.5,1),box-shadow .2s}
+.assaggio:hover{transform:translate(-2px,-4px) rotate(-.4deg);box-shadow:6px 9px 0 var(--ink)}
+.assaggio:active{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--ink)}
+.assaggio .tav{position:relative;display:flex;justify-content:center;align-items:center;height:150px;padding:14px 10px 10px 30px;background-color:var(--paper);background-image:repeating-linear-gradient(to bottom,transparent 0 27px,var(--rule) 27px 28px);border-bottom:2px solid var(--ink)}
+.assaggio .tav::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:2px;background:var(--margine)}
+.assaggio svg{height:124px;width:auto;transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.assaggio:hover svg{transform:scale(1.07) rotate(-2deg)}
+.assaggio .corpo{display:flex;flex-direction:column;flex:1;padding:18px 20px 20px}
+.assaggio h3{font-size:30px;line-height:1.08;margin-bottom:8px}
+.assaggio p{font-size:18px;line-height:1.5}
+.assaggio .leggi{margin-top:auto;padding-top:14px;font-weight:700;color:var(--ink);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+
 footer{border-top:3px solid var(--ink);padding:30px 0 52px;font-size:17px;line-height:1.75;text-align:center}
 footer a{display:inline-flex;min-height:44px;align-items:center}
 
@@ -85,12 +104,27 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
   .porte{grid-template-columns:1fr 1fr;gap:32px;padding:64px 0 28px}
   .porta{padding:32px 32px 30px}
   .porta h2{font-size:46px}
+  .offerta{padding:56px 0 24px}
+  .offerta h2{font-size:48px}
+  .assaggi{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
   .racconto{padding:64px 0 80px}
   .racconto h2{font-size:44px}
 }
 </style>
 </head>
 <body>
+
+<nav class="barra-sito" aria-label="Menu principale">
+  <div class="barra-in">
+    <a class="marchio" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
+    <ul>
+      <li><a href="/webinar/">Incontro</a></li>
+      <li><a href="/servizi/">Servizi</a></li>
+      <li><a class="parla" href="/parliamone/">Parliamone</a></li>
+    </ul>
+  </div>
+  <span class="avanzamento" aria-hidden="true"></span>
+</nav>
 
 <header class="foglio">
   <div class="wrap hero">
@@ -124,6 +158,25 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
     </a>
   </div>
 
+  <section class="offerta">
+    <h2>Cosa posso fare <span class="segno">per te</span></h2>
+    <p class="intro">Quando sai già cosa ti serve, ci sono tre modi di lavorare insieme. I dettagli e i costi ti arrivano via mail.</p>
+    <div class="assaggi">
+      <a class="assaggio" href="/servizi/#sessione">
+        <span class="tav" aria-hidden="true"><svg viewBox="0 0 400 480"><rect x="30" y="40" width="330" height="400" rx="16" fill="#fff" stroke="#1d3d8a" stroke-width="8"/><rect x="30" y="40" width="330" height="70" rx="16" fill="#1d3d8a"/><rect x="30" y="90" width="330" height="20" fill="#1d3d8a"/><g stroke="#c9d5e7" stroke-width="5"><line x1="70" y1="160" x2="320" y2="160"/><line x1="70" y1="370" x2="320" y2="370"/></g><rect x="70" y="210" width="250" height="110" rx="10" fill="#f3d74a"/><text x="195" y="282" text-anchor="middle" font-family="Instrument Serif" font-size="54" fill="#1d3d8a">60 minuti</text></svg></span>
+        <span class="corpo"><h3>Una sessione pratica sul tuo lavoro</h3><p>Un'ora online a tu per tu, su un'attività concreta.</p><span class="leggi">Scopri come funziona</span></span>
+      </a>
+      <a class="assaggio" href="/servizi/#automazione">
+        <span class="tav" aria-hidden="true"><svg viewBox="80 0 240 480"><rect x="110" y="20" width="180" height="100" rx="14" fill="#fff" stroke="#1d3d8a" stroke-width="8"/><path d="M140 50 h120 v50 h-120 z M140 50 l60 32 l60 -32" fill="none" stroke="#1d3d8a" stroke-width="7" stroke-linejoin="round"/><rect x="110" y="190" width="180" height="100" rx="14" fill="#fff" stroke="#1d3d8a" stroke-width="8"/><path d="M165 210 h50 l20 20 v50 h-70 z" fill="none" stroke="#1d3d8a" stroke-width="7" stroke-linejoin="round"/><rect x="110" y="360" width="180" height="100" rx="14" fill="#f3d74a" stroke="#1d3d8a" stroke-width="8"/><path d="M160 410 l26 26 l54 -54" fill="none" stroke="#1d3d8a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><g stroke="#1d3d8a" stroke-width="7" fill="none" stroke-linecap="round"><path d="M200 128 v52"/><path d="M186 164 l14 16 l14 -16"/><path d="M200 298 v52"/><path d="M186 334 l14 16 l14 -16"/></g></svg></span>
+        <span class="corpo"><h3>Un'automazione su misura</h3><p>Il lavoro ripetitivo di ogni settimana, fatto da solo.</p><span class="leggi">Scopri come funziona</span></span>
+      </a>
+      <a class="assaggio" href="/servizi/#formazione">
+        <span class="tav" aria-hidden="true"><svg viewBox="0 0 400 480"><rect x="20" y="30" width="360" height="230" rx="14" fill="#fff" stroke="#1d3d8a" stroke-width="8"/><rect x="50" y="62" width="150" height="22" rx="4" fill="#1d3d8a"/><rect x="50" y="110" width="290" height="16" rx="4" fill="#c9d5e7"/><rect x="50" y="170" width="140" height="56" rx="8" fill="#f3d74a"/><line x1="200" y1="260" x2="200" y2="300" stroke="#1d3d8a" stroke-width="8"/><g fill="#8fa6d4" stroke="#1d3d8a" stroke-width="6"><circle cx="70" cy="350" r="26"/><path d="M28 440 q42 -70 84 0 z"/><circle cx="160" cy="340" r="26"/><path d="M118 430 q42 -70 84 0 z"/><circle cx="250" cy="340" r="26" fill="#f3d74a"/><path d="M208 430 q42 -70 84 0 z" fill="#f3d74a"/><circle cx="335" cy="350" r="26"/><path d="M293 440 q42 -70 84 0 z"/></g></svg></span>
+        <span class="corpo"><h3>Formazione per il tuo gruppo</h3><p>Da uno a tre incontri, con esercizi sui vostri casi.</p><span class="leggi">Scopri come funziona</span></span>
+      </a>
+    </div>
+  </section>
+
   <section class="racconto">
     <h2>Chi sono</h2>
     <p>Per due anni ho insegnato intelligenza artificiale nei corsi dell'Istituto Volta. Oggi sono consulente e sviluppatore: costruisco automazioni e strumenti digitali per aziende e professionisti, per la posta, i documenti e le pratiche di tutti i giorni.</p>
@@ -134,11 +187,13 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
 
 <footer>
   <div class="wrap">
+    <p class="piede-link"><a href="/webinar/">Incontro</a><a href="/servizi/">Servizi</a><a href="/parliamone/">Parliamone</a></p>
     <p><strong>Riccardo Ingegneri</strong> · P.IVA 03837300833</p>
     <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
     <p><a href="webinar/privacy">Informativa privacy</a></p>
   </div>
 </footer>
 
+<script src="/assets/sito.js"></script>
 </body>
 </html>

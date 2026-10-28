@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sito.css">
 <style>
 :root{
   --ink:#1d3d8a;      /* blu inchiostro */
@@ -150,6 +151,7 @@ details[open] summary::after{content:"\2212"}
 details p{padding:0 20px 20px;font-size:19px}
 
 footer{border-top:3px solid var(--ink);padding:32px 0 56px;font-size:18px;line-height:1.75}
+footer .piede-link{justify-content:flex-start}
 footer a{display:inline-flex;min-height:48px;align-items:center}
 
 /* ---------- desktop ---------- */
@@ -178,6 +180,18 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
 </style>
 </head>
 <body>
+
+<nav class="barra-sito" aria-label="Menu principale">
+  <div class="barra-in">
+    <a class="marchio" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
+    <ul>
+      <li><a href="/webinar/">Incontro</a></li>
+      <li><a href="/servizi/">Servizi</a></li>
+      <li><a class="parla" href="/parliamone/">Parliamone</a></li>
+    </ul>
+  </div>
+  <span class="avanzamento" aria-hidden="true"></span>
+</nav>
 
 <header class="agenda">
   <div class="wrap">
@@ -229,7 +243,7 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
 <main>
   <section>
     <div class="wrap narrow">
-      <h2>Di cosa parliamo</h2>
+      <h2>Di cosa <span class="segno">parliamo</span></h2>
       <ul class="list">
         <li><span class="box"></span><p><strong>Cos'è davvero l'intelligenza artificiale.</strong> Detto con parole normali, senza paroloni.</p></li>
         <li><span class="box"></span><p><strong>Cosa può fare oggi per un'attività come la tua.</strong> Esempi concreti, presi dal lavoro di tutti i giorni.</p></li>
@@ -264,25 +278,25 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
       <p class="lead">Ci vediamo <mark>giovedì alle 20:00</mark>, online.</p>
       <div class="form-sheet">
         <!-- Il modulo invia i dati al Google Form: le mail automatiche restano quelle di Apps Script -->
-        <form id="modulo" novalidate>
+        <form id="modulo" novalidate data-passi>
           <div class="campo">
             <label for="f-nome">Nome e cognome</label>
-            <input id="f-nome" name="entry.622737286" type="text" autocomplete="name" required>
+            <input id="f-nome" data-passo name="entry.622737286" type="text" autocomplete="name" required>
           </div>
           <div class="campo">
             <label for="f-email">Email</label>
-            <input id="f-email" name="entry.1852853787" type="email" autocomplete="email" inputmode="email" required>
+            <input id="f-email" data-passo name="entry.1852853787" type="email" autocomplete="email" inputmode="email" required>
           </div>
           <div class="campo">
             <label for="f-lavoro">Che lavoro fai? <span class="aiuto">Facoltativo: mi aiuta a scegliere esempi utili per te.</span></label>
             <input id="f-lavoro" name="entry.113207348" type="text" autocomplete="organization-title">
           </div>
-          <label class="spunta"><input id="f-privacy" type="checkbox" name="entry.1917500661" value="Ho letto l'informativa e acconsento al trattamento dei miei dati per partecipare all'incontro" required><span>Ho letto l'<a href="privacy" target="_blank" rel="noopener">informativa</a> e acconsento al trattamento dei miei dati per partecipare all'incontro</span></label>
+          <label class="spunta"><input id="f-privacy" data-passo type="checkbox" name="entry.1917500661" value="Ho letto l'informativa e acconsento al trattamento dei miei dati per partecipare all'incontro" required><span>Ho letto l'<a href="privacy" target="_blank" rel="noopener">informativa</a> e acconsento al trattamento dei miei dati per partecipare all'incontro</span></label>
           <label class="spunta"><input type="checkbox" name="entry.1247084656" value="Voglio ricevere via mail i prossimi incontri e novità sull'AI"><span>Voglio ricevere via mail i prossimi incontri e novità sull'AI <span class="aiuto">(facoltativo)</span></span></label>
           <button class="btn cta invia" type="submit">Iscriviti gratis</button>
           <p class="problema" id="problema" hidden>Non sono riuscito a inviare l'iscrizione. Controlla la connessione e riprova, oppure <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVGzUxkSgH0O3nS5nqawB8p5Nh2JARU2FbaSFsUWK2o-beaQ/viewform" target="_blank" rel="noopener">iscriviti da questa pagina</a>.</p>
         </form>
-        <div class="grazie" id="grazie" hidden tabindex="-1">
+        <div class="grazie" id="grazie" hidden tabindex="-1" data-timbro="Iscritto">
           <h3>Fatto, <span id="g-nome">sei iscritto</span>!</h3>
           <p>Ti ho appena mandato una mail con la data e il link per entrare. Se non la trovi, guarda nella posta indesiderata.</p>
         </div>
@@ -305,6 +319,7 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
 
 <footer>
   <div class="wrap narrow">
+    <p class="piede-link"><a href="/webinar/">Incontro</a><a href="/servizi/">Servizi</a><a href="/parliamone/">Parliamone</a></p>
     <p><strong>Riccardo Ingegneri</strong></p>
     <p>P.IVA 03837300833</p>
     <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
@@ -430,4 +445,5 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
 })();
 </script>
 
+<script src="/assets/sito.js"></script>
 </body></html>

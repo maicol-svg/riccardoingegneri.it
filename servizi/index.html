@@ -14,8 +14,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sito.css">
 <style>
-:root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--panel:#eceff5;--lamp:#f3d74a}
+:root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--panel:#eceff5;--lamp:#f3d74a;--margine:#e7b9b0}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--text);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -24,45 +25,70 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--lamp);outline-offse
 h1,h2,h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);margin:0;text-wrap:pretty}
 p{margin:0;text-wrap:pretty}
 [hidden]{display:none!important}
-.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+.nota-mano{font-family:'Caveat',cursive;color:var(--ink);line-height:1.15}
 
-/* testata */
-.foglio{background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:22px 0 36px;border-bottom:3px solid var(--ink)}
-.casa{display:inline-flex;align-items:center;gap:12px;min-height:48px;text-decoration:none;color:var(--text);font-weight:700}
-.casa img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:50% 25%;border:3px solid #fff;box-shadow:0 0 0 2px var(--ink)}
-h1{font-size:48px;line-height:1.04;margin-top:22px}
-.sub{margin-top:14px}
+/* ---------- testata: il foglio del quaderno con il post-it ---------- */
+.foglio{background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:34px 0 44px;border-bottom:3px solid var(--ink)}
+.testa{display:grid;gap:30px;align-items:center}
+h1{position:relative;z-index:0;font-size:54px;line-height:1.02}
+h1 .ev{position:relative;white-space:nowrap}
+h1 .ev::before{content:"";position:absolute;left:-4px;right:-6px;bottom:6px;height:38%;background:var(--lamp);opacity:.85;z-index:-1;border-radius:3px 10px 6px 2px;transform-origin:left center}
+@media (prefers-reduced-motion:no-preference){h1 .ev::before{transform:scaleX(0);animation:swipe .7s cubic-bezier(.6,.05,.3,1) .4s forwards}}
+@keyframes swipe{to{transform:scaleX(1)}}
+.sub{margin-top:18px;max-width:32em}
+.indice{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;padding:0;list-style:none}
+.indice a{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;background:#fff;border:2px solid var(--ink);border-radius:30px;font-weight:700;font-size:17px;text-decoration:none;transition:transform .15s,background .15s}
+.indice a:hover{background:var(--lamp);transform:translateY(-2px)}
+.postit{justify-self:center;width:min(100%,330px);padding:26px 24px 22px;background:#fbe88a;box-shadow:0 14px 28px rgba(24,32,47,.16),0 2px 4px rgba(24,32,47,.12);transform:rotate(2.2deg);font-size:31px}
+.postit small{display:block;margin-top:10px;font-size:25px;color:#3b4d80}
 
-/* i servizi */
-.servizi{padding:30px 0 40px;display:flex;flex-direction:column;gap:22px}
-.servizio{background:#fff;border-radius:8px;border-left:8px solid var(--ink);padding:24px 22px 24px}
-.servizio:nth-child(2){border-left-color:var(--lamp)}
-.servizio:nth-child(3){border-left-color:#8fa6d4}
-.servizio h2{font-size:36px;line-height:1.08;margin-bottom:16px}
-.voce{margin-top:12px}
-.voce b{display:block;font-size:16px;color:var(--ink)}
-.chiedi{display:flex;align-items:center;justify-content:center;width:100%;min-height:58px;margin-top:20px;padding:0 18px;font:inherit;font-size:20px;font-weight:700;color:#fff;background:var(--ink);border:0;border-radius:8px;cursor:pointer}
-.chiedi:hover{background:#163070}
-.incerto{padding:0 0 40px}
-.incerto p{background:var(--panel);border-radius:8px;padding:16px 18px}
+/* ---------- i servizi ---------- */
+.servizi{display:flex;flex-direction:column;gap:34px;padding:46px 0 30px}
+.servizio{display:grid;background:#fff;border:2px solid var(--ink);border-radius:10px;box-shadow:6px 7px 0 var(--ink);overflow:hidden}
+.disegno{position:relative;display:flex;align-items:center;justify-content:center;min-height:220px;padding:24px 20px 20px 44px;background-color:var(--paper);background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);border-bottom:2px solid var(--ink)}
+.disegno::before{content:"";position:absolute;left:26px;top:0;bottom:0;width:2px;background:var(--margine)}
+.disegno svg{width:auto;height:200px;max-width:100%}
+.testo{padding:24px 22px 26px}
+.testo .nota-mano{font-size:28px}
+.servizio h2{font-size:40px;line-height:1.05;margin:4px 0 18px}
+.voci{margin:0;display:grid;gap:14px}
+.voci div{display:grid;gap:0}
+.voci dt{font-family:'Caveat',cursive;font-size:26px;line-height:1.1;color:var(--ink)}
+.voci dd{margin:0}
+.chiedi{display:flex;align-items:center;justify-content:center;width:100%;min-height:62px;margin-top:24px;padding:0 20px;font:inherit;font-size:20px;font-weight:700;color:var(--text);background:var(--lamp);border:2px solid var(--ink);border-radius:8px;box-shadow:4px 4px 0 var(--ink);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.chiedi:hover{transform:translate(-1px,-2px);box-shadow:5px 6px 0 var(--ink)}
+.chiedi:active{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--ink)}
 
-/* modulo */
-.banda{background:var(--ink);padding:36px 0 22px}
-.banda h2{color:#fff;font-size:40px;margin-bottom:18px}
-.sheet{background-color:#fff;background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);border-radius:6px;border-top:10px solid var(--lamp);padding:28px 22px 30px}
+/* ---------- non sai quale? ---------- */
+.incerto{display:grid;gap:16px;align-items:center;margin:10px 0 56px;padding:26px 22px;border:2px dashed var(--ink);border-radius:10px;background:#fff}
+.incerto .nota-mano{font-size:30px}
+.incerto h2{font-size:34px;line-height:1.1}
+.incerto a{display:flex;align-items:center;justify-content:center;min-height:58px;padding:0 22px;background:var(--ink);color:#fff;font-weight:700;font-size:19px;border-radius:8px;text-decoration:none;transition:background .15s}
+.incerto a:hover{background:#163070}
+
+/* ---------- modulo ---------- */
+.banda{background:var(--ink);color:#fff;padding:44px 0 26px}
+.banda-in{display:grid;gap:26px}
+.banda h2{color:#fff;font-size:44px;line-height:1.05;margin-bottom:14px}
+.banda .passi{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:14px}
+.banda .passi li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px}
+.banda .passi .n{font-family:'Instrument Serif',Georgia,serif;font-size:40px;line-height:1;color:var(--lamp)}
+.sheet{background-color:#fff;background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);border-radius:8px;border-top:10px solid var(--lamp);color:var(--text);padding:28px 22px 30px}
 .campo{margin-bottom:24px}
 .campo label,.campo legend{display:block;font-weight:700;font-size:20px;line-height:1.35;margin-bottom:6px;color:var(--ink);padding:0}
 .aiuto{display:block;font-weight:400;font-size:17px;color:#4a5263}
 fieldset{border:0;margin:0 0 24px;padding:0;min-width:0}
-.campo input[type=text],.campo input[type=email],.campo textarea{display:block;width:100%;min-height:56px;padding:10px 14px;font:inherit;font-size:19px;color:var(--text);background:#fff;border:2px solid #9fb0cc;border-radius:6px}
+.campo input[type=text],.campo input[type=email],.campo textarea{display:block;width:100%;min-height:56px;padding:10px 14px;font:inherit;font-size:19px;color:var(--text);background:#fff;border:2px solid #9fb0cc;border-radius:6px;transition:border-color .2s}
 .campo textarea{min-height:110px;resize:vertical;line-height:1.5}
 .campo input:focus,.campo textarea:focus{outline:3px solid var(--lamp);outline-offset:1px;border-color:var(--ink)}
+.campo.ok input{border-color:var(--ink)}
 [aria-invalid="true"]{border-color:#b3261e!important}
 .errore{display:block;margin-top:6px;font-size:17px;color:#b3261e;font-weight:700}
 .spunta{display:flex;gap:14px;align-items:flex-start;padding:9px 0;font-size:18px;line-height:1.45;cursor:pointer}
 .spunta input{flex:none;width:28px;height:28px;margin:0;accent-color:var(--ink);cursor:pointer}
-.campo .spunta{display:flex;margin:0;font-weight:400;font-size:18px;line-height:1.45;color:var(--text);border-top:1px solid var(--panel);background:#fff;padding:10px 0}
-.campo .spunta:first-of-type{border-top:0}
+.campo .spunta{display:flex;margin:0;font-weight:400;font-size:18px;line-height:1.45;color:var(--text);border:2px solid var(--panel);border-radius:8px;background:#fff;padding:10px 12px;margin-top:8px;transition:border-color .2s}
+.campo .spunta:has(input:checked){border-color:var(--ink)}
 .nascosto{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .invia{display:flex;align-items:center;justify-content:center;width:100%;min-height:66px;margin-top:6px;padding:0 20px;font:inherit;font-size:22px;font-weight:700;color:var(--text);background:var(--lamp);border:3px solid var(--ink);border-radius:8px;box-shadow:4px 5px 0 var(--ink);cursor:pointer}
 .invia:hover{background:#f7e27a}
@@ -72,29 +98,63 @@ fieldset{border:0;margin:0 0 24px;padding:0;min-width:0}
 .grazie h3{font-size:40px;line-height:1.1;margin-bottom:12px}
 .grazie p{font-size:20px}
 .grazie p+p{margin-top:12px}
-.fallback{padding:18px 4px 8px;font-size:18px}
-.fallback a{color:#fff;display:inline-flex;min-height:48px;align-items:center}
 
 footer{padding:30px 0 52px;font-size:17px;line-height:1.75;text-align:center}
 footer a{display:inline-flex;min-height:44px;align-items:center}
-@media (min-width:860px){
+
+@media (min-width:900px){
   body{font-size:20px}
-  .foglio{padding:36px 0 52px}
-  h1{font-size:64px}
-  .servizio{padding:30px 32px}
-  .banda{padding:56px 0 34px}
-  .banda h2{font-size:48px}
+  .wrap{padding:0 48px}
+  .foglio{padding:60px 0 66px}
+  .testa{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:56px}
+  h1{font-size:82px}
+  .servizi{gap:48px;padding:72px 0 40px}
+  .servizio{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}
+  .servizio:nth-child(even){grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}
+  .servizio:nth-child(even) .disegno{order:2;border-left:2px solid var(--ink)}
+  .servizio:nth-child(odd) .disegno{border-right:2px solid var(--ink)}
+  .disegno{border-bottom:0;min-height:100%;padding:40px 30px 40px 60px}
+  .disegno::before{left:36px}
+  .disegno svg{height:300px}
+  .testo{padding:40px 44px 42px}
+  .servizio h2{font-size:52px}
+  .voci{grid-template-columns:1fr 1fr;gap:18px 28px}
+  .voci div:first-child{grid-column:1/-1}
+  .chiedi{display:inline-flex;width:auto;min-width:320px}
+  .incerto{grid-template-columns:minmax(0,1fr) auto;padding:34px 40px;margin-bottom:80px}
+  .banda{padding:80px 0 44px}
+  .banda-in{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:64px;align-items:start}
+  .banda h2{font-size:60px}
   .sheet{padding:36px 36px 38px}
 }
 </style>
 </head>
 <body>
 
+<nav class="barra-sito" aria-label="Menu principale">
+  <div class="barra-in">
+    <a class="marchio" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
+    <ul>
+      <li><a href="/webinar/">Incontro</a></li>
+      <li><a href="/servizi/">Servizi</a></li>
+      <li><a class="parla" href="/parliamone/">Parliamone</a></li>
+    </ul>
+  </div>
+  <span class="avanzamento" aria-hidden="true"></span>
+</nav>
+
 <header class="foglio">
-  <div class="wrap">
-    <a class="casa" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
-    <h1>Cosa posso fare per te</h1>
-    <p class="sub">Tre modi di lavorare insieme, dal più semplice al più su misura. Scegli quello che ti interessa: i dettagli, con i costi, ti arrivano subito via mail.</p>
+  <div class="wrap testa">
+    <div>
+      <h1>Cosa posso fare <span class="ev">per te</span></h1>
+      <p class="sub">Tre modi di lavorare insieme, dal più semplice al più su misura. Scegli quello che ti interessa: i dettagli, con i costi, ti arrivano subito via mail.</p>
+      <ul class="indice">
+        <li><a href="#sessione">Sessione pratica</a></li>
+        <li><a href="#automazione">Automazione</a></li>
+        <li><a href="#formazione">Formazione</a></li>
+      </ul>
+    </div>
+    <p class="postit nota-mano">I prezzi non li trovi qui: te li mando via mail, insieme a tutti i dettagli.<small>Riccardo</small></p>
   </div>
 </header>
 
@@ -102,42 +162,113 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
   <div class="wrap">
     <div class="servizi">
       <article class="servizio" id="sessione">
-        <h2>Una sessione pratica sul tuo lavoro</h2>
-        <p class="voce"><b>Per chi</b>Professionisti, consulenti e piccoli uffici che vogliono usare l'intelligenza artificiale e gli strumenti digitali, ma non sanno da dove partire.</p>
-        <p class="voce"><b>Come funziona</b>Un'ora online a tu per tu. Partiamo da un'attività concreta del tuo lavoro e la proviamo insieme, con lo strumento adatto.</p>
-        <p class="voce"><b>Cosa ti resta</b>Un procedimento che puoi ripetere da solo e un riepilogo scritto dei prossimi passi.</p>
-        <button type="button" class="chiedi" data-servizio="sessione">Ricevi i dettagli via mail</button>
+        <div class="disegno" aria-hidden="true">
+          <svg viewBox="0 0 400 480">
+            <rect x="30" y="40" width="330" height="400" rx="16" fill="#fff" stroke="#1d3d8a" stroke-width="5"/>
+            <rect x="30" y="40" width="330" height="70" rx="16" fill="#1d3d8a"/>
+            <rect x="30" y="90" width="330" height="20" fill="#1d3d8a"/>
+            <circle cx="110" cy="40" r="10" fill="#f8f9fb" stroke="#1d3d8a" stroke-width="5"/>
+            <circle cx="280" cy="40" r="10" fill="#f8f9fb" stroke="#1d3d8a" stroke-width="5"/>
+            <text x="195" y="88" text-anchor="middle" font-family="Atkinson Hyperlegible" font-weight="700" font-size="30" fill="#fff">la tua sessione</text>
+            <g font-family="Atkinson Hyperlegible" font-size="24" fill="#5b6475"><text x="60" y="160">9:00</text><text x="60" y="230">10:00</text><text x="60" y="300">11:00</text><text x="60" y="370">12:00</text></g>
+            <g stroke="#c9d5e7" stroke-width="3"><line x1="140" y1="152" x2="335" y2="152"/><line x1="140" y1="222" x2="335" y2="222"/><line x1="140" y1="292" x2="335" y2="292"/><line x1="140" y1="362" x2="335" y2="362"/></g>
+            <rect x="140" y="232" width="195" height="62" rx="8" fill="#f3d74a"/>
+            <text x="158" y="272" font-family="Instrument Serif" font-size="36" fill="#1d3d8a">60 minuti</text>
+          </svg>
+        </div>
+        <div class="testo">
+          <p class="nota-mano">un'ora, online, a tu per tu</p>
+          <h2>Una sessione pratica sul tuo lavoro</h2>
+          <dl class="voci">
+            <div><dt>per chi</dt><dd>Professionisti, consulenti e piccoli uffici che vogliono usare l'intelligenza artificiale e gli strumenti digitali, ma non sanno da dove partire.</dd></div>
+            <div><dt>come funziona</dt><dd>Partiamo da un'attività concreta del tuo lavoro e la proviamo insieme, con lo strumento adatto.</dd></div>
+            <div><dt>cosa ti resta</dt><dd>Un procedimento che puoi ripetere da solo e un riepilogo scritto dei prossimi passi.</dd></div>
+          </dl>
+          <button type="button" class="chiedi" data-servizio="sessione">Ricevi i dettagli via mail</button>
+        </div>
       </article>
 
       <article class="servizio" id="automazione">
-        <h2>Un'automazione su misura</h2>
-        <p class="voce"><b>Per chi</b>Chi ogni settimana perde tempo in lavori ripetitivi: posta, documenti, pratiche, informazioni da copiare da un posto all'altro.</p>
-        <p class="voce"><b>Come funziona</b>Guardiamo insieme il processo, poi ti propongo per iscritto una soluzione circoscritta, con tempi e costi chiari prima di iniziare.</p>
-        <p class="voce"><b>Cosa ti resta</b>Uno strumento funzionante che fa quel lavoro al posto tuo, con le istruzioni per usarlo.</p>
-        <button type="button" class="chiedi" data-servizio="automazione">Ricevi i dettagli via mail</button>
+        <div class="disegno" aria-hidden="true">
+          <svg viewBox="0 0 480 480">
+            <rect x="110" y="20" width="180" height="100" rx="14" fill="#fff" stroke="#1d3d8a" stroke-width="5"/>
+            <path d="M140 50 h120 v50 h-120 z M140 50 l60 32 l60 -32" fill="none" stroke="#1d3d8a" stroke-width="5" stroke-linejoin="round"/>
+            <rect x="110" y="190" width="180" height="100" rx="14" fill="#fff" stroke="#1d3d8a" stroke-width="5"/>
+            <path d="M165 210 h50 l20 20 v50 h-70 z M215 210 v20 h20" fill="none" stroke="#1d3d8a" stroke-width="5" stroke-linejoin="round"/>
+            <line x1="178" y1="252" x2="222" y2="252" stroke="#1d3d8a" stroke-width="4"/><line x1="178" y1="266" x2="212" y2="266" stroke="#1d3d8a" stroke-width="4"/>
+            <rect x="110" y="360" width="180" height="100" rx="14" fill="#f3d74a" stroke="#1d3d8a" stroke-width="5"/>
+            <path d="M160 410 l26 26 l54 -54" fill="none" stroke="#1d3d8a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <g stroke="#1d3d8a" stroke-width="5" fill="none" stroke-linecap="round"><path d="M200 128 v52"/><path d="M188 166 l12 14 l12 -14"/><path d="M200 298 v52"/><path d="M188 336 l12 14 l12 -14"/></g>
+            <text x="315" y="78" font-family="Caveat" font-weight="700" font-size="32" fill="#5b6475">la posta</text>
+            <text x="315" y="248" font-family="Caveat" font-weight="700" font-size="32" fill="#5b6475">il documento</text>
+            <text x="315" y="418" font-family="Caveat" font-weight="700" font-size="32" fill="#5b6475">fatto</text>
+          </svg>
+        </div>
+        <div class="testo">
+          <p class="nota-mano">prima il processo, poi lo strumento</p>
+          <h2>Un'automazione su misura</h2>
+          <dl class="voci">
+            <div><dt>per chi</dt><dd>Chi ogni settimana perde tempo in lavori ripetitivi: posta, documenti, pratiche, informazioni da copiare da un posto all'altro.</dd></div>
+            <div><dt>come funziona</dt><dd>Guardiamo insieme il processo, poi ti propongo per iscritto una soluzione circoscritta, con tempi e costi chiari prima di iniziare.</dd></div>
+            <div><dt>cosa ti resta</dt><dd>Uno strumento funzionante che fa quel lavoro al posto tuo, con le istruzioni per usarlo.</dd></div>
+          </dl>
+          <button type="button" class="chiedi" data-servizio="automazione">Ricevi i dettagli via mail</button>
+        </div>
       </article>
 
       <article class="servizio" id="formazione">
-        <h2>Formazione per il tuo gruppo</h2>
-        <p class="voce"><b>Per chi</b>Studi, uffici, aziende ed enti di formazione che vogliono far lavorare meglio le persone con questi strumenti.</p>
-        <p class="voce"><b>Come funziona</b>Da uno a tre incontri di 2 ore, online o in presenza, su un tema scelto insieme: dimostrazioni, esercizi su casi vostri, limiti e controlli.</p>
-        <p class="voce"><b>Cosa ti resta</b>Indicazioni pratiche per tutto il gruppo, da usare dal giorno dopo.</p>
-        <button type="button" class="chiedi" data-servizio="formazione">Ricevi i dettagli via mail</button>
+        <div class="disegno" aria-hidden="true">
+          <svg viewBox="0 0 400 480">
+            <rect x="20" y="30" width="360" height="230" rx="14" fill="#fff" stroke="#1d3d8a" stroke-width="5"/>
+            <rect x="50" y="62" width="150" height="18" rx="4" fill="#1d3d8a"/>
+            <rect x="50" y="102" width="290" height="12" rx="4" fill="#c9d5e7"/><rect x="50" y="128" width="250" height="12" rx="4" fill="#c9d5e7"/>
+            <rect x="50" y="170" width="140" height="56" rx="8" fill="#f3d74a"/>
+            <text x="64" y="208" font-family="Instrument Serif" font-size="34" fill="#1d3d8a">2 ore</text>
+            <line x1="200" y1="260" x2="200" y2="300" stroke="#1d3d8a" stroke-width="5"/>
+            <g fill="#8fa6d4" stroke="#1d3d8a" stroke-width="4">
+              <circle cx="70" cy="350" r="26"/><path d="M28 440 q42 -70 84 0 z"/>
+              <circle cx="160" cy="340" r="26"/><path d="M118 430 q42 -70 84 0 z"/>
+              <circle cx="250" cy="340" r="26" fill="#f3d74a"/><path d="M208 430 q42 -70 84 0 z" fill="#f3d74a"/>
+              <circle cx="335" cy="350" r="26"/><path d="M293 440 q42 -70 84 0 z"/>
+            </g>
+          </svg>
+        </div>
+        <div class="testo">
+          <p class="nota-mano">da uno a tre incontri, con casi vostri</p>
+          <h2>Formazione per il tuo gruppo</h2>
+          <dl class="voci">
+            <div><dt>per chi</dt><dd>Studi, uffici, aziende ed enti di formazione che vogliono far lavorare meglio le persone con questi strumenti.</dd></div>
+            <div><dt>come funziona</dt><dd>Incontri di 2 ore, online o in presenza, su un tema scelto insieme: dimostrazioni, esercizi su casi vostri, limiti e controlli.</dd></div>
+            <div><dt>cosa ti resta</dt><dd>Indicazioni pratiche per tutto il gruppo, da usare dal giorno dopo.</dd></div>
+          </dl>
+          <button type="button" class="chiedi" data-servizio="formazione">Ricevi i dettagli via mail</button>
+        </div>
       </article>
     </div>
 
     <div class="incerto">
-      <p>Non sai quale fa per te? Parliamone in una <a href="/parliamone/">consulenza gratuita di 20 minuti</a>.</p>
+      <div>
+        <p class="nota-mano">non sai quale scegliere?</p>
+        <h2>Parliamone in 20 minuti, gratis</h2>
+      </div>
+      <a href="/parliamone/">Prenota la consulenza gratuita</a>
     </div>
   </div>
 
   <div class="banda" id="richiesta">
-    <div class="wrap">
-      <h2>Ricevi i dettagli</h2>
+    <div class="wrap banda-in">
+      <div>
+        <h2>Ricevi i dettagli</h2>
+        <ol class="passi">
+          <li><span class="n">1</span><p>Scegli il servizio e lasci i tuoi dati.</p></li>
+          <li><span class="n">2</span><p>Ricevi subito una mail con cosa comprende e quanto costa.</p></li>
+          <li><span class="n">3</span><p>Se ti convince, rispondi alla mail: la leggo io.</p></li>
+        </ol>
+      </div>
       <div class="sheet">
         <!-- Il modulo invia a Apps Script (progetto «Webinar AI», Servizi.gs): la mail con i dettagli parte da lì -->
-        <form id="modulo" novalidate>
-          <fieldset class="campo" id="f-servizio">
+        <form id="modulo" novalidate data-passi>
+          <fieldset class="campo" id="f-servizio" data-passo>
             <legend>Cosa ti interessa?</legend>
             <label class="spunta"><input type="radio" name="servizio" value="sessione"><span>Una sessione pratica sul tuo lavoro</span></label>
             <label class="spunta"><input type="radio" name="servizio" value="automazione"><span>Un'automazione su misura</span></label>
@@ -145,51 +276,56 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
           </fieldset>
           <div class="campo">
             <label for="f-nome">Nome e cognome</label>
-            <input id="f-nome" name="nome" type="text" autocomplete="name" required>
+            <input id="f-nome" name="nome" type="text" autocomplete="name" required data-passo>
           </div>
           <div class="campo">
             <label for="f-email">Email</label>
-            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required data-passo>
           </div>
           <div class="campo">
             <label for="f-lavoro">Che lavoro fai?</label>
-            <input id="f-lavoro" name="lavoro" type="text" autocomplete="organization-title" required>
+            <input id="f-lavoro" name="lavoro" type="text" autocomplete="organization-title" required data-passo>
           </div>
           <div class="campo">
             <label for="f-problema">C'è un problema preciso da cui partire? <span class="aiuto">Facoltativo</span></label>
             <textarea id="f-problema" name="problema" rows="3"></textarea>
           </div>
           <div class="nascosto" aria-hidden="true"><label for="f-sito">Lascia vuoto</label><input id="f-sito" name="sito" type="text" tabindex="-1" autocomplete="off"></div>
-          <label class="spunta"><input id="f-privacy" type="checkbox" required><span>Acconsento a essere ricontattato per la richiesta che ho fatto. <a href="/webinar/privacy" target="_blank" rel="noopener">Informativa</a></span></label>
+          <label class="spunta"><input id="f-privacy" type="checkbox" required data-passo><span>Acconsento a essere ricontattato per la richiesta che ho fatto. <a href="/webinar/privacy" target="_blank" rel="noopener">Informativa</a></span></label>
           <button class="invia" type="submit">Mandami i dettagli</button>
           <p class="problema" id="problema" hidden>Non sono riuscito a inviare la richiesta. Controlla la connessione e riprova, oppure scrivimi a <a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a>.</p>
         </form>
-        <div class="grazie" id="grazie" hidden tabindex="-1">
+        <div class="grazie" id="grazie" hidden tabindex="-1" data-timbro="Ricevuto">
           <h3>Grazie, <span id="g-nome">a presto</span>!</h3>
           <p>Ti ho appena mandato una mail con i dettagli. Se non la trovi, guarda nella posta indesiderata.</p>
           <p>Per qualsiasi domanda, rispondi pure a quella mail: arriva direttamente a me.</p>
         </div>
       </div>
-      <p class="fallback"><a href="/">← Torna alla pagina principale</a></p>
     </div>
   </div>
 </main>
 
 <footer>
   <div class="wrap">
+    <p class="piede-link"><a href="/webinar/">Incontro</a><a href="/servizi/">Servizi</a><a href="/parliamone/">Parliamone</a></p>
     <p><strong>Riccardo Ingegneri</strong> · P.IVA 03837300833</p>
     <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
     <p><a href="/webinar/privacy">Informativa privacy</a></p>
   </div>
 </footer>
 
+<script src="/assets/sito.js"></script>
 <script>
-// I pulsanti dei servizi scelgono la voce nel modulo e ci portano lì.
+// I pulsanti dei servizi scelgono la voce nel modulo, la fanno lampeggiare e ci portano lì.
 document.querySelectorAll('.chiedi').forEach(function (b) {
   b.addEventListener('click', function () {
-    document.querySelector('input[name=servizio][value="' + b.dataset.servizio + '"]').checked = true;
+    var scelta = document.querySelector('input[name=servizio][value="' + b.dataset.servizio + '"]');
+    scelta.checked = true;
+    scelta.dispatchEvent(new Event('change', { bubbles: true }));
+    var riga = scelta.closest('.spunta');
+    riga.classList.remove('scelto'); void riga.offsetWidth; riga.classList.add('scelto');
     document.getElementById('richiesta').scrollIntoView({ behavior: 'smooth' });
-    setTimeout(function () { document.getElementById('f-nome').focus({ preventScroll: true }); }, 500);
+    setTimeout(function () { document.getElementById('f-nome').focus({ preventScroll: true }); }, 600);
   });
 });
 

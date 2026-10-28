@@ -1,0 +1,81 @@
+/* Parti comuni a tutte le pagine: menu, entrate morbide allo scroll, evidenziatore,
+   moduli che si riempiono passo dopo passo, timbro finale. Lo script è in sito.js. */
+
+[id]{scroll-margin-top:84px}
+
+/* ---------- menu ---------- */
+.barra-sito{position:sticky;top:0;z-index:50;background:rgba(248,249,251,.93);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:2px solid #1d3d8a;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.barra-sito.via{transform:translateY(-104%)}
+.barra-in{max-width:1180px;margin:0 auto;padding:0 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:62px}
+.marchio{display:inline-flex;align-items:center;gap:10px;min-height:48px;text-decoration:none;color:#18202f;font-weight:700;font-size:17px;white-space:nowrap}
+.marchio img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:50% 25%;border:2px solid #fff;box-shadow:0 0 0 2px #1d3d8a;transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.marchio:hover img{transform:rotate(-8deg) scale(1.06)}
+.barra-sito ul{display:flex;align-items:center;gap:2px;margin:0;padding:0;list-style:none}
+.barra-sito ul a{position:relative;z-index:0;display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:17px;font-weight:700;color:#1d3d8a;text-decoration:none;white-space:nowrap}
+.barra-sito ul a::after{content:"";position:absolute;left:7px;right:7px;bottom:10px;height:9px;background:#f3d74a;border-radius:2px 7px 4px 2px;z-index:-1;transform:scaleX(0);transform-origin:left center;transition:transform .4s cubic-bezier(.6,.05,.3,1)}
+.barra-sito ul a:hover::after,.barra-sito ul a[aria-current]::after{transform:scaleX(1)}
+.barra-sito ul a.parla{margin-left:6px;padding:0 14px;min-height:42px;background:#f3d74a;color:#18202f;border:2px solid #1d3d8a;border-radius:8px;box-shadow:3px 3px 0 #1d3d8a;transition:transform .15s,box-shadow .15s}
+.barra-sito ul a.parla::after{display:none}
+.barra-sito ul a.parla:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #1d3d8a}
+.barra-sito ul a.parla:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d3d8a}
+.barra-sito a:focus-visible{outline:3px solid #f3d74a;outline-offset:2px}
+.avanzamento{position:absolute;left:0;right:0;bottom:-2px;height:3px;background:#f3d74a;transform-origin:left center;transform:scaleX(var(--p,0))}
+@media (max-width:600px){
+  .marchio span{display:none}
+  .barra-in{padding:0 10px}
+  .barra-sito ul a{padding:0 8px;font-size:16px}
+  .barra-sito ul a.parla{padding:0 11px;margin-left:4px}
+}
+
+/* ---------- piè di pagina: le stesse voci del menu ---------- */
+.piede-link{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 18px;margin-bottom:10px;font-weight:700}
+
+/* ---------- entrate morbide allo scroll ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .js .entra{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0) * 110ms)}
+  .js .entra.visto{opacity:1;transform:none}
+}
+
+/* ---------- evidenziatore che passa quando la parola arriva sullo schermo ---------- */
+.segno{position:relative;z-index:0;white-space:nowrap}
+.segno::before{content:"";position:absolute;left:-4px;right:-6px;bottom:.1em;height:.4em;background:#f3d74a;opacity:.85;z-index:-1;border-radius:3px 10px 6px 2px;transform-origin:left center}
+@media (prefers-reduced-motion:no-preference){
+  .js .segno::before{transform:scaleX(0);transition:transform .8s cubic-bezier(.6,.05,.3,1) .3s}
+  .js .segno.visto::before{transform:scaleX(1)}
+}
+
+/* ---------- caselle che si spuntano da sole mentre scorri ---------- */
+.list .box{position:relative;transition:background .3s ease calc(var(--i,0) * 140ms + .4s)}
+.list .box::after{content:"";position:absolute;left:5px;top:0;width:6px;height:11px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg) scale(0);transition:transform .4s cubic-bezier(.3,1.6,.5,1) calc(var(--i,0) * 140ms + .5s)}
+.list li.visto .box{background:#1d3d8a}
+.list li.visto .box::after{transform:rotate(45deg) scale(1)}
+
+/* ---------- moduli: barra dei passi e spunta su ogni campo fatto ---------- */
+.tappe{margin:-4px 0 26px}
+.tappe-barra{height:10px;border-radius:6px;background:#e1e7f1;overflow:hidden}
+.tappe-barra i{display:block;height:100%;border-radius:6px;background:#1d3d8a;transform-origin:left center;transform:scaleX(0);transition:transform .6s cubic-bezier(.2,.8,.2,1),background .3s}
+.tappe-testo{margin-top:7px;font-size:16px;font-weight:700;color:#4a5263}
+.tappe.pronto .tappe-barra i{background:#f3d74a;box-shadow:inset 0 0 0 2px #1d3d8a}
+.tappe.pronto .tappe-testo{color:#1d3d8a}
+form .campo{position:relative}
+form .campo>label:not(.spunta),form .campo>legend{padding-right:34px}
+.campo.ok>label:not(.spunta)::after,.campo.ok>legend::after{content:"✓";position:absolute;right:0;top:0;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#f3d74a;color:#1d3d8a;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:15px;font-weight:700}
+@media (prefers-reduced-motion:no-preference){
+  .campo.ok>label:not(.spunta)::after,.campo.ok>legend::after{animation:pop .5s cubic-bezier(.3,1.7,.5,1)}
+  .invito{animation:invito .7s cubic-bezier(.3,1.4,.5,1)}
+  .scelto{animation:scelto 1.2s ease}
+}
+@keyframes pop{from{transform:scale(0) rotate(-40deg)}to{transform:none}}
+@keyframes invito{0%,100%{transform:none}30%{transform:translateY(-4px) rotate(-1.2deg)}65%{transform:translateY(0) rotate(.8deg)}}
+@keyframes scelto{0%{background:#fff}25%{background:#fbeea6}100%{background:#fff}}
+
+/* ---------- timbro e coriandoli quando il modulo è partito ---------- */
+.timbro{position:relative;display:inline-block;margin:0 0 18px;padding:4px 16px 1px;font-family:'Instrument Serif',Georgia,serif;font-size:34px;line-height:1.1;color:#1d3d8a;background:#fff;border:3px solid currentColor;border-radius:8px;transform:rotate(-6deg)}
+.coriandolo{position:absolute;left:50%;top:50%;width:16px;height:6px;margin:-3px 0 0 -8px;border-radius:3px;background:#f3d74a;opacity:0;pointer-events:none}
+.coriandolo:nth-child(3n){background:#1d3d8a;width:10px}
+@media (prefers-reduced-motion:no-preference){
+  .timbro{animation:timbra .6s cubic-bezier(.3,1.5,.5,1) both}
+  .coriandolo{animation:vola 1s cubic-bezier(.15,.7,.3,1) .28s both}
+}
+@keyframes timbra{from{opacity:0;transform:rotate(-16deg) scale(2.3)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
+@keyframes vola{0%{opacity:1;transform:rotate(var(--a)) translateX(0) scaleX(.3)}70%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateX(var(--d)) scaleX(1)}}
