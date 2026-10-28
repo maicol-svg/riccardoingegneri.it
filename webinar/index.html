@@ -4,6 +4,9 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/img/logo/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/img/logo/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/logo/apple-touch-icon.png">
 <title>L'AI per chi lavora — incontro gratuito online con Riccardo Ingegneri</title>
 <meta name="description" content="L'intelligenza artificiale e la tecnologia di oggi, spiegate semplice. Un incontro dal vivo, online e gratuito, di 45 minuti.">
 <meta property="og:title" content="L'AI per chi lavora">
@@ -14,7 +17,7 @@
 <meta name="theme-color" content="#1d3d8a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sito.css">
 <style>
 :root{
@@ -151,8 +154,18 @@ details[open] summary::after{content:"\2212"}
 details p{padding:0 20px 20px;font-size:19px}
 
 footer{border-top:3px solid var(--ink);padding:32px 0 56px;font-size:18px;line-height:1.75}
-footer .piede-link{justify-content:flex-start}
+footer{text-align:center}
 footer a{display:inline-flex;min-height:48px;align-items:center}
+
+
+/* ---------- sezioni affiancate (da computer): testo da un lato, disegno dall'altro, a lati alterni ---------- */
+.sez-vis{display:none}
+.polaroid{position:relative;width:200px;margin:22px 0 0;transform:rotate(-2deg)}
+.polaroid img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;object-position:50% 30%;border:8px solid #fff;border-bottom-width:36px;box-shadow:0 12px 26px rgba(24,32,47,.18),0 2px 5px rgba(24,32,47,.14)}
+.polaroid::before{content:"";position:absolute;top:-12px;left:50%;width:96px;height:26px;margin-left:-48px;background:rgba(243,215,74,.75);transform:rotate(3deg);z-index:1}
+.polaroid figcaption{position:absolute;left:0;right:0;bottom:4px;text-align:center;font-family:'Caveat',cursive;font-weight:700;font-size:22px;color:var(--ink)}
+.about h2{margin-bottom:16px}
+.nota-faq{margin:-6px 0 22px}
 
 /* ---------- desktop ---------- */
 @media (min-width:900px){
@@ -176,6 +189,18 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
   .signup{padding:80px 0 40px}
   .signup h2{font-size:56px}
   .signup .narrow{margin:0 auto}
+  .sez{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:88px;align-items:center}
+  .sez-vis{display:flex;justify-content:center}
+  .sez-vis svg{width:100%;max-width:460px;height:auto}
+  .sez.inversa>:last-child{order:-1}
+  .polaroid{justify-self:center;width:min(100%,340px);margin:0;transform:rotate(-2.5deg)}
+  .polaroid figcaption{font-size:28px}
+  .sez-modulo{align-items:start}
+  .sez-modulo .sez-testo{position:sticky;top:110px}
+  .signup .sez-modulo h2{font-size:64px}
+  .sez-domande{align-items:start}
+  .sez-domande .sez-testo{position:sticky;top:110px}
+  .nota-faq{margin:0}
 }
 </style>
 </head>
@@ -242,7 +267,8 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
 
 <main>
   <section>
-    <div class="wrap narrow">
+    <div class="wrap sez">
+      <div class="sez-testo">
       <h2>Di cosa <span class="segno">parliamo</span></h2>
       <ul class="list">
         <li><span class="box"></span><p><strong>Cos'è davvero l'intelligenza artificiale.</strong> Detto con parole normali, senza paroloni.</p></li>
@@ -251,31 +277,76 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
         <li><span class="box"></span><p><strong>Le tue domande.</strong> Gli ultimi 15 minuti sono tutti per te: chiedi quello che vuoi.</p></li>
       </ul>
       <p class="closing">Non serve essere esperti di computer. Basta la curiosità.</p>
+      </div>
+      <div class="sez-vis" aria-hidden="true">
+        <svg viewBox="0 -44 520 430">
+          <rect x="40" y="30" width="400" height="260" rx="18" fill="#fff" stroke="#1d3d8a" stroke-width="6"/>
+          <rect x="40" y="30" width="400" height="42" rx="18" fill="#1d3d8a"/><rect x="40" y="54" width="400" height="18" fill="#1d3d8a"/>
+          <circle cx="68" cy="51" r="6" fill="#f3d74a"/><circle cx="88" cy="51" r="6" fill="#fff"/><circle cx="108" cy="51" r="6" fill="#fff"/>
+          <rect x="64" y="90" width="230" height="178" rx="10" fill="#e9eef7"/>
+          <circle cx="179" cy="158" r="34" fill="#8fa6d4" stroke="#1d3d8a" stroke-width="5"/>
+          <path d="M121 268 q58 -92 116 0 z" fill="#8fa6d4" stroke="#1d3d8a" stroke-width="5" stroke-linejoin="round"/>
+          <g fill="#e9eef7"><rect x="310" y="90" width="106" height="52" rx="8"/><rect x="310" y="153" width="106" height="52" rx="8"/><rect x="310" y="216" width="106" height="52" rx="8"/></g>
+          <g stroke="#1d3d8a" stroke-width="4"><circle cx="363" cy="116" r="13" fill="#8fa6d4"/><circle cx="363" cy="179" r="13" fill="#f3d74a"/><circle cx="363" cy="242" r="13" fill="#8fa6d4"/></g>
+          <path d="M10 300 h460 l-30 34 h-400 z" fill="#fff" stroke="#1d3d8a" stroke-width="6" stroke-linejoin="round"/>
+          <rect x="384" y="-34" width="110" height="76" rx="22" fill="#f3d74a" stroke="#1d3d8a" stroke-width="5"/>
+          <path d="M406 40 l-16 30 l40 -28" fill="#f3d74a" stroke="#1d3d8a" stroke-width="5" stroke-linejoin="round"/>
+          <rect x="400" y="30" width="40" height="12" fill="#f3d74a"/>
+          <text x="439" y="26" text-anchor="middle" font-family="Instrument Serif" font-size="64" fill="#1d3d8a">?</text>
+          <text x="240" y="380" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="36" fill="#5b6475">giovedì alle 20, dal vivo</text>
+        </svg>
+      </div>
     </div>
   </section>
 
   <section class="about">
-    <div class="wrap narrow about-grid">
-      <div class="portrait"><img src="img/riccardo.jpg" alt="Riccardo Ingegneri" width="600" height="800" loading="lazy"></div>
-      <p>Mi chiamo <strong>Riccardo Ingegneri</strong>. Per due anni ho insegnato intelligenza artificiale nei corsi dell'Istituto Volta. Oggi sono consulente e sviluppatore: costruisco automazioni e strumenti di AI per aziende e professionisti, per la posta, i documenti e le pratiche di tutti i giorni. In questi incontri racconto quello che vedo sul campo, in modo che chiunque possa capirlo.</p>
+    <div class="wrap sez inversa">
+      <div class="sez-testo">
+        <h2>Chi tiene l'incontro</h2>
+        <p>Mi chiamo <strong>Riccardo Ingegneri</strong>. Per due anni ho insegnato intelligenza artificiale nei corsi dell'Istituto Volta. Oggi sono consulente e sviluppatore: costruisco automazioni e strumenti di AI per aziende e professionisti, per la posta, i documenti e le pratiche di tutti i giorni. In questi incontri racconto quello che vedo sul campo, in modo che chiunque possa capirlo.</p>
+      </div>
+      <figure class="polaroid">
+        <img src="img/riccardo.jpg" alt="Riccardo Ingegneri" width="600" height="800" loading="lazy">
+        <figcaption>Riccardo</figcaption>
+      </figure>
     </div>
   </section>
 
   <section>
-    <div class="wrap narrow">
+    <div class="wrap sez">
+      <div class="sez-testo">
       <h2>Come funziona</h2>
       <ol class="steps">
         <li><span class="n">1</span><p>Compili il modulo qui sotto, ci vuole un minuto.</p></li>
         <li><span class="n">2</span><p>Ricevi subito una mail con la data e il link per entrare, da aggiungere al calendario.</p></li>
         <li><span class="n">3</span><p>Giovedì alle 20 clicchi il link ed entri, dal computer o dal telefono.</p></li>
       </ol>
+      </div>
+      <div class="sez-vis" aria-hidden="true">
+        <svg viewBox="0 30 480 300">
+          <rect x="20" y="120" width="200" height="140" rx="12" fill="#fff" stroke="#1d3d8a" stroke-width="6"/>
+          <path d="M22 134 l98 70 l98 -70" fill="none" stroke="#1d3d8a" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M238 190 C 262 140, 290 136, 304 150" fill="none" stroke="#1d3d8a" stroke-width="5" stroke-dasharray="2 13" stroke-linecap="round"/>
+          <path d="M290 154 l16 -2 l-3 -16" fill="none" stroke="#1d3d8a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="300" y="64" width="160" height="196" rx="14" fill="#fff" stroke="#1d3d8a" stroke-width="6"/>
+          <rect x="300" y="64" width="160" height="56" rx="14" fill="#1d3d8a"/><rect x="300" y="100" width="160" height="20" fill="#1d3d8a"/>
+          <circle cx="340" cy="64" r="9" fill="#f8f9fb" stroke="#1d3d8a" stroke-width="5"/><circle cx="420" cy="64" r="9" fill="#f8f9fb" stroke="#1d3d8a" stroke-width="5"/>
+          <text x="380" y="106" text-anchor="middle" font-family="Atkinson Hyperlegible" font-weight="700" font-size="24" fill="#fff">giovedì</text>
+          <rect x="322" y="170" width="116" height="30" rx="6" fill="#f3d74a"/>
+          <text x="380" y="200" text-anchor="middle" font-family="Instrument Serif" font-size="50" fill="#1d3d8a">20:00</text>
+          <text x="120" y="304" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="32" fill="#5b6475">il link arriva subito</text>
+          <text x="380" y="304" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="32" fill="#5b6475">un clic ed entri</text>
+        </svg>
+      </div>
     </div>
   </section>
 
   <div class="signup" id="iscrizione">
-    <div class="wrap narrow">
+    <div class="wrap sez sez-modulo">
+      <div class="sez-testo">
       <h2>Iscriviti gratis</h2>
       <p class="lead">Ci vediamo <mark>giovedì alle 20:00</mark>, online.</p>
+      </div>
       <div class="form-sheet">
         <!-- Il modulo invia i dati al Google Form: le mail automatiche restano quelle di Apps Script -->
         <form id="modulo" novalidate data-passi>
@@ -305,8 +376,11 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
   </div>
 
   <section>
-    <div class="wrap narrow">
-      <h2>Domande</h2>
+    <div class="wrap sez inversa sez-domande">
+      <div class="sez-testo">
+        <h2>Domande</h2>
+        <p class="nota-faq">Hai un'altra domanda? <a href="mailto:ingegneririccardo@gmail.com">Scrivimi</a>: ti rispondo io.</p>
+      </div>
       <div class="faq">
         <details open=""><summary>È davvero gratis?</summary><p>Sì. L'incontro è gratuito e completo così com'è.</p></details>
         <details><summary>Devo installare qualcosa?</summary><p>No. Basta cliccare il link che ricevi per mail. Dal telefono, Google potrebbe chiederti di aprire l'app Meet: è gratuita.</p></details>
