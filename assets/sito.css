@@ -79,3 +79,20 @@ form .campo>label:not(.spunta),form .campo>legend{padding-right:34px}
 }
 @keyframes timbra{from{opacity:0;transform:rotate(-16deg) scale(2.3)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
 @keyframes vola{0%{opacity:1;transform:rotate(var(--a)) translateX(0) scaleX(.3)}70%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateX(var(--d)) scaleX(1)}}
+
+/* ---------- sezioni affiancate (da computer): testo da un lato, disegno dall'altro, a lati alterni ---------- */
+.sez-vis{display:none}
+.polaroid{position:relative;width:200px;margin:22px 0 0;transform:rotate(-2deg)}
+.polaroid img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;object-position:50% 30%;border:8px solid #fff;border-bottom-width:36px;box-shadow:0 12px 26px rgba(24,32,47,.18),0 2px 5px rgba(24,32,47,.14)}
+.polaroid::before{content:"";position:absolute;top:-12px;left:50%;width:96px;height:26px;margin-left:-48px;background:rgba(243,215,74,.75);transform:rotate(3deg);z-index:1}
+.polaroid figcaption{position:absolute;left:0;right:0;bottom:4px;text-align:center;font-family:'Caveat',cursive;font-weight:700;font-size:22px;color:#1d3d8a}
+@media (min-width:900px){
+  .sez{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:88px;align-items:center}
+  .sez-vis{display:flex;justify-content:center}
+  .sez-vis svg{width:100%;max-width:440px;height:auto}
+  .sez.inversa>:last-child{order:-1}
+  .polaroid{justify-self:center;width:min(100%,320px);margin:0;transform:rotate(-2.5deg)}
+  .polaroid figcaption{font-size:28px}
+  .sez-modulo{align-items:start}
+  .sez-modulo>.sez-testo{position:sticky;top:110px}
+}

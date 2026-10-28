@@ -37,10 +37,10 @@ h1{font-size:48px;line-height:1.04;margin-top:22px}
 .gratis{display:inline-block;background:var(--lamp);font-weight:700;padding:2px 10px;border-radius:3px;margin-top:16px;font-size:18px}
 .sub{margin-top:14px}
 
-/* i tre passaggi */
-.passi{list-style:none;margin:0;padding:32px 0 36px;display:flex;flex-direction:column;gap:18px}
+/* i tre passaggi, sul blu accanto al modulo */
+.passi{list-style:none;margin:0;padding:6px 0 30px;color:#fff;display:flex;flex-direction:column;gap:18px}
 .passi li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px}
-.passi .n{font-family:'Instrument Serif',Georgia,serif;font-size:44px;line-height:1;color:var(--ink)}
+.passi .n{font-family:'Instrument Serif',Georgia,serif;font-size:44px;line-height:1;color:var(--lamp)}
 
 /* modulo */
 .banda{background:var(--ink);padding:36px 0 22px}
@@ -82,6 +82,13 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
   .banda h2{font-size:48px}
   .sheet{padding:36px 36px 38px}
 }
+@media (min-width:900px){
+  .wrap{max-width:1180px;padding:0 48px}
+  .foglio{padding:56px 0 64px}
+  h1{font-size:76px}
+  .banda{padding:80px 0 40px}
+  .banda h2{font-size:64px}
+}
 </style>
 </head>
 <body>
@@ -99,25 +106,39 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
 </nav>
 
 <header class="foglio">
-  <div class="wrap">
+  <div class="wrap sez">
+    <div class="sez-testo">
     <h1>La tua consulenza personale</h1>
     <span class="gratis">La prima è gratuita · 20 minuti · nessun impegno</span>
     <p class="sub">Una videochiamata a tu per tu: guardiamo insieme la tua attività e ti dico con franchezza se e come posso esserti utile.</p>
+    </div>
+      <div class="sez-vis" aria-hidden="true">
+        <svg viewBox="0 0 480 360">
+          <rect x="20" y="20" width="440" height="250" rx="18" fill="#fff" stroke="#1d3d8a" stroke-width="6"/>
+          <rect x="44" y="48" width="186" height="196" rx="12" fill="#e9eef7"/><rect x="250" y="48" width="186" height="196" rx="12" fill="#fdf3c4"/>
+          <circle cx="137" cy="124" r="32" fill="#8fa6d4" stroke="#1d3d8a" stroke-width="5"/><path d="M83 244 q54 -84 108 0 z" fill="#8fa6d4" stroke="#1d3d8a" stroke-width="5" stroke-linejoin="round"/>
+          <circle cx="343" cy="124" r="32" fill="#f3d74a" stroke="#1d3d8a" stroke-width="5"/><path d="M289 244 q54 -84 108 0 z" fill="#f3d74a" stroke="#1d3d8a" stroke-width="5" stroke-linejoin="round"/>
+          <circle cx="240" cy="270" r="44" fill="#f3d74a" stroke="#1d3d8a" stroke-width="6"/>
+          <text x="240" y="285" text-anchor="middle" font-family="Instrument Serif" font-size="44" fill="#1d3d8a">20'</text>
+          <text x="110" y="330" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="34" fill="#5b6475">tu</text>
+          <text x="370" y="330" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="34" fill="#5b6475">Riccardo</text>
+        </svg>
+      </div>
   </div>
 </header>
 
 <main>
-  <div class="wrap">
-    <ol class="passi">
+
+  <div class="banda" id="modulo-consulenza">
+    <div class="wrap sez sez-modulo">
+      <div class="sez-testo">
+      <h2>Parliamone</h2>
+      <ol class="passi">
       <li><span class="n">1</span><p>Mi racconti in breve cosa ti interessa, qui sotto. Ci vuole un minuto.</p></li>
       <li><span class="n">2</span><p>Ti arriva subito una mail con il link per scegliere tu giorno e ora.</p></li>
       <li><span class="n">3</span><p>Ci sentiamo in videochiamata, dal computer o dal telefono.</p></li>
     </ol>
-  </div>
-
-  <div class="banda" id="modulo-consulenza">
-    <div class="wrap">
-      <h2>Parliamone</h2>
+      </div>
       <div class="sheet">
         <!-- Il modulo invia i dati al Google Form «Voglio saperne di più»: la mail con il link per prenotare parte da Apps Script -->
         <form id="modulo" novalidate data-passi>
@@ -153,6 +174,8 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
           <a class="bt" href="/chiamata/">Scegli giorno e ora</a>
         </div>
       </div>
+    </div>
+    <div class="wrap">
       <p class="fallback"><a href="/">← Torna alla pagina principale</a></p>
     </div>
   </div>

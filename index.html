@@ -110,7 +110,7 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
   .offerta{padding:56px 0 24px}
   .offerta h2{font-size:48px}
   .assaggi{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
-  .racconto{padding:64px 0 80px}
+  .racconto{padding:64px 0 80px;max-width:none}
   .racconto h2{font-size:44px}
 }
 </style>
@@ -180,11 +180,24 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
     </div>
   </section>
 
-  <section class="racconto">
+  <section class="racconto sez">
+    <div class="sez-testo">
     <h2>Chi sono</h2>
     <p>Per due anni ho insegnato intelligenza artificiale nei corsi dell'Istituto Volta. Oggi sono consulente e sviluppatore: costruisco automazioni e strumenti digitali per aziende e professionisti, per la posta, i documenti e le pratiche di tutti i giorni.</p>
     <p>Il digitale oggi si vende spesso con la paura. Io preferisco spiegarlo bene, senza fretta e senza promesse esagerate.</p>
     <p class="nota">Riccardo</p>
+    </div>
+      <div class="sez-vis" aria-hidden="true">
+        <svg viewBox="0 0 480 380">
+          <rect x="20" y="20" width="440" height="260" rx="14" fill="#1d3d8a" stroke="#122a63" stroke-width="10"/>
+          <text x="60" y="92" font-family="Caveat" font-weight="700" font-size="44" fill="#fff">Intelligenza artificiale</text>
+          <path d="M60 106 q120 -12 250 -2" fill="none" stroke="#f3d74a" stroke-width="7" stroke-linecap="round"/>
+          <g font-family="Caveat" font-weight="700" font-size="34" fill="#dfe6f5"><text x="76" y="160">1. cos'è, davvero</text><text x="76" y="205">2. come si usa al lavoro</text><text x="76" y="250">3. dove sbaglia</text></g>
+          <rect x="40" y="280" width="400" height="16" rx="6" fill="#fff" stroke="#1d3d8a" stroke-width="5"/>
+          <rect x="300" y="268" width="44" height="12" rx="4" fill="#fff" stroke="#1d3d8a" stroke-width="3"/>
+          <path d="M120 296 l-30 70 M360 296 l30 70" stroke="#1d3d8a" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+      </div>
   </section>
 </main>
 
