@@ -1,0 +1,32 @@
+# Scrive nella pagina del webinar la data del prossimo giovedì (strumenti/data_webinar.py),
+# così la vedono giusta anche anteprime dei link e motori di ricerca. Orari in UTC.
+name: Data del webinar
+
+on:
+  schedule:
+    - cron: '50 19 * * 4'   # giovedì dopo l'incontro (20:50 d'inverno, 21:50 d'estate)
+    - cron: '10 0 * * *'    # ogni notte, per sicurezza (GitHub può saltare un giro)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: social
+  cancel-in-progress: false
+
+jobs:
+  data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install tzdata && python strumenti/data_webinar.py
+      - name: Salva se è cambiata
+        run: |
+          git diff --quiet webinar/index.html && exit 0
+          git config user.name "motore" && git config user.email "motore@users.noreply.github.com"
+          git commit -am "Data del webinar aggiornata" && git pull --rebase && git push
