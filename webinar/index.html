@@ -82,6 +82,21 @@ strong{font-weight:700}
 .play{width:88px;height:88px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px rgba(255,255,255,.9)}
 .play i{width:0;height:0;border-left:28px solid #fff;border-top:17px solid transparent;border-bottom:17px solid transparent;margin-left:7px}
 .video-cap{margin-top:12px;font-size:18px}
+/* copertina del video: il foglio a righe con le domande del video; al clic parte il video */
+.copertina{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:space-between;width:100%;padding:34px 26px 28px;border:0;margin:0;text-align:left;cursor:pointer;font:inherit;color:var(--text);background-color:var(--paper);background-image:linear-gradient(to right,transparent 0 22px,#e8a3a3 22px 24px,transparent 24px),repeating-linear-gradient(to bottom,transparent 0 43px,var(--rule) 43px 44px);background-position:0 0,0 30px}
+.copertina .tema{font-size:17px;font-weight:700;color:var(--ink);padding-left:10px}
+.copertina .domande{padding:0 0 0 10px;display:flex;flex-direction:column;gap:18px}
+.copertina .domande span{display:block;font-family:'Instrument Serif',Georgia,serif;font-size:clamp(28px,8.4vw,38px);line-height:1.12;color:var(--ink)}
+.copertina .domande span:nth-child(2){transform:rotate(-1.2deg)}
+.copertina .giu{display:flex;align-items:center;gap:16px;padding-left:10px}
+.copertina .tasto{flex:none;width:92px;height:92px;border-radius:50%;background:var(--lamp);border:3px solid var(--ink);box-shadow:4px 5px 0 var(--ink);display:flex;align-items:center;justify-content:center;transition:transform .15s,box-shadow .15s}
+.copertina .tasto i{width:0;height:0;border-left:30px solid var(--ink);border-top:18px solid transparent;border-bottom:18px solid transparent;margin-left:8px}
+.copertina .durata{font-size:19px;line-height:1.35}
+.copertina .durata b{display:block;font-size:22px;color:var(--ink)}
+.copertina:hover .tasto{box-shadow:6px 8px 0 var(--ink);transform:translate(-1px,-2px)}
+.copertina:active .tasto{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--ink)}
+.copertina:focus-visible{outline:4px solid var(--lamp);outline-offset:-4px}
+.copertina[hidden]{display:none}
 
 /* ---------- sezioni ---------- */
 section{padding:52px 0}
@@ -196,7 +211,16 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
 
       <div class="video">
         <div class="video-frame">
-          <video src="video/riccardo.mp4" poster="video/copertina.jpg" controls playsinline preload="none"></video>
+          <video id="video" src="video/riccardo.mp4" playsinline preload="none"></video>
+          <button type="button" class="copertina" id="copertina" aria-label="Guarda il video di presentazione, 51 secondi">
+            <span class="tema">Le domande che tutti si fanno sull'AI</span>
+            <span class="domande">
+              <span>Costa davvero così tanto?</span>
+              <span>Posso usarla nel mio lavoro?</span>
+              <span>I miei dati dove finiscono?</span>
+            </span>
+            <span class="giu"><span class="tasto"><i></i></span><span class="durata"><b>Guarda il video</b>51 secondi</span></span>
+          </button>
         </div>
         <p class="video-cap">Guarda il video: meno di un minuto.</p>
       </div>
@@ -329,6 +353,18 @@ footer a{display:inline-flex;min-height:48px;align-items:center}
   }
   aggiorna();
   setInterval(aggiorna, 30000); // si aggiorna anche se la pagina resta aperta
+})();
+
+// Copertina del video: al clic sparisce, compaiono i comandi e parte il video.
+(function () {
+  var copertina = document.getElementById('copertina');
+  var video = document.getElementById('video');
+  copertina.addEventListener('click', function () {
+    copertina.hidden = true;
+    video.controls = true;
+    video.play();
+    video.focus();
+  });
 })();
 
 // Modulo d'iscrizione: controlla i campi e invia le risposte al Google Form.
