@@ -176,8 +176,8 @@ delle persone e si racconta la digitalizzazione del lavoro di oggi, con e senza 
 IMPORTANTE: che si ripeta ogni settimana (e che Riccardo lo tenga solo con abbastanza iscritti) è un fatto interno.
 Per il pubblico è sempre «il prossimo giovedì alle 20» («questo giovedì alle 20» da lunedì a giovedì), MAI con una data precisa
 (niente «22 ottobre», «giovedì 29»). Mai «il primo incontro», «la prima puntata», numeri di edizione, «di nuovo»,
-«ogni giovedì», «come ogni settimana» o simili. L'incontro si nomina solo nel promemoria e nell'unico post della
-settimana con il rimando leggero: tutti gli altri post non lo nominano.
+«ogni giovedì», «come ogni settimana» o simili. L'incontro si nomina solo nel promemoria: il post della settimana
+con il rimando porta al sito, senza nominare l'incontro; tutti gli altri post non lo nominano.
 TONO, NON PAROLE: la calma si sente da come scrivi, non si dichiara. Mai chiudere un post, un post-it o una slide
 con formule come «con calma», «senza ansia», «senza fretta», «niente panico», «niente allarmismi», «una cosa alla volta».
 Un «niente panico» dentro un discorso, ogni tanto, va bene; come frase finale mai: si chiude con il fatto o con il consiglio concreto."""
@@ -217,7 +217,7 @@ SCHEMA_SLIDE = """Ogni slide è un oggetto JSON con questi campi, tutti facoltat
   "timbro": "Aggiornamento"
   "invito": riga a mano in fondo (es. "Ti spiego cosa cambia"). Frecce: → solo se c'è un'altra slide da scorrere,
             ↓ quando inviti a commentare, nessuna freccia per «link in bio» (le aggiusta comunque il motore)
-  "fonte": riga piccola in basso: "Fonte: …" oppure "Per iniziare a orientarti: riccardoingegneri.it/webinar"
+  "fonte": riga piccola in basso: "Fonte: …" oppure "Per queste e altre informazioni: riccardoingegneri.it"
 Il calendarietto è SOLO del formato promemoria; post-it della parola e "sotto" SOLO del formato parola.
 Non scrivere la firma: c'è già in ogni slide.
 Nel testo: ==parole evidenziate== (una sola volta per slide, il pezzo chiave) e **grassetto** (con misura)."""
@@ -299,7 +299,8 @@ def scrivi_post(voce, spazio, istruzione='', ricerca=0):
     tipo = 'promemoria' if voce['formato'] == 'promemoria' else ('rimando' if voce.get('rimando') else 'nessuno')
     chiusura = {
         'promemoria': f"CHIUSURA: questo è il promemoria. Parla del valore dell'incontro ({quando_inc}, online e gratuito): il problema che affronta e cosa si porta a casa chi partecipa. Instagram chiude con «Link in bio!», facebook e linkedin con il link https://riccardoingegneri.it/webinar.",
-        'rimando': f"CHIUSURA: una sola riga leggera in fondo, del tipo «Se vuoi orientarti, {quando_inc} tengo un incontro online gratuito» (Instagram: «link in bio», facebook e linkedin: https://riccardoingegneri.it/webinar).",
+        # regola di Riccardo (29/10): il rimando porta al sito, mai all'incontro con giorni o orari («stasera», «giovedì alle 20»)
+        'rimando': "CHIUSURA: una sola riga in fondo che rimanda al sito, SENZA nominare l'incontro, giorni od orari: Instagram «Per queste e altre informazioni: link in bio!», facebook e linkedin «Per queste e altre informazioni: riccardoingegneri.it».",
         'nessuno': "CHIUSURA: NON nominare l'incontro del giovedì né il link del webinar. Chiudi con una domanda a chi legge o un invito a commentare o a scrivere in privato.",
     }[tipo]
     richiesta = f"""Scrivi il post per {spazio['giorno']} ({spazio['fascia']}), canali: {', '.join(canali)}.
@@ -342,8 +343,14 @@ Rispondi solo con un blocco ```json con:
                 e.append(f'manca la didascalia per {c}')
             if tipo == 'promemoria' and c == 'instagram' and 'link in bio' not in t.lower():
                 e.append('la didascalia instagram del promemoria deve finire con «Link in bio!»')
-            if tipo != 'nessuno' and c in ('facebook', 'linkedin') and 'riccardoingegneri.it/webinar' not in t:
+            if tipo == 'promemoria' and c in ('facebook', 'linkedin') and 'riccardoingegneri.it/webinar' not in t:
                 e.append(f'la didascalia {c} deve contenere il link riccardoingegneri.it/webinar')
+            if tipo == 'rimando' and c == 'instagram' and 'link in bio' not in t.lower():
+                e.append('la didascalia instagram deve chiudere con «Per queste e altre informazioni: link in bio!»')
+            if tipo == 'rimando' and c in ('facebook', 'linkedin') and 'riccardoingegneri.it' not in t:
+                e.append(f'la didascalia {c} deve chiudere con «Per queste e altre informazioni: riccardoingegneri.it»')
+            if tipo == 'rimando' and re.search(r'riccardoingegneri\.it/webinar|incontro online|webinar|stasera|gioved[iì] alle', t, re.I):
+                e.append(f"la didascalia {c} rimanda al sito: non nominare l'incontro né giorni od orari")
             if tipo == 'nessuno' and re.search(r'riccardoingegneri\.it/webinar|incontro online|webinar', t, re.I):
                 e.append(f"la didascalia {c} non deve nominare l'incontro del giovedì: chiudi con una domanda")
             if len(t) > 2100:
@@ -481,7 +488,7 @@ REGOLE:
 - Il «tema» è un'etichetta breve in minuscolo con trattini (es. «decreto-ai-italia», «scheda-google»): i temi degli
   ultimi {CONF['distanze']['stesso_tema_giorni']} giorni NON si ripetono; un tema si può riprendere (con un taglio nuovo) dopo {CONF['distanze']['ripresa_giorni']} giorni.
 - Webinar con misura (regola di Riccardo): ESATTAMENTE un post «promemoria» a settimana (meglio la domenica sera o il
-  giovedì mattina) e, al massimo, UN altro post con "rimando": true (un rimando leggero all'incontro in chiusura).
+  giovedì mattina) e, al massimo, UN altro post con "rimando": true (in chiusura un rimando al sito, senza nominare l'incontro).
   Tutti gli altri post non nominano l'incontro. Il promemoria parla del valore (il problema concreto che affronta,
   cosa si porta a casa chi partecipa), non chiede attenzione.
 - Niente doppioni con lo storico: un fatto, un'indagine o una norma già raccontati non tornano (neanche come «numero» o «parere»),

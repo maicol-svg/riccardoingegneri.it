@@ -19,7 +19,8 @@ Social (notizie e strumenti spiegati) → webinar gratuito del giovedì (strumen
 - Didascalie calde e parlate: emoji con misura, punteggiatura naturale (…, ?, !), un punto di vista personale («Io la vedo diversamente»).
 - Frasi come le direbbe una persona in Italia: «a cosa gli serve davvero l'intelligenza artificiale», non «quali strumenti di AI».
 - Notizie verificate sulla fonte originale; fonte sempre citata. Nessuna risposta inventata.
-- **Promemoria del webinar con misura (Riccardo, 22/10):** su 9-10 post a settimana, solo 1-2 parlano dell'incontro (10-15%): il promemoria e, al massimo, un rimando leggero in un altro post. Gli altri post NON nominano l'incontro: finiscono con una domanda o un invito a commentare o a scrivere.
+- **Promemoria del webinar con misura (Riccardo, 22/10):** su 9-10 post a settimana, solo il promemoria parla dell'incontro; al massimo un altro post chiude con un rimando al sito. Gli altri post NON nominano l'incontro: finiscono con una domanda o un invito a commentare o a scrivere.
+- **Rimando al sito (Riccardo, 29/10):** il rimando non nomina l'incontro né giorni od orari («stasera», «giovedì alle 20»). Instagram: «Per queste e altre informazioni: link in bio!»; Facebook e LinkedIn: «Per queste e altre informazioni: riccardoingegneri.it» (homepage).
 - Nei contenuti organici **mai una data precisa**: sempre «il prossimo giovedì alle 20» o «questo giovedì alle 20»: mai quale giovedì, per i dettagli c'è il link alla pagina, che mostra la data giusta da sola. Date precise solo nelle sponsorizzate o in post approvati apposta da Riccardo nel piano.
 - Il promemoria punta sul valore (il problema che affronta, cosa si porta a casa chi partecipa), non sulla richiesta di partecipare. Mai «non mancare», «ultimi posti», «ti aspetto» ripetuti.
 - Mai «il primo incontro», «la prima puntata», numeri di edizione, «ogni giovedì», «come ogni settimana». Per il pubblico è il prossimo giovedì; che si ripeta (e che si tenga solo con abbastanza iscritti) è un fatto interno di Riccardo, mai scritto.
@@ -35,7 +36,7 @@ Social (notizie e strumenti spiegati) → webinar gratuito del giovedì (strumen
 ## Firma grafica (file `notizie-2026-10-16.html` come modello)
 Foglio a righe con margine rosso · notizia in Instrument Serif blu #1d3d8a · evidenziatore giallo #f3d74a «a mano» (bordi irregolari) · appunti, numeri di pagina e firma «Riccardo / Ingegneri» (su due righe, cognome sotto) in Caveat · post-it giallo «Il mio parere» sull'ultima slide · testi in Atkinson Hyperlegible.
 
-## Bio (scritta da Riccardo)
+## Bio (scritta da Riccardo; il 29/10 la sta cambiando: il link in bio porterà alla homepage)
 💻 Il mondo digitale spiegato semplice, per chi lavora.
 📆 Incontro online gratuito, ogni giovedì alle 20.
 ⤵️ Iscriviti: riccardoingegneri.it/webinar
