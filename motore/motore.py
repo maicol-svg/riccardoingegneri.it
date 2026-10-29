@@ -299,8 +299,9 @@ def scrivi_post(voce, spazio, istruzione='', ricerca=0):
     tipo = 'promemoria' if voce['formato'] == 'promemoria' else ('rimando' if voce.get('rimando') else 'nessuno')
     chiusura = {
         'promemoria': f"CHIUSURA: questo è il promemoria. Parla del valore dell'incontro ({quando_inc}, online e gratuito): il problema che affronta e cosa si porta a casa chi partecipa. Instagram chiude con «Link in bio!», facebook e linkedin con il link https://riccardoingegneri.it/webinar.",
-        # regola di Riccardo (29/10): il rimando porta al sito, mai all'incontro con giorni o orari («stasera», «giovedì alle 20»)
-        'rimando': "CHIUSURA: una sola riga in fondo che rimanda al sito, SENZA nominare l'incontro, giorni od orari: Instagram «Per queste e altre informazioni: link in bio!», facebook e linkedin «Per queste e altre informazioni: riccardoingegneri.it».",
+        # regola di Riccardo (29/10): il rimando porta al sito, mai con giorni o orari («stasera», «giovedì alle 20»).
+        # Su facebook e linkedin il link può essere la pagina più adatta al post; su instagram sempre «link in bio» (la homepage).
+        'rimando': "CHIUSURA: una sola riga in fondo che rimanda al sito, SENZA giorni né orari: Instagram «Per queste e altre informazioni: link in bio!» (nessun indirizzo nella didascalia); facebook e linkedin «Per queste e altre informazioni: » seguito dalla pagina più adatta al post: riccardoingegneri.it (homepage, se nessuna è più adatta), riccardoingegneri.it/servizi/, riccardoingegneri.it/portfolio/, riccardoingegneri.it/parliamone/ o riccardoingegneri.it/webinar/.",
         'nessuno': "CHIUSURA: NON nominare l'incontro del giovedì né il link del webinar. Chiudi con una domanda a chi legge o un invito a commentare o a scrivere in privato.",
     }[tipo]
     richiesta = f"""Scrivi il post per {spazio['giorno']} ({spazio['fascia']}), canali: {', '.join(canali)}.
@@ -348,9 +349,11 @@ Rispondi solo con un blocco ```json con:
             if tipo == 'rimando' and c == 'instagram' and 'link in bio' not in t.lower():
                 e.append('la didascalia instagram deve chiudere con «Per queste e altre informazioni: link in bio!»')
             if tipo == 'rimando' and c in ('facebook', 'linkedin') and 'riccardoingegneri.it' not in t:
-                e.append(f'la didascalia {c} deve chiudere con «Per queste e altre informazioni: riccardoingegneri.it»')
-            if tipo == 'rimando' and re.search(r'riccardoingegneri\.it/webinar|incontro online|webinar|stasera|gioved[iì] alle', t, re.I):
-                e.append(f"la didascalia {c} rimanda al sito: non nominare l'incontro né giorni od orari")
+                e.append(f'la didascalia {c} deve chiudere con «Per queste e altre informazioni: » e una pagina di riccardoingegneri.it')
+            if tipo == 'rimando' and c == 'instagram' and 'riccardoingegneri.it' in t:
+                e.append('su instagram il link non è cliccabile: niente indirizzi, solo «link in bio!»')
+            if tipo == 'rimando' and re.search(r'stasera|domani sera|gioved[iì] alle|alle (ore )?20', t, re.I):
+                e.append(f"la didascalia {c} rimanda al sito: niente giorni né orari dell'incontro")
             if tipo == 'nessuno' and re.search(r'riccardoingegneri\.it/webinar|incontro online|webinar', t, re.I):
                 e.append(f"la didascalia {c} non deve nominare l'incontro del giovedì: chiudi con una domanda")
             if len(t) > 2100:
