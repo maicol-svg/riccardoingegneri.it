@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/sito.css">
+<link rel="stylesheet" href="/assets/sito.css?v=20261029">
 <style>
 :root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--panel:#eceff5;--lamp:#f3d74a;--margine:#e7b9b0}
 *{box-sizing:border-box}
@@ -67,8 +67,8 @@ h1 .ev::before{content:"";position:absolute;left:-4px;right:-6px;bottom:6px;heig
 .incerto{display:grid;gap:16px;align-items:center;margin:10px 0 56px;padding:26px 22px;border:2px dashed var(--ink);border-radius:10px;background:#fff}
 .incerto .nota-mano{font-size:30px}
 .incerto h2{font-size:34px;line-height:1.1}
-.incerto a{display:flex;align-items:center;justify-content:center;min-height:58px;padding:0 22px;background:var(--ink);color:#fff;font-weight:700;font-size:19px;border-radius:8px;text-decoration:none;transition:background .15s}
-.incerto a:hover{background:#163070}
+.incerto a{display:flex;align-items:center;justify-content:center;min-height:58px;padding:0 22px;font-weight:700;font-size:19px;border-radius:8px;text-decoration:none;background:var(--lamp);color:var(--text);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+.incerto a:hover{transform:translate(-1px,-2px);box-shadow:5px 6px 0 var(--ink)}
 
 /* ---------- modulo ---------- */
 .banda{background:var(--ink);color:#fff;padding:44px 0 26px}
@@ -140,8 +140,10 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
     <ul>
       <li><a href="/webinar/">Incontro</a></li>
       <li><a href="/servizi/">Servizi</a></li>
+      <li><a href="/portfolio/">Portfolio</a></li>
       <li><a class="parla" href="/parliamone/">Parliamone</a></li>
     </ul>
+    <p class="barra-social"><a href="https://www.instagram.com/riccardoingegneri.it/" target="_blank" rel="noopener" aria-label="Instagram (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg></a><a href="https://www.facebook.com/957837211037426" target="_blank" rel="noopener" aria-label="Facebook (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/></svg></a><a href="https://www.linkedin.com/in/riccardoingegneri" target="_blank" rel="noopener" aria-label="LinkedIn (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="11" fill="currentColor"/><circle cx="5.3" cy="5.4" r="2.1" fill="currentColor"/><path d="M10 9h3.4v1.6c.5-.9 1.7-1.9 3.6-1.9 3.6 0 4.2 2.3 4.2 5.4V20h-3.6v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V20H10z" fill="currentColor"/></svg></a></p>
   </div>
   <span class="avanzamento" aria-hidden="true"></span>
 </nav>
@@ -294,7 +296,7 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
             <textarea id="f-problema" name="problema" rows="3"></textarea>
           </div>
           <div class="nascosto" aria-hidden="true"><label for="f-sito">Lascia vuoto</label><input id="f-sito" name="sito" type="text" tabindex="-1" autocomplete="off"></div>
-          <label class="spunta"><input id="f-privacy" type="checkbox" required data-passo><span>Acconsento a essere ricontattato per la richiesta che ho fatto. <a href="/webinar/privacy" target="_blank" rel="noopener">Informativa</a></span></label>
+          <label class="spunta"><input id="f-privacy" type="checkbox" required data-passo><span>Acconsento a essere ricontattato per la richiesta che ho fatto. <a href="/privacy/" target="_blank" rel="noopener">Informativa</a></span></label>
           <button class="invia" type="submit">Mandami i dettagli</button>
           <p class="problema" id="problema" hidden>Non sono riuscito a inviare la richiesta. Controlla la connessione e riprova, oppure scrivimi a <a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a>.</p>
         </form>
@@ -308,16 +310,29 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
   </div>
 </main>
 
-<footer>
-  <div class="wrap">
-    <p class="piede-link"><a href="/webinar/">Incontro</a><a href="/servizi/">Servizi</a><a href="/parliamone/">Parliamone</a></p>
-    <p><strong>Riccardo Ingegneri</strong> · P.IVA 03837300833</p>
-    <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
-    <p><a href="/webinar/privacy">Informativa privacy</a></p>
+<footer class="piede">
+  <div class="piede-in">
+    <div class="piede-chi">
+      <p class="piede-nome">Riccardo Ingegneri</p>
+      <p>Consulente digitale</p>
+      <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
+    </div>
+    <nav class="piede-col" aria-label="Pagine del sito">
+      <p class="piede-tit">Pagine</p>
+      <ul><li><a href="/webinar/">Incontro</a></li><li><a href="/servizi/">Servizi</a></li><li><a href="/portfolio/">Portfolio</a></li><li><a href="/parliamone/">Parliamone</a></li></ul>
+    </nav>
+    <div class="piede-col">
+      <p class="piede-tit">Seguimi</p>
+      <p class="social"><a href="https://www.instagram.com/riccardoingegneri.it/" target="_blank" rel="noopener" aria-label="Instagram (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg><span>Instagram</span></a><a href="https://www.facebook.com/957837211037426" target="_blank" rel="noopener" aria-label="Facebook (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/></svg><span>Facebook</span></a><a href="https://www.linkedin.com/in/riccardoingegneri" target="_blank" rel="noopener" aria-label="LinkedIn (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="11" fill="currentColor"/><circle cx="5.3" cy="5.4" r="2.1" fill="currentColor"/><path d="M10 9h3.4v1.6c.5-.9 1.7-1.9 3.6-1.9 3.6 0 4.2 2.3 4.2 5.4V20h-3.6v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V20H10z" fill="currentColor"/></svg><span>LinkedIn</span></a></p>
+    </div>
+  </div>
+  <div class="piede-fondo">
+    <p>© 2026 Riccardo Ingegneri · P.IVA 03837300833 · Via Bruca 8, Massa San Giovanni (Messina)</p>
+    <p><a href="/privacy/">Informativa privacy</a></p>
   </div>
 </footer>
 
-<script src="/assets/sito.js"></script>
+<script src="/assets/sito.js?v=20261029"></script>
 <script>
 // I pulsanti dei servizi scelgono la voce nel modulo, la fanno lampeggiare e ci portano lì.
 document.querySelectorAll('.chiedi').forEach(function (b) {
@@ -394,5 +409,6 @@ document.querySelectorAll('.chiedi').forEach(function (b) {
   });
 })();
 </script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "07f9f75d46ac4bcd8fdc00e0d40977d0"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

@@ -1,5 +1,5 @@
 // Parti comuni a tutte le pagine (lo stile è in sito.css):
-// menu che segna la pagina corrente e si fa da parte quando scendi, entrate morbide allo scroll,
+// menu che segna la pagina corrente e si stringe quando scendi, entrate morbide allo scroll,
 // evidenziatore e caselle che si spuntano, barra dei passi nei moduli, timbro quando il modulo è partito.
 (function () {
   var doc = document.documentElement;
@@ -13,15 +13,14 @@
     barra.querySelectorAll('ul a').forEach(function (a) {
       if (qui.indexOf(a.getAttribute('href')) === 0) a.setAttribute('aria-current', 'page');
     });
-    var ultimo = scrollY, inAttesa = false;
+    // scendendo si stringe (non sparisce); torna pieno solo vicino alla cima. Due soglie diverse: niente sfarfallio.
+    var inAttesa = false;
     function muovi() {
       inAttesa = false;
       var y = scrollY, alto = doc.scrollHeight - innerHeight;
       barra.style.setProperty('--p', alto > 0 ? Math.min(1, y / alto).toFixed(4) : 0);
-      if (!calmo && Math.abs(y - ultimo) > 6) {
-        barra.classList.toggle('via', y > ultimo && y > 180 && !barra.contains(document.activeElement));
-        ultimo = y;
-      }
+      if (y > 90) barra.classList.add('stretto');
+      else if (y < 30) barra.classList.remove('stretto');
     }
     addEventListener('scroll', function () { if (!inAttesa) { inAttesa = true; requestAnimationFrame(muovi); } }, { passive: true });
     muovi();

@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/sito.css">
+<link rel="stylesheet" href="/assets/sito.css?v=20261029">
 <style>
 :root{
   --ink:#1d3d8a;      /* blu inchiostro */
@@ -65,8 +65,8 @@ h1 .ev::before{content:"";position:absolute;left:-4px;right:-6px;bottom:6px;heig
 .gratis{display:inline-block;align-self:flex-start;background:var(--lamp);color:var(--text);font-weight:700;font-size:16px;padding:2px 9px;border-radius:3px;margin-bottom:12px}
 .porta p{font-size:18px;line-height:1.55}
 .vai{margin-top:auto;padding-top:22px}
-.vai span{display:flex;align-items:center;justify-content:center;min-height:60px;padding:0 20px;background:var(--ink);color:#fff;font-weight:700;font-size:20px;border-radius:7px}
-.porta.giallo .vai span{background:var(--lamp);color:var(--text);border:2px solid var(--ink)}
+/* un solo colore per i pulsanti d'azione di tutto il sito: giallo con bordo blu */
+.vai span{display:flex;align-items:center;justify-content:center;min-height:60px;padding:0 20px;font-weight:700;font-size:20px;border-radius:7px;background:var(--lamp);color:var(--text);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
 
 /* ---------- chi sono ---------- */
 .racconto{padding:44px 0 52px;max-width:760px;margin:0 auto}
@@ -123,8 +123,10 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
     <ul>
       <li><a href="/webinar/">Incontro</a></li>
       <li><a href="/servizi/">Servizi</a></li>
+      <li><a href="/portfolio/">Portfolio</a></li>
       <li><a class="parla" href="/parliamone/">Parliamone</a></li>
     </ul>
+    <p class="barra-social"><a href="https://www.instagram.com/riccardoingegneri.it/" target="_blank" rel="noopener" aria-label="Instagram (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg></a><a href="https://www.facebook.com/957837211037426" target="_blank" rel="noopener" aria-label="Facebook (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/></svg></a><a href="https://www.linkedin.com/in/riccardoingegneri" target="_blank" rel="noopener" aria-label="LinkedIn (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="11" fill="currentColor"/><circle cx="5.3" cy="5.4" r="2.1" fill="currentColor"/><path d="M10 9h3.4v1.6c.5-.9 1.7-1.9 3.6-1.9 3.6 0 4.2 2.3 4.2 5.4V20h-3.6v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V20H10z" fill="currentColor"/></svg></a></p>
   </div>
   <span class="avanzamento" aria-hidden="true"></span>
 </nav>
@@ -186,6 +188,8 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
     <p>Per due anni ho insegnato intelligenza artificiale nei corsi dell'Istituto Volta. Oggi sono consulente e sviluppatore: costruisco automazioni e strumenti digitali per aziende e professionisti, per la posta, i documenti e le pratiche di tutti i giorni.</p>
     <p>Il digitale oggi si vende spesso con la paura. Io preferisco spiegarlo bene, senza fretta e senza promesse esagerate.</p>
     <p class="nota">Riccardo</p>
+    <p class="social-titolo">Racconto il digitale anche qui:</p>
+    <p class="social"><a href="https://www.instagram.com/riccardoingegneri.it/" target="_blank" rel="noopener" aria-label="Instagram (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg><span>Instagram</span></a><a href="https://www.facebook.com/957837211037426" target="_blank" rel="noopener" aria-label="Facebook (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/></svg><span>Facebook</span></a><a href="https://www.linkedin.com/in/riccardoingegneri" target="_blank" rel="noopener" aria-label="LinkedIn (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="11" fill="currentColor"/><circle cx="5.3" cy="5.4" r="2.1" fill="currentColor"/><path d="M10 9h3.4v1.6c.5-.9 1.7-1.9 3.6-1.9 3.6 0 4.2 2.3 4.2 5.4V20h-3.6v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V20H10z" fill="currentColor"/></svg><span>LinkedIn</span></a></p>
     </div>
       <div class="sez-vis" aria-hidden="true">
         <svg viewBox="0 0 480 380">
@@ -202,15 +206,29 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
   </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <p class="piede-link"><a href="/webinar/">Incontro</a><a href="/servizi/">Servizi</a><a href="/parliamone/">Parliamone</a></p>
-    <p><strong>Riccardo Ingegneri</strong> · P.IVA 03837300833</p>
-    <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
-    <p><a href="webinar/privacy">Informativa privacy</a></p>
+<footer class="piede">
+  <div class="piede-in">
+    <div class="piede-chi">
+      <p class="piede-nome">Riccardo Ingegneri</p>
+      <p>Consulente digitale</p>
+      <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
+    </div>
+    <nav class="piede-col" aria-label="Pagine del sito">
+      <p class="piede-tit">Pagine</p>
+      <ul><li><a href="/webinar/">Incontro</a></li><li><a href="/servizi/">Servizi</a></li><li><a href="/portfolio/">Portfolio</a></li><li><a href="/parliamone/">Parliamone</a></li></ul>
+    </nav>
+    <div class="piede-col">
+      <p class="piede-tit">Seguimi</p>
+      <p class="social"><a href="https://www.instagram.com/riccardoingegneri.it/" target="_blank" rel="noopener" aria-label="Instagram (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg><span>Instagram</span></a><a href="https://www.facebook.com/957837211037426" target="_blank" rel="noopener" aria-label="Facebook (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/></svg><span>Facebook</span></a><a href="https://www.linkedin.com/in/riccardoingegneri" target="_blank" rel="noopener" aria-label="LinkedIn (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="11" fill="currentColor"/><circle cx="5.3" cy="5.4" r="2.1" fill="currentColor"/><path d="M10 9h3.4v1.6c.5-.9 1.7-1.9 3.6-1.9 3.6 0 4.2 2.3 4.2 5.4V20h-3.6v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V20H10z" fill="currentColor"/></svg><span>LinkedIn</span></a></p>
+    </div>
+  </div>
+  <div class="piede-fondo">
+    <p>© 2026 Riccardo Ingegneri · P.IVA 03837300833 · Via Bruca 8, Massa San Giovanni (Messina)</p>
+    <p><a href="/privacy/">Informativa privacy</a></p>
   </div>
 </footer>
 
-<script src="/assets/sito.js"></script>
+<script src="/assets/sito.js?v=20261029"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "07f9f75d46ac4bcd8fdc00e0d40977d0"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

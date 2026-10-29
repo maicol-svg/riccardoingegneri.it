@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/img/logo/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/img/logo/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/logo/apple-touch-icon.png">
+<title>Portfolio · Riccardo Ingegneri</title>
+<meta name="description" content="Alcuni lavori di Riccardo Ingegneri: posta e documenti in ordine da soli, assistenti su Telegram, social automatici, articoli per il blog, corsi sull'intelligenza artificiale.">
+<meta property="og:title" content="Portfolio · Riccardo Ingegneri">
+<meta property="og:description" content="Lavori veri, raccontati senza i nomi dei clienti.">
+<meta property="og:image" content="https://riccardoingegneri.it/img/riccardo.jpg">
+<meta property="og:url" content="https://riccardoingegneri.it/portfolio/">
+<link rel="canonical" href="https://riccardoingegneri.it/portfolio/">
+<meta name="theme-color" content="#1d3d8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sito.css?v=20261029">
+<style>
+:root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--panel:#eceff5;--lamp:#f3d74a;--margine:#e7b9b0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--text);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:3px}
+a:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+h1,h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);margin:0;text-wrap:pretty}
+p{margin:0;text-wrap:pretty}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+.nota-mano{font-family:'Caveat',cursive;color:var(--ink);line-height:1.15}
+
+/* ---------- testata ---------- */
+.foglio{background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:34px 0 44px;border-bottom:3px solid var(--ink)}
+.testa{display:grid;gap:30px;align-items:center}
+h1{position:relative;z-index:0;font-size:54px;line-height:1.02}
+h1 .ev{position:relative;white-space:nowrap}
+h1 .ev::before{content:"";position:absolute;left:-4px;right:-6px;bottom:6px;height:38%;background:var(--lamp);opacity:.85;z-index:-1;border-radius:3px 10px 6px 2px;transform-origin:left center}
+@media (prefers-reduced-motion:no-preference){h1 .ev::before{transform:scaleX(0);animation:swipe .7s cubic-bezier(.6,.05,.3,1) .4s forwards}}
+@keyframes swipe{to{transform:scaleX(1)}}
+.sub{margin-top:18px;max-width:32em}
+.postit{justify-self:center;width:min(100%,330px);padding:26px 24px 22px;background:#fbe88a;box-shadow:0 14px 28px rgba(24,32,47,.16),0 2px 4px rgba(24,32,47,.12);transform:rotate(2.2deg);font-size:31px}
+.postit small{display:block;margin-top:10px;font-size:25px;color:#3b4d80}
+
+/* ---------- i lavori: stesse schede di /servizi ---------- */
+.servizi{display:flex;flex-direction:column;gap:34px;padding:46px 0 30px}
+.servizio{display:grid;background:#fff;border:2px solid var(--ink);border-radius:10px;box-shadow:6px 7px 0 var(--ink);overflow:hidden}
+.disegno{position:relative;display:flex;align-items:center;justify-content:center;min-height:220px;padding:24px 20px 20px 44px;background-color:var(--paper);background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);border-bottom:2px solid var(--ink)}
+.disegno::before{content:"";position:absolute;left:26px;top:0;bottom:0;width:2px;background:var(--margine)}
+.disegno svg{width:auto;height:200px;max-width:100%}
+.testo{padding:24px 22px 26px}
+.testo .nota-mano{font-size:28px}
+.servizio h2{font-size:40px;line-height:1.05;margin:4px 0 18px}
+.voci{margin:0;display:grid;gap:14px}
+.voci div{display:grid;gap:0}
+.voci dt{font-family:'Caveat',cursive;font-size:26px;line-height:1.1;color:var(--ink)}
+.voci dd{margin:0}
+.strumenti{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0;padding:0;list-style:none}
+.strumenti li{padding:2px 10px;border:2px solid var(--rule);border-radius:999px;font-size:15px;font-weight:700;color:#3b4d80;background:var(--paper)}
+
+/* ---------- invito finale ---------- */
+.simile{display:grid;gap:16px;align-items:center;margin:10px 0 56px;padding:26px 22px;border:2px dashed var(--ink);border-radius:10px;background:#fff}
+.simile .nota-mano{font-size:30px}
+.simile h2{font-size:34px;line-height:1.1}
+.simile a{display:flex;align-items:center;justify-content:center;min-height:58px;padding:0 22px;font-weight:700;font-size:19px;border-radius:8px;text-decoration:none;background:var(--lamp);color:var(--text);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+.simile a:hover{transform:translate(-1px,-2px);box-shadow:5px 6px 0 var(--ink)}
+
+footer{border-top:3px solid var(--ink);padding:30px 0 52px;font-size:17px;line-height:1.75;text-align:center}
+footer a{display:inline-flex;min-height:44px;align-items:center}
+
+@media (min-width:900px){
+  body{font-size:20px}
+  .wrap{padding:0 48px}
+  .foglio{padding:60px 0 66px}
+  .testa{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:56px}
+  h1{font-size:82px}
+  .servizi{gap:48px;padding:72px 0 40px}
+  .servizio{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}
+  .servizio:nth-child(even){grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}
+  .servizio:nth-child(even) .disegno{order:2;border-left:2px solid var(--ink)}
+  .servizio:nth-child(odd) .disegno{border-right:2px solid var(--ink)}
+  .disegno{border-bottom:0;min-height:100%;padding:40px 30px 40px 60px}
+  .disegno::before{left:36px}
+  .disegno svg{height:300px}
+  .testo{padding:40px 44px 42px}
+  .servizio h2{font-size:52px}
+  .simile{grid-template-columns:minmax(0,1fr) auto;padding:34px 40px;margin-bottom:80px}
+}
+</style>
+</head>
+<body>
+
+<nav class="barra-sito" aria-label="Menu principale">
+  <div class="barra-in">
+    <a class="marchio" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
+    <ul>
+      <li><a href="/webinar/">Incontro</a></li>
+      <li><a href="/servizi/">Servizi</a></li>
+      <li><a href="/portfolio/">Portfolio</a></li>
+      <li><a class="parla" href="/parliamone/">Parliamone</a></li>
+    </ul>
+    <p class="barra-social"><a href="https://www.instagram.com/riccardoingegneri.it/" target="_blank" rel="noopener" aria-label="Instagram (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg></a><a href="https://www.facebook.com/957837211037426" target="_blank" rel="noopener" aria-label="Facebook (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/></svg></a><a href="https://www.linkedin.com/in/riccardoingegneri" target="_blank" rel="noopener" aria-label="LinkedIn (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="11" fill="currentColor"/><circle cx="5.3" cy="5.4" r="2.1" fill="currentColor"/><path d="M10 9h3.4v1.6c.5-.9 1.7-1.9 3.6-1.9 3.6 0 4.2 2.3 4.2 5.4V20h-3.6v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V20H10z" fill="currentColor"/></svg></a></p>
+  </div>
+  <span class="avanzamento" aria-hidden="true"></span>
+</nav>
+
+<header class="foglio">
+  <div class="wrap testa">
+    <div>
+      <h1>Alcuni <span class="ev">lavori</span></h1>
+      <p class="sub">Problemi veri di chi lavora, e cosa ho costruito per risolverli. Li racconto senza i nomi dei clienti e senza dati riservati.</p>
+    </div>
+    <p class="postit nota-mano">Ogni lavoro è partito da una domanda semplice: cosa ti fa perdere più tempo?<small>Riccardo</small></p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="servizi">
+      <article class="servizio" id="posta">
+        <div class="disegno" aria-hidden="true">
+          <svg viewBox="0 0 420 500">
+  <text x="210" y="26" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="30" fill="#1d3d8a">arrivano le mail</text>
+  <g fill="#fff" stroke="#1d3d8a" stroke-width="5" stroke-linejoin="round">
+    <rect x="40" y="44" width="100" height="66" rx="8"/><path d="M40 52 l50 32 l50 -32" fill="none"/>
+    <rect x="160" y="44" width="100" height="66" rx="8"/><path d="M160 52 l50 32 l50 -32" fill="none"/>
+    <rect x="280" y="44" width="100" height="66" rx="8"/><path d="M280 52 l50 32 l50 -32" fill="none"/>
+  </g>
+  <path d="M50 136 H370 L246 246 V306 H174 V246 Z" fill="#f3d74a" stroke="#1d3d8a" stroke-width="6" stroke-linejoin="round"/>
+  <text x="210" y="174" text-anchor="middle" font-family="Atkinson Hyperlegible" font-weight="700" font-size="24" fill="#1d3d8a">l'AI le legge</text>
+  <text x="210" y="201" text-anchor="middle" font-family="Atkinson Hyperlegible" font-weight="700" font-size="24" fill="#1d3d8a">e le smista</text>
+  <g stroke="#1d3d8a" stroke-width="5" fill="none" stroke-linecap="round"><path d="M210 306 V336"/><path d="M90 368 V352 H330 V368"/><path d="M210 336 V368"/></g>
+  <g fill="#fff" stroke="#1d3d8a" stroke-width="5" stroke-linejoin="round">
+    <path d="M40 374 h40 l10 12 h50 v50 h-100 z"/><path d="M160 374 h40 l10 12 h50 v50 h-100 z" fill="#f3d74a"/><path d="M280 374 h40 l10 12 h50 v50 h-100 z"/>
+  </g>
+  <g font-family="Atkinson Hyperlegible" font-weight="700" font-size="16" fill="#1d3d8a" text-anchor="middle"><text x="90" y="422">contratti</text><text x="210" y="422">fatture</text><text x="330" y="422">cantiere</text></g>
+  <text x="210" y="476" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="30" fill="#1d3d8a">ognuna nella cartella giusta</text>
+</svg>
+        </div>
+        <div class="testo">
+          <p class="nota-mano">un gruppo immobiliare, Italia ed estero</p>
+          <h2>La posta e i documenti, in ordine da soli</h2>
+          <dl class="voci">
+            <div><dt>il problema</dt><dd>Tante mail ogni giorno e documenti da archiviare a mano, nelle cartelle giuste e con il nome giusto.</dd></div>
+            <div><dt>cosa ho fatto</dt><dd>Un programma di posta con l'intelligenza artificiale per Microsoft 365: smista le mail, archivia e rinomina i documenti su OneDrive e SharePoint, prepara i riassunti. Ogni notte dei controlli automatici rimettono in ordine l'archivio.</dd></div>
+            <div><dt>oggi</dt><dd>In uso ogni giorno da quasi un anno.</dd></div>
+          </dl>
+          <ul class="strumenti" aria-label="Strumenti usati"><li>Microsoft 365</li><li>OneDrive e SharePoint</li><li>intelligenza artificiale</li></ul>
+        </div>
+      </article>
+      <article class="servizio" id="assistente">
+        <div class="disegno" aria-hidden="true">
+          <svg viewBox="0 0 400 480">
+  <rect x="95" y="20" width="210" height="440" rx="34" fill="#fff" stroke="#1d3d8a" stroke-width="8"/>
+  <rect x="165" y="36" width="70" height="10" rx="5" fill="#1d3d8a"/>
+  <rect x="112" y="64" width="176" height="44" rx="8" fill="#1d3d8a"/>
+  <circle cx="136" cy="86" r="13" fill="#f3d74a"/><text x="158" y="93" font-family="Atkinson Hyperlegible" font-weight="700" font-size="19" fill="#fff">Assistente</text>
+  <rect x="150" y="130" width="138" height="56" rx="14" fill="#f3d74a" stroke="#1d3d8a" stroke-width="4"/>
+  <text x="162" y="155" font-family="Atkinson Hyperlegible" font-size="16" fill="#1d3d8a">Che visite ho</text><text x="162" y="176" font-family="Atkinson Hyperlegible" font-size="16" fill="#1d3d8a">domani?</text>
+  <rect x="112" y="204" width="150" height="104" rx="14" fill="#fff" stroke="#1d3d8a" stroke-width="4"/>
+  <g stroke="#c9d5e7" stroke-width="7" stroke-linecap="round"><line x1="128" y1="232" x2="238" y2="232"/><line x1="128" y1="256" x2="222" y2="256"/><line x1="128" y1="280" x2="244" y2="280"/></g>
+  <rect x="150" y="328" width="138" height="44" rx="14" fill="#f3d74a" stroke="#1d3d8a" stroke-width="4"/>
+  <g fill="#1d3d8a"><rect x="166" y="344" width="5" height="12" rx="2"/><rect x="176" y="338" width="5" height="24" rx="2"/><rect x="186" y="342" width="5" height="16" rx="2"/><rect x="196" y="336" width="5" height="28" rx="2"/><rect x="206" y="343" width="5" height="14" rx="2"/><rect x="216" y="339" width="5" height="22" rx="2"/></g>
+  <text x="232" y="356" font-family="Atkinson Hyperlegible" font-size="15" fill="#1d3d8a">0:04</text>
+  <rect x="112" y="400" width="176" height="36" rx="18" fill="#f8f9fb" stroke="#c9d5e7" stroke-width="3"/>
+</svg>
+        </div>
+        <div class="testo">
+          <p class="nota-mano">un'agenzia immobiliare</p>
+          <h2>L'agenda e gli immobili, a portata di messaggio</h2>
+          <dl class="voci">
+            <div><dt>il problema</dt><dd>Gli agenti, fuori ufficio, dovevano aprire il gestionale per sapere un appuntamento o i dati di un immobile.</dd></div>
+            <div><dt>cosa ho fatto</dt><dd>Un'assistente su Telegram: l'agente chiede a voce o per iscritto, lei cerca nell'agenda e negli immobili dell'agenzia e risponde in italiano semplice. Legge soltanto, non modifica nulla e risponde solo agli agenti autorizzati.</dd></div>
+          </dl>
+          <ul class="strumenti" aria-label="Strumenti usati"><li>Telegram</li><li>n8n</li><li>il gestionale dell'agenzia</li></ul>
+        </div>
+      </article>
+      <article class="servizio" id="social">
+        <div class="disegno" aria-hidden="true">
+          <svg viewBox="0 0 420 480">
+  <rect x="20" y="30" width="380" height="420" rx="16" fill="#fff" stroke="#1d3d8a" stroke-width="6"/>
+  <rect x="20" y="30" width="380" height="64" rx="16" fill="#1d3d8a"/><rect x="20" y="74" width="380" height="20" fill="#1d3d8a"/>
+  <text x="210" y="73" text-anchor="middle" font-family="Instrument Serif" font-size="34" fill="#fff">la settimana</text>
+  <g font-family="Atkinson Hyperlegible" font-weight="700" font-size="17" fill="#1d3d8a" text-anchor="middle"><text x="80" y="128">lun</text><text x="170" y="128">mar</text><text x="260" y="128">mer</text><text x="350" y="128">gio</text></g>
+  <g stroke="#1d3d8a" stroke-width="4">
+    <rect x="45" y="146" width="70" height="88" rx="6" fill="#f3d74a"/><rect x="135" y="146" width="70" height="88" rx="6" fill="#fff"/><rect x="225" y="146" width="70" height="88" rx="6" fill="#f3d74a"/><rect x="315" y="146" width="70" height="88" rx="6" fill="#fff"/>
+    <rect x="135" y="254" width="70" height="88" rx="6" fill="#f3d74a"/><rect x="315" y="254" width="70" height="88" rx="6" fill="#f3d74a"/>
+  </g>
+  <g stroke="#1d3d8a" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M62 192 l12 12 l26 -26"/><path d="M242 192 l12 12 l26 -26"/><path d="M152 300 l12 12 l26 -26"/></g>
+  <g stroke="#c9d5e7" stroke-width="6" stroke-linecap="round"><line x1="150" y1="176" x2="190" y2="176"/><line x1="150" y1="196" x2="182" y2="196"/><line x1="330" y1="176" x2="370" y2="176"/><line x1="330" y1="196" x2="362" y2="196"/><line x1="330" y1="284" x2="370" y2="284"/><line x1="330" y1="304" x2="358" y2="304"/></g>
+  <text x="210" y="410" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="34" fill="#1d3d8a">approvo, ed escono da soli</text>
+</svg>
+        </div>
+        <div class="testo">
+          <p class="nota-mano">i miei social</p>
+          <h2>Un piano editoriale che si prepara da solo</h2>
+          <dl class="voci">
+            <div><dt>il problema</dt><dd>Pubblicare con costanza su Instagram, Facebook e LinkedIn, senza passare le serate a scrivere e programmare.</dd></div>
+            <div><dt>cosa ho fatto</dt><dd>Ogni settimana un sistema mi propone il piano: argomenti verificati sulle fonti, testi e grafiche nel mio stile. Io approvo o correggo con un clic dalla mia scrivania digitale e i post escono da soli all'orario giusto. Ogni giorno un controllo rilegge quelli in uscita.</dd></div>
+            <div><dt>oggi</dt><dd>È il sistema con cui pubblico ogni settimana.</dd></div>
+          </dl>
+          <ul class="strumenti" aria-label="Strumenti usati"><li>Google Apps Script</li><li>intelligenza artificiale</li><li>Buffer</li></ul>
+        </div>
+      </article>
+      <article class="servizio" id="blog">
+        <div class="disegno" aria-hidden="true">
+          <svg viewBox="0 0 420 480">
+  <rect x="30" y="30" width="250" height="420" rx="12" fill="#fff" stroke="#1d3d8a" stroke-width="6"/>
+  <rect x="54" y="56" width="202" height="120" rx="6" fill="#f3d74a"/>
+  <circle cx="155" cy="122" r="34" fill="#fff" stroke="#1d3d8a" stroke-width="5"/><path d="M155 88 q14 -20 30 -14 q-12 4 -22 18" fill="#1d3d8a"/>
+  <rect x="54" y="196" width="170" height="16" rx="5" fill="#1d3d8a"/><rect x="54" y="222" width="130" height="16" rx="5" fill="#1d3d8a"/>
+  <g stroke="#c9d5e7" stroke-width="7" stroke-linecap="round"><line x1="54" y1="268" x2="256" y2="268"/><line x1="54" y1="294" x2="240" y2="294"/><line x1="54" y1="320" x2="256" y2="320"/><line x1="54" y1="346" x2="200" y2="346"/><line x1="54" y1="372" x2="248" y2="372"/><line x1="54" y1="398" x2="222" y2="398"/></g>
+  <g transform="rotate(4 340 220)"><rect x="270" y="120" width="130" height="200" fill="#fbe88a"/>
+  <text x="335" y="160" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="30" fill="#1d3d8a">fonti</text>
+  <g font-family="Caveat" font-weight="700" font-size="24" fill="#3b4d80"><text x="288" y="200">· ISMEA</text><text x="288" y="234">· FreshPlaza</text><text x="288" y="268">· Eurostat</text></g></g>
+</svg>
+        </div>
+        <div class="testo">
+          <p class="nota-mano">un'azienda dell'ortofrutta</p>
+          <h2>Articoli per il blog, con le fonti giuste</h2>
+          <dl class="voci">
+            <div><dt>il problema</dt><dd>Tenere vivo il blog con le notizie del mercato ortofrutticolo voleva dire ore di ricerca ogni settimana.</dd></div>
+            <div><dt>cosa ho fatto</dt><dd>Un sistema che sceglie i temi di stagione e le notizie del mercato, cerca le fonti autorevoli, scrive l'articolo con le immagini e lo pubblica. Insieme, il piano editoriale per i social, una campagna pubblicitaria e il lavoro sulla SEO.</dd></div>
+          </dl>
+          <ul class="strumenti" aria-label="Strumenti usati"><li>n8n</li><li>intelligenza artificiale</li><li>SEO</li></ul>
+        </div>
+      </article>
+      <article class="servizio" id="corsi">
+        <div class="disegno" aria-hidden="true">
+          <svg viewBox="0 0 480 400">
+  <rect x="20" y="20" width="440" height="250" rx="14" fill="#1d3d8a" stroke="#122a63" stroke-width="10"/>
+  <text x="60" y="90" font-family="Caveat" font-weight="700" font-size="44" fill="#fff">Intelligenza artificiale</text>
+  <path d="M60 104 q120 -12 250 -2" fill="none" stroke="#f3d74a" stroke-width="7" stroke-linecap="round"/>
+  <g font-family="Caveat" font-weight="700" font-size="32" fill="#dfe6f5"><text x="76" y="152">professionisti · legale</text><text x="76" y="194">amministrazione, 50 ore</text><text x="76" y="236">Programma GOL, 48 + 20 ore</text></g>
+  <g fill="#8fa6d4" stroke="#1d3d8a" stroke-width="6"><circle cx="90" cy="318" r="24"/><path d="M50 398 q40 -64 80 0 z"/><circle cx="190" cy="312" r="24"/><path d="M150 392 q40 -64 80 0 z"/><circle cx="290" cy="312" r="24" fill="#f3d74a"/><path d="M250 392 q40 -64 80 0 z" fill="#f3d74a"/><circle cx="390" cy="318" r="24"/><path d="M350 398 q40 -64 80 0 z"/></g>
+</svg>
+        </div>
+        <div class="testo">
+          <p class="nota-mano">corsi per chi lavora e per chi cerca lavoro</p>
+          <h2>L'intelligenza artificiale, spiegata in aula virtuale</h2>
+          <dl class="voci">
+            <div><dt>il problema</dt><dd>Persone che sentono parlare di AI ovunque, ma non sanno come usarla nel proprio lavoro senza sbagliare.</dd></div>
+            <div><dt>cosa ho fatto</dt><dd>Corsi online all'Istituto Volta (professionisti, settore legale, amministrazione, finanza e controllo) e, per il Programma GOL di Regione Lombardia, due edizioni da 48 ore e un corso intermedio da 20 ore.</dd></div>
+            <div><dt>oggi</dt><dd>Continuo a insegnare all'Istituto Volta.</dd></div>
+          </dl>
+          <ul class="strumenti" aria-label="Strumenti usati"><li>corsi online</li><li>esercizi sui casi reali</li></ul>
+        </div>
+      </article>
+    </div>
+
+    <section class="simile">
+      <div>
+        <p class="nota-mano">hai un problema simile?</p>
+        <h2>Raccontamelo in 20 minuti, la prima chiamata è gratuita</h2>
+      </div>
+      <a href="/parliamone/">Prenota la consulenza gratuita</a>
+    </section>
+  </div>
+</main>
+
+<footer class="piede">
+  <div class="piede-in">
+    <div class="piede-chi">
+      <p class="piede-nome">Riccardo Ingegneri</p>
+      <p>Consulente digitale</p>
+      <p><a href="mailto:ingegneririccardo@gmail.com">ingegneririccardo@gmail.com</a></p>
+    </div>
+    <nav class="piede-col" aria-label="Pagine del sito">
+      <p class="piede-tit">Pagine</p>
+      <ul><li><a href="/webinar/">Incontro</a></li><li><a href="/servizi/">Servizi</a></li><li><a href="/portfolio/">Portfolio</a></li><li><a href="/parliamone/">Parliamone</a></li></ul>
+    </nav>
+    <div class="piede-col">
+      <p class="piede-tit">Seguimi</p>
+      <p class="social"><a href="https://www.instagram.com/riccardoingegneri.it/" target="_blank" rel="noopener" aria-label="Instagram (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg><span>Instagram</span></a><a href="https://www.facebook.com/957837211037426" target="_blank" rel="noopener" aria-label="Facebook (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/></svg><span>Facebook</span></a><a href="https://www.linkedin.com/in/riccardoingegneri" target="_blank" rel="noopener" aria-label="LinkedIn (si apre in una nuova scheda)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="11" fill="currentColor"/><circle cx="5.3" cy="5.4" r="2.1" fill="currentColor"/><path d="M10 9h3.4v1.6c.5-.9 1.7-1.9 3.6-1.9 3.6 0 4.2 2.3 4.2 5.4V20h-3.6v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V20H10z" fill="currentColor"/></svg><span>LinkedIn</span></a></p>
+    </div>
+  </div>
+  <div class="piede-fondo">
+    <p>© 2026 Riccardo Ingegneri · P.IVA 03837300833 · Via Bruca 8, Massa San Giovanni (Messina)</p>
+    <p><a href="/privacy/">Informativa privacy</a></p>
+  </div>
+</footer>
+
+<script src="/assets/sito.js?v=20261029"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "07f9f75d46ac4bcd8fdc00e0d40977d0"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
