@@ -442,15 +442,23 @@ def disegna_e_salva(disegnatore, post, versione):
 def pubblica_immagini(messaggio):
     """Carica le immagini sul sito (GitHub Pages): servono a Buffer e alle mail di anteprima."""
     git = lambda *a: subprocess.run(['git', *a], cwd=RADICE, check=True)
+    # il nome serve anche al pull --rebase quando nel frattempo sul sito è arrivato un altro commit (29/10: senza, le immagini
+    # della versione corretta non sono mai andate online e il post del mattino non è partito)
+    git('config', 'user.name', 'Motore social')
+    git('config', 'user.email', 'motore@riccardoingegneri.it')
     git('add', 'social/piano')
     if subprocess.run(['git', 'diff', '--cached', '--quiet'], cwd=RADICE).returncode == 0:
         return
-    git('-c', 'user.name=Motore social', '-c', 'user.email=motore@riccardoingegneri.it', 'commit', '-q', '-m', messaggio)
+    git('commit', '-q', '-m', messaggio)
     for _ in range(3):
         if subprocess.run(['git', 'pull', '-q', '--rebase'], cwd=RADICE).returncode == 0 and \
            subprocess.run(['git', 'push', '-q'], cwd=RADICE).returncode == 0:
             break
+        subprocess.run(['git', 'rebase', '--abort'], cwd=RADICE, capture_output=True)
         time.sleep(5)
+    else:
+        # meglio fermarsi: la Scrivania non riceve post con immagini che non esistono, e il giro dell'ora dopo riprova
+        raise RuntimeError('Non sono riuscito a mettere online le immagini: niente viene mandato alla Scrivania.')
     aspetta_sito()
 
 
