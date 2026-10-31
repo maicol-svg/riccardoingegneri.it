@@ -158,7 +158,9 @@ def claude_json(sistema, richiesta, controlla=None, ricerca=0, max_tokens=12000,
         if not errori:
             return dati
         log('  da correggere:', errori)
-        messaggi = storia + [{'role': 'user', 'content': 'Ci sono questi problemi, correggili e rimanda il JSON completo:\n- ' + '\n- '.join(errori)}]
+        messaggi = storia + [{'role': 'user', 'content': 'Ci sono questi problemi, correggili e rimanda il JSON completo:\n- ' + '\n- '.join(errori) +
+                                                      '\nPrima di rispondere ricontrolla TUTTE le regole della richiesta (spazi, limiti per formato, '
+                                                      'rotazione), non solo questi punti: correggerne uno non deve romperne un altro.'}]
     raise RuntimeError('JSON non valido dopo vari tentativi: ' + '; '.join(errori))
 
 
@@ -521,7 +523,7 @@ Rispondi con un blocco ```json:
   "riserva": [ stessi campi, senza "spazio" ]}}"""
 
     scaletta = claude_json(SISTEMA, richiesta, lambda d: controlla_scaletta(d, spazi, storia, lunedi),
-                           ricerca=15, max_tokens=32000)
+                           ricerca=15, max_tokens=32000, tentativi=5)  # 31/10: con 3 tentativi la scaletta non convergeva
     log(f'Scaletta pronta: {len(scaletta["post"])} post + {len(scaletta.get("riserva", []))} di riserva')
 
     per_spazio = {s['id']: s for s in spazi}
