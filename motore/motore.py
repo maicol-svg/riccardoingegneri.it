@@ -479,6 +479,11 @@ def piano():
     st = scrivania('storia')
     storia = sorted(CONF.get('storico_esterno', []) + st.get('post', []), key=lambda p: p.get('data', ''))
     spazi = spazi_settimana(lunedi)
+    # 31/10: tolti due formati senza alzare gli altri limiti, il piano non poteva riuscire e ha fallito in silenzio per ore
+    posti = sum(f['max_settimana'] for k, f in CONF['formati'].items() if not f.get('escluso') and k != 'aggiornamento')
+    if posti < len(spazi):
+        raise RuntimeError(f'I limiti per formato permettono {posti} post ma la settimana ha {len(spazi)} spazi: '
+                           'alza qualche max_settimana in motore/config.json.')
     giovedi = [leggibile(lunedi + dt.timedelta(days=3))]
     elenco_storia = '\n'.join(f'- {p["data"]} · {p.get("formato")} · tema «{p.get("tema")}» · {p.get("titolo", "")}' for p in storia[-80:]) or '(ancora niente)'
 
