@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/img/logo/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/img/logo/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/logo/apple-touch-icon.png">
+<title>Nemo · Riccardo Ingegneri</title>
+<meta name="description" content="Nemo nasconde i dati personali dei tuoi documenti prima di usarli con l'intelligenza artificiale, e poi li rimette al loro posto. Gratuito per chi partecipa ai miei corsi.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://riccardoingegneri.it/nemo/">
+<meta name="theme-color" content="#1d3d8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Instrument+Serif&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sito.css?v=20261029">
+<style>
+:root{--ink:#1d3d8a;--text:#18202f;--paper:#f8f9fb;--rule:#c9d5e7;--panel:#eceff5;--lamp:#f3d74a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--text);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+h1,h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--ink);margin:0;text-wrap:pretty}
+p,ul,ol{margin:0;text-wrap:pretty}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+.foglio{background-image:repeating-linear-gradient(to bottom,transparent 0 35px,var(--rule) 35px 36px);background-position:0 18px;padding:34px 0;border-bottom:3px solid var(--ink)}
+h1{font-size:46px;line-height:1.05}
+.sub{margin-top:12px}
+main{padding:20px 0 56px}
+h2{font-size:32px;line-height:1.1;margin:34px 0 10px}
+p+p{margin-top:12px}
+.scheda{background:#fff;border:2px solid var(--ink);border-radius:8px;box-shadow:4px 4px 0 var(--ink);padding:20px 22px;margin-top:16px}
+.passi{padding-left:24px}.passi li+li{margin-top:8px}
+form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-top:6px}
+label{display:block;font-weight:700;margin-bottom:6px}
+input{font:inherit;font-size:20px;letter-spacing:.12em;text-transform:uppercase;padding:10px 14px;border:2px solid var(--ink);border-radius:8px;width:220px;background:#fff}
+button{font:inherit;font-weight:700;min-height:50px;padding:0 22px;background:var(--lamp);color:var(--text);border:2px solid var(--ink);border-radius:8px;box-shadow:3px 3px 0 var(--ink);cursor:pointer}
+button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+button:disabled{opacity:.6;cursor:default}
+.esito{margin-top:14px;font-weight:700}
+.esito.no{color:#b3261e}
+.finestra{margin-top:12px;border:1px solid #8a93a6;border-radius:6px;background:#1f4e8c;color:#fff;padding:18px 20px;font-family:'Segoe UI',system-ui,sans-serif;font-size:16px;max-width:520px}
+.finestra strong{display:block;font-size:22px;font-weight:600;margin-bottom:8px}
+.finestra u{color:#cfe1ff}
+.finestra span{display:inline-block;margin-top:12px;border:1px solid #fff;padding:4px 14px}
+.nota{font-size:17px;color:#4a5263;margin-top:10px}
+@media (min-width:900px){body{font-size:20px}.wrap{padding:0 48px}h1{font-size:64px}}
+</style>
+</head>
+<body>
+
+<nav class="barra-sito" aria-label="Menu principale">
+  <div class="barra-in">
+    <a class="marchio" href="/"><img src="/img/riccardo.jpg" alt="" width="900" height="1200"><span>Riccardo Ingegneri</span></a>
+    <ul>
+      <li><a href="/webinar/">Incontro</a></li>
+      <li><a href="/servizi/">Servizi</a></li>
+      <li><a href="/portfolio/">Portfolio</a></li>
+      <li><a class="parla" href="/parliamone/">Parliamone</a></li>
+    </ul>
+  </div>
+  <span class="avanzamento" aria-hidden="true"></span>
+</nav>
+
+<header class="foglio">
+  <div class="wrap">
+    <h1>Nemo</h1>
+    <p class="sub">Nasconde i dati personali dei tuoi documenti prima di usarli con l'intelligenza artificiale, e poi li rimette al loro posto nel documento che l'AI ti restituisce. Tutto sul tuo computer.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2>Come funziona</h2>
+  <ol class="passi">
+    <li>Trascini un documento (Word, PDF o testo) nella finestra di Nemo: ottieni un Word con i dati sostituiti da segnaposto.</li>
+    <li>Lo usi con ChatGPT, Claude o un'altra intelligenza artificiale, come preferisci.</li>
+    <li>Trascini in Nemo il documento che l'AI ti ha restituito: ottieni il documento completo, con i dati veri.</li>
+  </ol>
+
+  <h2>Scarica Nemo</h2>
+  <div class="scheda">
+    <p>Nemo è gratuito per chi partecipa ai miei corsi. Inserisci il codice che hai ricevuto durante la formazione.</p>
+    <form id="modulo">
+      <div>
+        <label for="codice">Codice del corso</label>
+        <input id="codice" name="codice" autocomplete="off" spellcheck="false" required>
+      </div>
+      <button type="submit" id="scarica">Scarica</button>
+    </form>
+    <p class="esito" id="esito" role="status" aria-live="polite"></p>
+    <p class="nota">Per Windows 10 e 11. Servono circa 1,5 GB liberi: al primo avvio Nemo scarica il suo modello di riconoscimento (circa 1,2 GB, una volta sola).</p>
+  </div>
+
+  <h2>Installazione</h2>
+  <p>Apri il file scaricato. Nemo è nuovo e Windows potrebbe non conoscerlo ancora: se compare un avviso come questo, clicca su <strong>Ulteriori informazioni</strong> e poi su <strong>Esegui comunque</strong>.</p>
+  <div class="finestra" role="img" aria-label="Esempio dell'avviso di Windows: Windows ha protetto il PC, con il collegamento Ulteriori informazioni e il pulsante Esegui comunque">
+    <strong>Windows ha protetto il PC</strong>
+    Microsoft Defender SmartScreen ha impedito l'avvio di un'app non riconosciuta.<br><u>Ulteriori informazioni</u><br>
+    <span>Esegui comunque</span>
+  </div>
+  <p class="nota">Succede solo la prima volta. L'installazione non chiede permessi di amministratore.</p>
+
+  <h2>Da sapere</h2>
+  <p>Il documento che Nemo prepara è pseudonimizzato, non anonimo: i dati veri restano sul tuo computer, cifrati con il tuo account Windows, e servono a ricomporre i documenti. Il riconoscimento è molto accurato ma può sbagliare: prima di caricare un documento online, guarda le evidenziazioni che Nemo ti mostra.</p>
+  <p>Nemo non raccoglie dati: questa pagina chiede solo il codice, e il programma non invia i tuoi documenti da nessuna parte.</p>
+</main>
+
+<footer class="piede">
+  <div class="piede-fondo">
+    <p>© 2026 Riccardo Ingegneri · P.IVA 03837300833 · Via Bruca 8, Massa San Giovanni (Messina)</p>
+    <p><a href="/privacy/">Informativa privacy</a></p>
+  </div>
+</footer>
+
+<script>
+const VERIFICA = 'https://script.google.com/macros/s/AKfycbyUoNIDyAbVTwMedfI-dHNd5kCuSwP1jvDudOJ5I5efAcqflpBxLSUoLbS765_kMdhSeg/exec';
+const modulo = document.getElementById('modulo'), esito = document.getElementById('esito'), bottone = document.getElementById('scarica');
+modulo.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const codice = document.getElementById('codice').value.trim();
+  bottone.disabled = true; esito.className = 'esito'; esito.textContent = 'Controllo del codice…';
+  try {
+    const r = await fetch(VERIFICA + '?codice=' + encodeURIComponent(codice));
+    const d = await r.json();
+    if (d.ok) { esito.textContent = 'Codice corretto: il download sta partendo.'; window.location.href = d.url; }
+    else { esito.className = 'esito no'; esito.textContent = 'Codice non valido. Controlla di averlo scritto come ti è stato dato.'; }
+  } catch (err) {
+    esito.className = 'esito no'; esito.textContent = 'Non riesco a controllare il codice in questo momento. Riprova tra poco.';
+  } finally { bottone.disabled = false; }
+});
+</script>
+<script src="/assets/sito.js?v=20261029"></script>
+</body>
+</html>
